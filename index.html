@@ -587,7 +587,6 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
 #pWin>.grid{grid-template-columns:minmax(0,1fr)}
 @media(min-width:768px){#pWin>.grid{grid-template-columns:200px minmax(0,1fr)}}
 @media(max-width:767px){
- #fabWrap{display:none!important}
  main section.py-28,section.py-28{padding-top:4.5rem!important;padding-bottom:4.5rem!important}
  #inicio{padding-top:2rem;padding-bottom:2.5rem;gap:2.5rem}
  h2.text-4xl{font-size:2.15rem;line-height:1.08}
@@ -631,6 +630,18 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
  .flow .sticker.hot{transform:translateX(4px)}
 }
 .flow .sticker.bg-teal{background:#13b9a8!important;border-color:#13b9a8!important;color:#10232a!important}
+
+/* ============ v15: aviso del panel abajo y mascota móvil ============ */
+#toast,#toast *{pointer-events:none!important}
+#pWin.rv.in{translate:none}
+#toast{top:auto;bottom:14px;right:14px;transform:translateY(12px) scale(.96)}
+@media(max-width:767px){#toast{position:fixed;left:12px;right:12px;bottom:12px;max-width:none;z-index:70}}
+#fabMsg{pointer-events:none}#fabMsg a{pointer-events:auto}
+#fabX{position:absolute;right:-2px;bottom:62px;z-index:2;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgb(var(--surface));color:rgb(var(--ink)/.7);box-shadow:0 0 0 1px rgb(var(--ink)/.12),0 4px 10px -4px rgb(0 0 0/.3);opacity:0;transition:opacity .25s}
+#fabWrap:hover #fabX,#fabWrap.touch #fabX{opacity:1}
+#fab{touch-action:none;cursor:grab}
+#fabWrap.dragging{transition:none!important}#fabWrap.dragging #fab{cursor:grabbing;transform:scale(1.08)}
+@media(max-width:767px){#fab{width:3.6rem}#fabX{bottom:46px;opacity:1}#fabMsg{max-width:200px;font-size:.8rem;padding:.6rem .75rem}}
 </style>
 </head>
 <body>
@@ -994,6 +1005,7 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
 <!-- Mascota flotante -->
 <div id="fabWrap" class="pointer-events-none fixed bottom-4 right-4 z-50 flex translate-y-4 flex-col items-end gap-2 opacity-0 transition duration-300">
  <div id="fabMsg" class="sticker max-w-[230px] p-3 text-sm font-medium opacity-0 transition-opacity duration-300" role="status"></div>
+ <button id="fabX" type="button" aria-label="Ocultar a MediBot"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
  <button id="fab" class="w-20 transition hover:scale-110" aria-label="MediBot"><svg viewBox="0 0 200 240" class="bot-float w-full overflow-visible"><use href="#bot"/></svg></button>
 </div>
 
@@ -1478,6 +1490,21 @@ if(chip){const flow=chip.parentElement;flow.classList.add('flow');const items=[.
  $('#tkGo').addEventListener('click',()=>{tk.classList.add('ok');$('#tkPill').textContent='Confirmado'});
  document.querySelectorAll('.glow').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
  document.querySelectorAll('.lift').forEach(c=>c.classList.add('glow'));
+})();
+</script>
+<script>
+(()=>{const w=document.getElementById('fabWrap'),f=document.getElementById('fab'),x=document.getElementById('fabX');if(!w||!f)return;
+ let off=false;try{off=sessionStorage.getItem('medibot-fab-off')==='1'}catch{}
+ if(off){w.style.display='none';return}
+ if(matchMedia('(hover: none)').matches)w.classList.add('touch');
+ x.onclick=e=>{e.stopPropagation();w.style.display='none';try{sessionStorage.setItem('medibot-fab-off','1')}catch{}};
+ let sx,sy,ox,oy,drag=false,down=false;
+ f.addEventListener('pointerdown',e=>{down=true;drag=false;sx=e.clientX;sy=e.clientY;const r=w.getBoundingClientRect();ox=r.left;oy=r.top;f.setPointerCapture(e.pointerId)});
+ f.addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(!drag&&Math.hypot(dx,dy)<6)return;drag=true;w.classList.add('dragging');
+  const r=w.getBoundingClientRect();const L=Math.min(innerWidth-r.width-6,Math.max(6,ox+dx)),T=Math.min(innerHeight-r.height-6,Math.max(6,oy+dy));
+  Object.assign(w.style,{left:L+'px',top:T+'px',right:'auto',bottom:'auto'})});
+ f.addEventListener('pointerup',()=>{down=false;if(drag){w.classList.remove('dragging');setTimeout(()=>drag=false,0)}});
+ f.addEventListener('click',e=>{if(drag){e.stopImmediatePropagation();e.preventDefault()}},true);
 })();
 </script>
 </body>
