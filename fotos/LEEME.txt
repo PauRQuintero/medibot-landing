@@ -1,0 +1,10 @@
+Guardar acá las fotos del equipo con estos nombres exactos (en minúscula, .jpg):
+
+carabajal.jpg
+fernandez.jpg
+garcia.jpg
+guaitima.jpg
+quintero.jpg
+
+Recomendado: foto vertical (por ejemplo 900 x 1200), cara en el tercio de arriba, fondo liso.
+Mientras una foto no esté, la página muestra las iniciales en su lugar.

@@ -1,0 +1,1455 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MediBot Solutions | Turnos y gestión para tu consultorio</title>
+<meta name="description" content="Un bot de Telegram para tus pacientes y un panel para tu equipo. Conocé MediBot Solutions.">
+<meta property="og:title" content="MediBot Solutions | Turnos y gestión para tu consultorio">
+<meta property="og:description" content="Un bot de Telegram para tus pacientes y un panel para tu equipo.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#13b9a8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='10' width='52' height='38' rx='12' fill='%23ffd600' stroke='%230f1f26' stroke-width='4'/%3E%3Crect x='14' y='18' width='36' height='22' rx='8' fill='%230f1f26'/%3E%3Ccircle cx='25' cy='29' r='4' fill='%2313b9a8'/%3E%3Ccircle cx='39' cy='29' r='4' fill='%2313b9a8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Geologica:wght@300;400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+(()=>{let t;try{t=localStorage.getItem('medibot-tema-v2')}catch{}if(t!=='dark'&&t!=='light')t='light';document.documentElement.dataset.theme=t;})();
+</script>
+<script>
+tailwind.config={theme:{extend:{colors:{ink:'rgb(var(--ink) / <alpha-value>)',surface:'rgb(var(--surface) / <alpha-value>)',cream:'rgb(var(--cream) / <alpha-value>)',deep:'rgb(var(--deep) / <alpha-value>)',teal:{DEFAULT:'#13b9a8',deep:'#0b8f82',mist:'rgb(var(--mist) / <alpha-value>)'},sun:'#ffd600'},
+fontFamily:{display:['Geologica','sans-serif'],body:['Geologica','sans-serif'],hand:['Caveat','cursive']},
+boxShadow:{pop:'3px 3px 0 rgb(var(--ink))','pop-lg':'6px 6px 0 rgb(var(--ink))'}}}}
+</script>
+<style>
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+:root{--ink:15 31 38;--surface:255 255 255;--cream:241 238 229;--mist:222 243 239;--deep:15 31 38;--ring:208 214 214}
+html[data-theme=dark]{--ink:214 230 232;--surface:20 41 50;--cream:11 27 33;--mist:17 50 56;--deep:5 14 18;--ring:38 64 72;color-scheme:dark}
+html[data-theme=dark] .text-teal-deep{color:#3fd8c6}
+.wm{display:inline-flex;align-items:baseline;gap:.42rem;padding:.42rem .8rem .38rem;border:2.5px solid #0f1f26;border-radius:999px;background:#fff;font-family:'Archivo Black',sans-serif;line-height:1;white-space:nowrap}
+.wm-a{font-size:.86rem;letter-spacing:.11em;color:#0f1f26}.wm-b{font-size:.6rem;letter-spacing:.2em;color:#0d9488}
+@media(max-width:480px){.wm{padding:.36rem .62rem .32rem;border-width:2px;gap:.32rem}.wm-a{font-size:.74rem;letter-spacing:.08em}.wm-b{font-size:.52rem;letter-spacing:.16em}}
+html[data-theme=dark] .i-moon,html:not([data-theme=dark]) .i-sun{display:none}
+body{font-family:Geologica,sans-serif;color:rgb(var(--ink));background-color:rgb(var(--cream));overflow-x:hidden;transition:background-color .3s,color .3s}
+h1,h2,h3,.font-display{font-family:Geologica,sans-serif;letter-spacing:-.035em}
+:focus-visible{outline:3px solid #0f1f26;outline-offset:3px}
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.8rem 1.5rem;border:0;border-radius:999px;font:600 .95rem Geologica,sans-serif;color:#0f1f26;background:#13b9a8;box-shadow:0 8px 22px -10px #13b9a8;transition:transform .2s,box-shadow .2s,filter .2s;cursor:pointer;white-space:nowrap}
+.btn:hover{transform:translateY(-3px);box-shadow:0 16px 28px -12px #13b9a8;filter:brightness(1.06)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn-teal{background:#13b9a8}
+.btn-white{background:rgb(var(--surface));color:rgb(var(--ink));box-shadow:inset 0 0 0 1.5px rgb(var(--ink)/.28)}
+.btn-white:hover{box-shadow:inset 0 0 0 1.5px #13b9a8,0 14px 26px -14px #13b9a8}
+.btn-ink{background:rgb(var(--deep));color:#fff;box-shadow:0 8px 22px -10px rgb(0 0 0/.6)}
+.sticker{background:rgb(var(--surface));border:1px solid rgb(var(--ink)/.16);border-radius:18px;box-shadow:0 1px 2px rgb(0 0 0/.05),0 18px 34px -22px rgb(0 0 0/.4);transition:box-shadow .25s,border-color .25s}
+.sticker:hover{border-color:#13b9a8;box-shadow:0 20px 38px -20px rgb(19 185 168/.55)}
+.rv.sticker{transition:opacity .6s,transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .25s,border-color .25s}
+:where(.sticker){color:rgb(var(--ink))}
+.bg-sun,.bg-teal,[class*=chip-]{color:#0f1f26}
+.chip-done{color:#fff!important}
+/* Mascota */
+.bot-float{animation:float 3.6s ease-in-out infinite}
+.bot-blink{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}
+.bot-wave{transform-box:view-box;transform-origin:134px 168px;animation:wave 1.6s ease-in-out infinite}
+.bot-ant{transform-box:view-box;transform-origin:100px 40px;animation:ant 2.4s ease-in-out infinite}
+.bot-shadow{animation:shadow 3.6s ease-in-out infinite;transform-origin:center}
+@keyframes float{50%{transform:translateY(-12px)}}
+@keyframes shadow{50%{transform:scaleX(.82);opacity:.5}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@keyframes wave{0%,100%{transform:rotate(0)}30%{transform:rotate(-14deg)}60%{transform:rotate(5deg)}}
+@keyframes ant{50%{transform:rotate(4.5deg)}}
+@keyframes tw{50%{transform:scale(.5) rotate(25deg);opacity:.5}}
+.tw{animation:tw 2.4s ease-in-out infinite}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes dot{50%{transform:translateY(-4px);opacity:.4}}
+@keyframes pop{0%{transform:scale(.6) translateY(10px);opacity:0}70%{transform:scale(1.04)}100%{transform:none;opacity:1}}
+@keyframes wob{0%,100%{transform:rotate(var(--r,0deg))}50%{transform:rotate(calc(var(--r,0deg) + 3deg))}}
+.marquee-track{display:flex;width:max-content;animation:marquee 28s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.msg{animation:pop .35s cubic-bezier(.3,1.5,.5,1) both}
+.dots i{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:50%;background:rgb(var(--ink));animation:dot .9s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+.rv{opacity:0;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(24px) rotate(var(--r,0deg));transition:opacity .6s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) rotate(var(--r,0deg))}
+.drag{touch-action:none;cursor:grab;user-select:none}.drag.grabbing{cursor:grabbing;z-index:30}
+details summary{list-style:none;cursor:pointer}details summary::-webkit-details-marker{display:none}
+details[open] .plus{transform:rotate(22.5deg)}.plus{transition:transform .25s}
+.tab[aria-selected=true]{background:rgb(var(--deep));color:#fff}
+.chip-ok{background:#c9f3ec}.chip-wait{background:#ffefa3}.chip-pend{background:#ffd9d9}.chip-done{background:#0f1f26;color:#fff}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+.ftab[aria-selected=true]{background:rgb(var(--deep));color:#fff;border-color:transparent;transform:translateX(4px)}
+.life-chip{border:2px solid rgb(var(--ink));border-radius:999px;padding:.4rem .9rem;transition:all .25s;cursor:pointer;background:rgb(var(--surface))}
+.life-chip[aria-pressed=true]{background:#13b9a8;color:#0f1f26;border-color:transparent;transform:scale(1.06)}
+.mini{filter:drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff)}
+html .border-2{border-width:1px}html .border-y-2{border-top-width:1px;border-bottom-width:1px}html .border-t-2{border-top-width:1px}html .border-b-2{border-bottom-width:1px}html .border-r-2{border-right-width:1px}
+html .border-ink{border-color:rgb(var(--ink)/.2)}
+html .shadow-pop,html .shadow-pop-lg{box-shadow:0 10px 30px -14px rgb(0 0 0/.35)}
+@keyframes breathe{50%{transform:scale(1.06)}}.breathe{animation:breathe 5s ease-in-out infinite}
+@keyframes jump{0%{transform:none}35%{transform:translateY(-34px) scale(.96,1.05)}65%{transform:scale(1.06,.94)}100%{transform:none}}
+#heroBot svg{transform-origin:50% 100%}.jump{animation:jump .6s ease-out}
+/* Cinta */
+.mq-track{display:flex;width:max-content;will-change:transform}
+.mq-set{display:flex;flex:none;align-items:center}
+.mq-item{cursor:default;user-select:none;white-space:nowrap}
+.mq-item svg{flex:none;transition:transform .35s cubic-bezier(.3,1.6,.5,1);animation:bob 2.6s ease-in-out infinite}
+.mq-item:nth-child(2n) svg{animation-delay:-.9s}.mq-item:nth-child(3n) svg{animation-delay:-1.7s}
+@keyframes bob{50%{translate:0 -3px}}
+.mq-lab{display:inline-grid;align-items:center}
+.mq-lab>span{grid-area:1/1;transition:transform .35s cubic-bezier(.3,1.4,.5,1),opacity .25s}
+.mq-b{font:700 1.45rem Caveat,cursive;color:#ffd600;opacity:0;transform:translateY(70%) rotate(-3deg)}
+.mq-item:hover .mq-a,.mq-item:focus-visible .mq-a,.mq-item.on .mq-a{opacity:0;transform:translateY(-70%)}
+.mq-item:hover .mq-b,.mq-item:focus-visible .mq-b,.mq-item.on .mq-b{opacity:1;transform:none}
+.mq-item:hover svg,.mq-item:focus-visible svg,.mq-item.on svg{transform:rotate(-12deg) scale(1.2)}
+.mq-calm .mq-track{width:auto;flex-wrap:wrap;justify-content:center}
+.mq-calm .mq-item svg{animation:none}
+/* Retoques */
+.rv.tilt.tilting{transition:transform .12s ease-out,opacity .6s,box-shadow .25s,border-color .25s}
+#toast{position:absolute;right:14px;top:46px;z-index:5;max-width:270px;transform:translateY(-12px) scale(.96);opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.3,1.4,.5,1),opacity .25s}
+#toast.show{transform:none;opacity:1}
+.row-in{animation:rowin .5s cubic-bezier(.3,1.4,.5,1),flash 1.9s ease-out}
+@keyframes rowin{from{opacity:0;transform:translateX(-16px)}}
+@keyframes flash{0%{background:rgb(19 185 168/.4)}100%{background:transparent}}
+.bar{transition:height 1s cubic-bezier(.2,.9,.3,1)}
+.chip-cancel{background:rgb(var(--ink)/.14)}
+.role-btn{transition:background .2s,color .2s}.role-btn[aria-pressed=true]{background:#ffd600;color:#0f1f26}
+.life-chip{font-family:inherit}
+#prog{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#13b9a8,#ffd600);z-index:70}
+header .navlink.on{background:#ffd600;color:#0f1f26}
+.pcard{transition:transform .2s}
+
+/* ============ Rediseño ============ */
+:root{--cream:236 238 233;--mist:224 239 234;--ring:213 220 216}
+h1,h2{font-weight:600!important;letter-spacing:-.035em}
+h3{font-weight:600!important;letter-spacing:-.015em}
+.btn{font-weight:600;box-shadow:none;padding:.8rem 1.45rem;transition:background-color .2s,box-shadow .2s}
+.btn:hover,.btn-teal:hover{transform:none;box-shadow:none;filter:none;background:#10a697}
+.btn:active{transform:scale(.98)}
+.btn-white,.btn-white:hover{background:rgb(var(--surface));color:rgb(var(--ink))}
+.btn-white{box-shadow:inset 0 0 0 1px rgb(var(--ink)/.22)}.btn-white:hover{box-shadow:inset 0 0 0 1px rgb(var(--ink)/.65)}
+.btn-ink,.btn-ink:hover{background:rgb(var(--deep));color:#fff;box-shadow:none}.btn-ink:hover{opacity:.88}
+.sticker,.sticker:hover{border:1px solid rgb(var(--ink)/.1);border-radius:20px;box-shadow:0 1px 2px rgb(16 35 42/.04)}
+#prog{height:2px;background:#13b9a8}
+.navlink{border-radius:0!important;padding:.5rem .1rem!important;margin:0 .75rem;box-shadow:inset 0 -2px 0 transparent;transition:box-shadow .2s,color .2s;color:rgb(var(--ink)/.7)}
+.navlink:hover,header .navlink.on{background:transparent!important;color:rgb(var(--ink));box-shadow:inset 0 -2px 0 #13b9a8}
+/* línea de tiempo de "Cómo funciona" */
+.steps{counter-reset:s}
+@media(min-width:768px){.steps::before{content:"";position:absolute;left:16px;right:16px;top:16px;border-top:1px dashed rgb(var(--ink)/.25)}}
+.step{display:grid;place-items:center;width:33px;height:33px;border-radius:50%;background:rgb(var(--surface));border:1px solid rgb(var(--ink)/.35);font-weight:600;font-size:.9rem;position:relative}
+.bub{display:inline-block;padding:.55rem .9rem;border-radius:16px;font-size:.92rem;line-height:1.35;background:rgb(var(--surface));border:1px solid rgb(var(--ink)/.1)}
+.bub-out{background:#d7efe6;border-color:transparent;border-bottom-right-radius:5px;color:#10232a}
+.bub-in{border-bottom-left-radius:5px}
+html[data-theme=dark] .bub-out{background:#1d4a44;color:#e6f5f1}
+/* cinta de funciones, más calma */
+.mq-item svg{animation:none}.mq-b{color:#0b7f74}
+html[data-theme=dark] .mq-b{color:#3fd8c6}
+/* globos del chat de ejemplo */
+.b-out{background:#d7efe6;color:#10232a}
+html[data-theme=dark] .b-out{background:#1d4a44;color:#e6f5f1}
+
+/* ============ Dinámico ============ */
+:root{--e:cubic-bezier(.2,.75,.2,1);--sw:cubic-bezier(.7,0,.2,1)}
+/* aparición al bajar */
+.rv{opacity:0;translate:0 34px;transform:none;transition:opacity .8s var(--e),translate .8s var(--e),transform .35s var(--e),box-shadow .35s,border-color .35s}
+.rv.in{opacity:1;translate:0 0;transform:none}
+/* tarjetas: se elevan y una luz sigue al mouse */
+.lift{position:relative;transition:opacity .8s var(--e),translate .8s var(--e),transform .35s var(--e),box-shadow .35s,border-color .35s}
+.lift::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgb(19 185 168/.13),transparent 60%)}
+.lift:hover{transform:translateY(-6px);border-color:rgb(19 185 168/.55);box-shadow:0 26px 46px -28px rgb(16 35 42/.45)}
+.lift:hover::before{opacity:1}
+.lift>*{position:relative}
+/* botones */
+a.btn{position:relative;overflow:hidden;isolation:isolate;gap:.85rem;padding:.42rem .42rem .42rem 1.35rem;translate:var(--tx,0) var(--ty,0);transition:color .45s var(--sw),translate .3s var(--e),box-shadow .35s}
+a.btn::before{content:"";position:absolute;z-index:-1;inset:0;border-radius:inherit;background:#10232a;clip-path:circle(0% at var(--bx,85%) var(--by,50%));transition:clip-path .6s var(--sw)}
+a.btn:hover::before,a.btn:focus-visible::before{clip-path:circle(150% at var(--bx,85%) var(--by,50%))}
+a.btn:hover,a.btn:focus-visible{color:#fff;box-shadow:0 16px 30px -16px rgb(19 185 168/.9)}
+.bt-t{display:inline-grid;overflow:hidden;line-height:1.3}
+.bt-t>span{grid-area:1/1;transition:transform .5s var(--sw)}
+.bt-t>span+span{transform:translateY(115%)}
+a.btn:hover .bt-t>span:first-child,a.btn:focus-visible .bt-t>span:first-child{transform:translateY(-115%)}
+a.btn:hover .bt-t>span+span,a.btn:focus-visible .bt-t>span+span{transform:none}
+.bt-i{display:grid;place-items:center;flex:none;width:2.15rem;height:2.15rem;border-radius:50%;background:#10232a;color:#fff;transition:background .45s var(--sw),color .45s var(--sw)}
+.bt-i svg{width:15px;height:15px;transform:rotate(-45deg);transition:transform .5s var(--sw)}
+a.btn:hover .bt-i,a.btn:focus-visible .bt-i{background:#13b9a8;color:#10232a}
+a.btn:hover .bt-i svg,a.btn:focus-visible .bt-i svg{transform:none}
+a.btn-white::before{background:#13b9a8}
+a.btn-white:hover,a.btn-white:focus-visible{color:#10232a}
+a.btn-white:hover .bt-i,a.btn-white:focus-visible .bt-i{background:#10232a;color:#fff}
+a.btn-ink::before{background:#13b9a8}
+a.btn-ink .bt-i{background:#13b9a8;color:#10232a}
+a.btn-ink:hover,a.btn-ink:focus-visible{color:#10232a;opacity:1}
+a.btn-ink:hover .bt-i,a.btn-ink:focus-visible .bt-i{background:#10232a;color:#fff}
+html[data-theme=dark] a.btn:not(.btn-white):not(.btn-ink)::before{background:#e6f5f1}
+html[data-theme=dark] a.btn:not(.btn-white):not(.btn-ink):hover{color:#10232a}
+a.btn.\!py-2{padding:.3rem .3rem .3rem 1.1rem!important;gap:.6rem}
+a.btn.\!py-2 .bt-i{width:1.75rem;height:1.75rem}
+a.btn.w-full{justify-content:space-between}
+/* entrada del hero */
+.hw{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.hw>span{display:inline-block;transform:translateY(108%);animation:wup 1s var(--e) forwards;animation-delay:var(--d)}
+@keyframes wup{to{transform:none}}
+.hin{opacity:0;animation:hin .9s var(--e) forwards;animation-delay:var(--d)}
+@keyframes hin{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+.hpop{animation:hpop 1.1s cubic-bezier(.3,1.4,.5,1) both;animation-delay:var(--d)}
+@keyframes hpop{from{opacity:0;transform:scale(.4)}}
+.par{translate:var(--px,0) var(--py,0);transition:translate .6s var(--e)}
+/* línea de tiempo animada */
+@media(min-width:768px){.steps::before{transform:scaleX(0);transform-origin:left;transition:transform 1.6s var(--e) .2s}.steps.in::before{transform:none}}
+.steps>li{opacity:0;translate:0 26px;transition:opacity .7s var(--e),translate .7s var(--e)}
+.steps.in>li{opacity:1;translate:0 0}
+.steps.in>li:nth-child(2){transition-delay:.35s}.steps.in>li:nth-child(3){transition-delay:.7s}
+.step{transition:background .4s,color .4s,border-color .4s,transform .4s cubic-bezier(.3,1.6,.5,1)}
+.steps.in .step{animation:stepOn .5s forwards;animation-delay:calc(var(--i)*.35s + .5s)}
+@keyframes stepOn{to{background:#13b9a8;border-color:#13b9a8;color:#10232a}}
+.steps>li:hover .step{transform:scale(1.18)}
+.steps .bub{opacity:0;transform:scale(.7) translateY(8px);transform-origin:left bottom}
+.steps .bub-out{transform-origin:right bottom}
+.steps.in .bub{animation:pop .5s cubic-bezier(.3,1.5,.5,1) forwards;animation-delay:calc(var(--i)*.35s + .8s)}
+.steps>li:hover .bub{rotate:-2deg}
+.bub{transition:rotate .3s}
+/* cinta: vuelve el movimiento de los íconos */
+.mq-item svg{animation:bob 2.6s ease-in-out infinite}
+/* flujo de tecnología */
+.flow .sticker{transition:background .35s,color .35s,transform .35s cubic-bezier(.3,1.6,.5,1),border-color .35s}
+.flow .sticker.hot{background:#13b9a8;color:#10232a;border-color:#13b9a8;transform:translateY(-4px)}
+.flow .arr{display:inline-block;transition:color .3s,transform .3s}
+.flow .arr.hot{color:#13b9a8;transform:scale(1.35)}
+/* preguntas */
+details summary{transition:color .25s,padding .35s var(--e)}
+details summary:hover{color:#0b8f82;padding-left:.5rem}
+html[data-theme=dark] details summary:hover{color:#3fd8c6}
+details summary:hover .plus{transform:rotate(90deg)}
+details[open] summary:hover .plus{transform:rotate(112.5deg)}
+details>:not(summary){animation:hin .45s var(--e)}
+/* equipo */
+/* mascota del hero reacciona al pasar */
+#heroBot{transition:filter .3s}#heroBot:hover{filter:drop-shadow(0 14px 18px rgb(16 35 42/.25))}
+@media (prefers-reduced-motion:reduce){.rv,.steps>li,.steps .bub,.hin{opacity:1!important;translate:none!important;transform:none!important}.hw>span{transform:none!important}.steps::before{transform:none!important}}
+
+/* ============ Ajustes v3 ============ */
+/* logo proporcionado */
+.brand .wm{padding:.3rem .62rem .27rem;border-width:2px;gap:.3rem}
+.brand .wm-a{font-size:.74rem;letter-spacing:.09em}.brand .wm-b{font-size:.5rem;letter-spacing:.17em}
+.brand .hdr-bot{transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.brand:hover .hdr-bot{transform:rotate(-8deg) scale(1.08)}
+@media(max-width:480px){.brand .wm-a{font-size:.62rem}.brand .wm-b{font-size:.43rem}.brand .hdr-bot{width:44px;height:40px}}
+/* botones sin flecha: relleno + texto que rueda */
+a.btn{padding:.85rem 1.6rem;gap:0}
+a.btn.\!py-2{padding:.55rem 1.15rem!important}
+a.btn.w-full{justify-content:center}
+/* título del hero */
+.hero-t{letter-spacing:-.045em}
+.hero-t .ht-a{display:block;font-weight:300;color:rgb(var(--ink)/.78)}
+.hero-t .ht-b{display:block;font-weight:700}@media(min-width:640px){.hero-t .ht-b{white-space:nowrap}}
+.ht-dot{display:inline-block;color:#13b9a8;animation:dotIn .7s cubic-bezier(.3,1.8,.5,1) both 1s}
+@keyframes dotIn{from{transform:translateY(-1.2em) scale(.4);opacity:0}}
+h1.hero-t{font-weight:inherit!important}
+/* misión y visión */
+.mv{position:relative;overflow:hidden;border-radius:28px;padding:2.5rem;transition:opacity .8s var(--e),translate .8s var(--e),transform .4s var(--e),box-shadow .4s}
+.mv::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s;background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgb(19 185 168/.18),transparent 60%)}
+.mv:hover{transform:translateY(-6px);box-shadow:0 30px 50px -30px rgb(16 35 42/.55)}.mv:hover::after{opacity:1}
+.mv>*{position:relative;z-index:1}
+.mv-dark{background:#10232a;color:#e9f3f1}.mv-dark p{color:rgb(233 243 241/.78)}
+.mv-dark::before{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:#13b9a8;opacity:.18;transition:transform .7s var(--e)}
+.mv-dark:hover::before{transform:scale(1.5)}
+.mv-light{background:rgb(var(--surface));border:1px solid rgb(var(--ink)/.1)}
+html[data-theme=dark] .mv-dark{background:#05141a}
+.mv-ic{width:64px;height:64px}
+.mv-target{color:#13b9a8}
+.mv-target .r2,.mv-target .r3{transform-origin:32px 32px;animation:ring 2.8s ease-in-out infinite}
+.mv-target .r3{animation-delay:.4s}
+@keyframes ring{50%{transform:scale(.86);opacity:.45}}
+.mv-grow{color:#0b8f82}
+html[data-theme=dark] .mv-grow{color:#3fd8c6}
+.mv-grow .ln{stroke-dasharray:80;stroke-dashoffset:80}.mv-grow .hd{stroke-dasharray:30;stroke-dashoffset:30}
+.mv-light.in .ln{animation:draw 1.3s var(--e) forwards .4s}.mv-light.in .hd{animation:draw .5s var(--e) forwards 1.5s}
+.mv-light:hover .ln{animation:draw2 1.1s var(--e)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes draw2{from{stroke-dashoffset:80}to{stroke-dashoffset:0}}
+.val{position:relative;overflow:hidden;border-radius:22px;padding:1.6rem;background:rgb(var(--surface));border:1px solid rgb(var(--ink)/.1);transition:opacity .8s var(--e),translate .8s var(--e),transform .35s var(--e),border-color .35s,box-shadow .35s}
+.val::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgb(19 185 168/.14),transparent 60%)}
+.val>*{position:relative;z-index:1}
+.val:hover{transform:translateY(-5px);border-color:rgb(19 185 168/.5);box-shadow:0 22px 40px -28px rgb(16 35 42/.5)}.val:hover::after{opacity:1}
+.val-i{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:rgb(var(--mist));color:#0b8f82;transition:background .35s,color .35s,transform .45s cubic-bezier(.3,1.6,.5,1)}
+html[data-theme=dark] .val-i{color:#3fd8c6}
+.val-i svg{width:22px;height:22px}
+.val:hover .val-i{background:#13b9a8;color:#10232a;transform:rotate(-10deg) scale(1.1)}
+.rv.val:nth-child(2),.rv.mv+.mv{transition-delay:.1s}.rv.val:nth-child(3){transition-delay:.2s}.rv.val:nth-child(4){transition-delay:.3s}
+/* equipo */
+.tm-card{position:relative;overflow:hidden;aspect-ratio:4/5;border-radius:24px;background:var(--bg);color:var(--fg);transform:perspective(700px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out,box-shadow .35s}
+.tm:hover .tm-card{box-shadow:0 30px 44px -26px rgb(16 35 42/.6)}
+.tm-ini{position:absolute;left:1.1rem;bottom:.6rem;font-size:clamp(3.4rem,6vw,4.6rem);font-weight:700;letter-spacing:-.06em;line-height:1;transition:transform .5s var(--e)}
+.tm:hover .tm-ini{transform:translateY(-6px)}
+.tm-bot{position:absolute;right:-4px;top:12px;width:84px;height:63px;transform:translateX(80px) rotate(20deg);transition:transform .55s cubic-bezier(.3,1.5,.5,1)}
+.tm:hover .tm-bot{transform:translateX(0) rotate(-12deg)}
+.tm figcaption{font-size:1.05rem}
+@media(max-width:639px){.tm:last-child{grid-column:span 2}.tm:last-child .tm-card{aspect-ratio:2/1.1}}
+/* flechas del flujo, más visibles */
+.flow .arr{font-size:1.25em}
+@media (prefers-reduced-motion:reduce){.mv-grow .ln,.mv-grow .hd{stroke-dashoffset:0!important}.ht-dot{opacity:1!important;transform:none!important}}
+
+/* ============ Ajustes v4 ============ */
+#panelBody .grid>*{min-width:0}
+#pWin{margin-left:auto;margin-right:auto;max-width:100%}
+/* logo: nombre + sticker */
+.lg{display:inline-flex;align-items:center;gap:.5rem;line-height:1}
+.lg-a{font-weight:700;font-size:1.28rem;letter-spacing:-.035em;color:rgb(var(--ink))}
+.lg-b{font-weight:600;font-size:.66rem;letter-spacing:.06em;color:#0b7f74;background:#fff;border:1.5px solid #10232a;border-radius:999px;padding:.28rem .55rem .26rem;transform:rotate(-4deg);box-shadow:0 2px 0 #10232a;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.brand:hover .lg-b{transform:rotate(3deg) translateY(-1px)}
+html[data-theme=dark] .lg-b{border-color:#fff;box-shadow:0 2px 0 rgb(255 255 255/.5)}
+.brand .hdr-bot{width:44px;height:40px}
+@media(max-width:480px){.lg-a{font-size:1.12rem}.lg-b{font-size:.58rem}}
+/* tildes en fila */
+.checks li{white-space:nowrap}
+@media(min-width:640px) and (max-width:1100px){.checks{font-size:14px;column-gap:1rem}}
+/* equipo: foto grupal */
+.tp-frame{position:relative;overflow:hidden;aspect-ratio:16/8;border-radius:28px;background:rgb(var(--mist));border:1px solid rgb(var(--ink)/.08);transform:perspective(1200px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .3s ease-out,box-shadow .4s}
+.tp-frame:hover{box-shadow:0 40px 60px -40px rgb(16 35 42/.7)}
+.tp-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--e)}
+.tp-frame:hover img{transform:scale(1.04)}
+.has-photo .tp-ph{display:none}
+.tp-ph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:1.4rem}
+.tp-tiles{display:flex;gap:clamp(.5rem,1.4vw,1rem)}
+.tp-tile{display:grid;place-items:center;width:clamp(3.4rem,11vw,8.5rem);aspect-ratio:3/4;border-radius:clamp(14px,2vw,22px);background:var(--bg);color:var(--fg);font-weight:700;font-size:clamp(1.2rem,3.4vw,2.6rem);letter-spacing:-.05em;transform:translateY(calc(var(--i) * 0px));transition:transform .5s cubic-bezier(.3,1.5,.5,1)}
+.tp-tile:nth-child(odd){transform:translateY(-10px) rotate(-3deg)}.tp-tile:nth-child(even){transform:translateY(10px) rotate(3deg)}
+.tp-frame:hover .tp-tile{transform:none}
+.tp-hint{font-size:.85rem;color:rgb(255 255 255/.55)}
+@media(max-width:639px){.tp-frame{aspect-ratio:4/3}}
+.tm{position:relative;padding-top:1rem}
+.tm-bar{position:absolute;left:0;top:0;height:4px;width:28px;border-radius:4px;background:var(--c);transition:width .45s var(--e)}
+.tm:hover .tm-bar{width:100%}
+
+/* ============ Equipo v5: una foto por persona ============ */
+.team{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+@media(min-width:768px){.team{grid-template-columns:repeat(6,minmax(0,1fr));gap:1.25rem}.team .pc{grid-column:span 2}.team .pc:nth-child(4){grid-column:2/span 2}}
+@media(min-width:1024px){.team{grid-template-columns:repeat(5,minmax(0,1fr))}.team .pc,.team .pc:nth-child(4){grid-column:auto}}
+@media(max-width:767px){.team .pc:last-child{grid-column:1/-1;width:calc(50% - .5rem);justify-self:center}}
+.pc-card{position:relative;overflow:hidden;aspect-ratio:3/4;border-radius:22px;background:var(--bg);color:var(--fg);transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out,box-shadow .4s}
+.pc-card{box-shadow:inset 0 0 0 1px rgb(16 35 42/.08)}.pc-card:hover{box-shadow:0 30px 46px -28px rgb(16 35 42/.6)}
+.pc-ini{position:absolute;inset:0 0 22% 0;display:grid;place-items:center;font-weight:700;font-size:clamp(2.6rem,5vw,3.8rem);letter-spacing:-.05em}
+.pc-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter .5s,transform .9s var(--e)}
+.pc-card:hover img{filter:none;transform:scale(1.05)}
+.pc-cap{position:absolute;left:0;right:0;bottom:0;padding:2.6rem 1rem .95rem;display:flex;flex-direction:column;gap:.15rem}
+.pc-cap b{font-size:1rem;font-weight:600;line-height:1.2}
+.pc-cap span{font-size:.78rem;opacity:.75}
+.pc-card.has{color:#fff}
+.pc-card.has .pc-cap{background:linear-gradient(to top,rgb(10 25 30/.85),rgb(10 25 30/0))}
+.pc-cap b,.pc-cap span{transition:transform .45s var(--e)}
+.pc-card:hover .pc-cap b{transform:translateY(-3px)}.pc-card:hover .pc-cap span{transform:translateY(-3px)}
+.team .rv:nth-child(2){transition-delay:.08s}.team .rv:nth-child(3){transition-delay:.16s}.team .rv:nth-child(4){transition-delay:.24s}.team .rv:nth-child(5){transition-delay:.32s}
+
+/* ============ Ajustes v6 ============ */
+/* título: que no se corten letras */
+.hw{padding:0 .08em .12em 0;margin:0 -.08em -.12em 0}
+/* pestañas de módulos */
+.ftabs{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:6px;align-self:start;border-radius:20px;background:rgb(var(--surface));border:1px solid rgb(var(--ink)/.1)}
+@media(min-width:1024px){.ftabs{grid-template-columns:1fr}}
+.ft-ind{position:absolute;z-index:0;border-radius:14px;background:#10232a;transition:left .45s var(--e),top .45s var(--e),width .45s var(--e),height .45s var(--e)}
+html[data-theme=dark] .ft-ind{background:#13b9a8}
+.ftab{position:relative;z-index:1;display:flex;align-items:center;gap:.65rem;padding:.8rem .95rem;border-radius:14px;font-weight:600;font-size:.95rem;line-height:1.2;text-align:left;color:rgb(var(--ink)/.68);background:transparent!important;border:0!important;transform:none!important;transition:color .3s}
+.ftab:hover{color:rgb(var(--ink))}
+.ftab[aria-selected=true]{color:#fff}
+html[data-theme=dark] .ftab[aria-selected=true]{color:#10232a}
+.ft-ic{width:19px;height:19px;flex:none;transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.ftab:hover .ft-ic{transform:rotate(-10deg) scale(1.12)}
+.ftab[aria-selected=true] .ft-ic{color:#13b9a8}
+html[data-theme=dark] .ftab[aria-selected=true] .ft-ic{color:#10232a}
+.ft-bar{position:absolute;left:.95rem;right:.95rem;bottom:6px;height:2px;border-radius:2px;overflow:hidden;opacity:0;background:rgb(255 255 255/.18)}
+.ft-bar::after{content:"";position:absolute;inset:0;background:#13b9a8;transform-origin:left;transform:scaleX(0)}
+.ftabs.auto .ftab[aria-selected=true] .ft-bar{opacity:1}
+.ftabs.auto .ftab[aria-selected=true] .ft-bar::after{animation:ftp 6s linear forwards}
+@keyframes ftp{to{transform:none}}
+@media(max-width:1023px){.ftab{flex-direction:column;justify-content:center;text-align:center;gap:.4rem;padding:.75rem .4rem;font-size:.8rem}}
+/* cinta en color pastel */
+#mq{background:#fbf1cf!important;border-color:#efe2b0!important;color:#3d3a2a}
+#mq .mq-b{color:#0b7f74}
+html[data-theme=dark] #mq{background:#1e2b22!important;border-color:#2b3a2f!important;color:#e6efe0}
+html[data-theme=dark] #mq .mq-b{color:#ffd600}
+
+/* ============ Ajustes v7 ============ */
+@media(min-width:1024px){.ftabs{align-self:stretch;grid-auto-rows:1fr;align-content:stretch}.ftab{padding:0 1.1rem;font-size:1rem}}
+/* cierre: calculadora */
+.cta{position:relative;margin-top:4rem;border-radius:32px;background:#10232a;color:#fff;padding:clamp(2rem,5vw,4rem);overflow:visible}
+.cta::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(600px circle at 85% 0%,rgb(19 185 168/.28),transparent 60%),radial-gradient(400px circle at 0% 100%,rgb(255 214 0/.08),transparent 60%)}
+html[data-theme=dark] .cta{background:#05141a;box-shadow:inset 0 0 0 1px rgb(255 255 255/.06)}
+.cta>*{position:relative}
+.cta-bot{position:absolute;right:clamp(1.5rem,5vw,4rem);top:-5.2rem;display:flex;align-items:flex-start;gap:.5rem}
+.cta-say{margin-top:.6rem;padding:.5rem .8rem;border-radius:14px 14px 4px 14px;background:#fff;color:#10232a;font-size:.85rem;font-weight:600;white-space:nowrap;box-shadow:0 10px 24px -14px rgb(0 0 0/.5)}
+.cta-grid{display:grid;gap:3rem;align-items:center}
+@media(min-width:1024px){.cta-grid{grid-template-columns:1.1fr 1fr;gap:4rem}}
+.cta-t{font-size:clamp(2.3rem,4.6vw,3.6rem);line-height:1.04;max-width:12ch}
+.cta-range{-webkit-appearance:none;appearance:none;height:8px;border-radius:99px;background:linear-gradient(90deg,#13b9a8 var(--p,27%),rgb(255 255 255/.14) var(--p,27%));outline-offset:6px;cursor:pointer}
+.cta-range::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;border:6px solid #13b9a8;box-shadow:0 6px 16px -4px rgb(19 185 168/.8);transition:transform .2s}
+.cta-range::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.cta-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:6px solid #13b9a8}
+.cta-stats{display:grid;gap:.75rem}
+.cta-stat{display:flex;align-items:baseline;gap:1.1rem;padding:1.1rem 1.4rem;border-radius:20px;background:rgb(255 255 255/.05);border:1px solid rgb(255 255 255/.08);transition:background .3s,transform .35s var(--e)}
+.cta-stat:hover{background:rgb(255 255 255/.09);transform:translateX(6px)}
+.cta-stat b{min-width:5.2ch;font-size:clamp(2rem,3.6vw,2.8rem);font-weight:700;letter-spacing:-.04em;color:#13b9a8;font-variant-numeric:tabular-nums}
+.cta-stat b small{font-size:.5em;font-weight:600}
+.cta-stat>span{color:rgb(255 255 255/.75);line-height:1.35}
+.cta-note{margin-top:.4rem;font-size:.75rem;color:rgb(255 255 255/.45)}
+.cta-ghost{background:transparent!important;color:#fff!important;box-shadow:inset 0 0 0 1.5px rgb(255 255 255/.35)!important}
+a.cta-ghost::before{background:#fff}
+a.cta-ghost:hover{color:#10232a!important}
+@media(max-width:640px){.cta-bot{top:-4.4rem}.cta-bot svg{width:4.5rem}.cta-say{font-size:.75rem}}
+
+/* ============ Ajustes v8 ============ */
+.ftab{transition:color .3s,background-color .35s var(--e)!important}
+.ftab[aria-selected=true]{background:#10232a!important}
+html[data-theme=dark] .ftab[aria-selected=true]{background:#13b9a8!important}
+/* cinta: tono suave */
+#mq{background:#dcece6!important;border-color:#cfe2db!important;color:#2a3c3f}
+#mq .mq-b{color:#0b7f74}
+html[data-theme=dark] #mq{background:#13262c!important;border-color:#1c333a!important;color:#d6e6e8}
+html[data-theme=dark] #mq .mq-b{color:#3fd8c6}
+/* cierre: conversación de venta */
+.cl{display:grid;gap:2.5rem;align-items:center;border-radius:32px;padding:clamp(2rem,5vw,4rem);background:#13b9a8;color:#10232a;overflow:hidden;position:relative}
+.cl::before{content:"";position:absolute;right:-120px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:#ffd600;opacity:.9}
+.cl>*{position:relative}
+@media(min-width:1024px){.cl{grid-template-columns:1.1fr 1fr;gap:4rem}}
+.cl-t{font-size:clamp(2.2rem,4.4vw,3.5rem);line-height:1.05;letter-spacing:-.04em;max-width:14ch}
+.cl-copy p{color:rgb(16 35 42/.78)}
+.cl-list{margin-top:2rem;display:grid;gap:.7rem;font-weight:600}
+.cl-list li{display:flex;align-items:center;gap:.7rem}
+.cl-list li::before{content:"";flex:none;width:22px;height:22px;border-radius:50%;background:#10232a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2313b9a8' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/13px no-repeat}
+.cl-chat{display:flex;flex-direction:column;height:430px;border-radius:26px;background:#fff;color:#10232a;box-shadow:0 40px 60px -36px rgb(16 35 42/.55);overflow:hidden;transform:rotate(1.2deg);transition:transform .5s var(--e)}
+.cl-chat:hover{transform:rotate(0)}
+.cl-head{display:flex;align-items:center;gap:.7rem;padding:.9rem 1.1rem;border-bottom:1px solid rgb(16 35 42/.08)}
+.cl-head b{display:block;font-weight:600;line-height:1.1}.cl-head small{font-size:.75rem;color:#0b8f82}
+.cl-av{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#13b9a8}.cl-av svg{width:30px;height:24px}
+.cl-log{flex:1;display:flex;flex-direction:column;gap:.55rem;padding:1rem;overflow-y:auto;background:#f3f5f2;scroll-behavior:smooth}
+.cl-m{max-width:85%;padding:.6rem .9rem;border-radius:16px;font-size:.95rem;line-height:1.4;animation:pop .35s cubic-bezier(.3,1.5,.5,1) both}
+.cl-in{align-self:flex-start;background:#fff;border:1px solid rgb(16 35 42/.08);border-bottom-left-radius:5px}
+.cl-out{align-self:flex-end;background:#d7efe6;border-bottom-right-radius:5px}
+.cl-in .dots i{background:#10232a}
+.cl-act{display:inline-block;padding:.45rem .9rem;border-radius:999px;background:#10232a;color:#fff;font-weight:600;font-size:.9rem;transition:background .25s,transform .25s}
+.cl-act:hover{background:#0b8f82;transform:translateY(-2px)}
+.cl-chips{display:flex;flex-wrap:wrap;gap:.45rem;padding:.8rem 1rem 1rem;border-top:1px solid rgb(16 35 42/.08);min-height:3.6rem}
+.cl-chip{padding:.5rem .9rem;border-radius:999px;border:1.5px solid #13b9a8;color:#0b7f74;font-weight:600;font-size:.88rem;background:#fff;animation:pop .35s cubic-bezier(.3,1.5,.5,1) both;transition:background .25s,color .25s,transform .25s}
+.cl-chip:hover{background:#13b9a8;color:#10232a;transform:translateY(-2px)}
+html[data-theme=dark] .cl{background:#0f5f57;color:#eaf6f3}
+html[data-theme=dark] .cl-copy p{color:rgb(234 246 243/.8)}
+html[data-theme=dark] .cl::before{opacity:.25}
+html[data-theme=dark] .cl-list li::before{background-color:#eaf6f3}
+@media(max-width:640px){.cl-chat{height:400px;transform:none}}
+
+/* ============ Ajustes v9 ============ */
+/* hover más sutil: sin círculo de luz, solo borde y sombra suaves */
+.lift::before,.mv::after,.val::after{display:none}
+.lift:hover{transform:translateY(-3px);border-color:rgb(19 185 168/.35);box-shadow:0 18px 34px -26px rgb(16 35 42/.35)}
+.mv:hover{transform:translateY(-3px);box-shadow:0 22px 40px -30px rgb(16 35 42/.45)}
+.val:hover{transform:translateY(-3px);border-color:rgb(19 185 168/.35);box-shadow:0 16px 30px -24px rgb(16 35 42/.35)}
+.mv-dark:hover::before{transform:scale(1.15)}
+/* ciclo de vida */
+.lc{display:grid;gap:2rem;padding:clamp(1.5rem,4vw,2.5rem);border-radius:24px;background:rgb(var(--surface));border:1px solid rgb(var(--ink)/.1)}
+@media(min-width:900px){.lc{grid-template-columns:1fr 1fr;gap:3rem;align-items:center}}
+.lc-steps{position:relative;display:grid;gap:.35rem}
+.lc-steps::before{content:"";position:absolute;left:15px;top:18px;bottom:18px;width:2px;background:rgb(var(--ink)/.1)}
+.lc-steps::after{content:"";position:absolute;left:15px;top:18px;width:2px;height:var(--fill,0%);background:#13b9a8;transition:height .6s var(--e)}
+.lc-steps button{position:relative;z-index:1;display:flex;align-items:center;gap:.9rem;width:100%;padding:.55rem .6rem;border-radius:12px;font-weight:600;color:rgb(var(--ink)/.55);text-align:left;transition:color .3s,background .3s}
+.lc-steps button:hover{color:rgb(var(--ink));background:rgb(var(--ink)/.04)}
+.lc-steps small{margin-left:auto;font-size:.75rem;font-weight:500;color:rgb(var(--ink)/.4)}
+.lc-dot{flex:none;width:20px;height:20px;border-radius:50%;background:rgb(var(--surface));border:2px solid rgb(var(--ink)/.2);transition:all .35s cubic-bezier(.3,1.6,.5,1)}
+.lc-steps li.on button{color:rgb(var(--ink))}
+.lc-steps li.on .lc-dot{border-color:#13b9a8;background:#13b9a8;box-shadow:0 0 0 5px rgb(19 185 168/.18);transform:scale(1.1)}
+.lc-steps li.alt .lc-dot{border-style:dashed}
+.lc-stage{display:grid;place-items:center;min-height:300px;border-radius:20px;background:rgb(var(--mist));padding:1.5rem}
+.lc-ticket{width:min(100%,340px);padding:1.5rem;border-radius:20px;background:rgb(var(--surface));box-shadow:0 24px 40px -28px rgb(16 35 42/.45);transform:rotate(-1.5deg)}
+.lc-date small{display:block;font-size:.75rem;color:rgb(var(--ink)/.55)}
+.lc-date b{font-size:1.6rem;font-weight:700;letter-spacing:-.03em}
+.lc-pill{padding:.35rem .8rem;border-radius:999px;font-size:.8rem;font-weight:600;color:#10232a;transition:background .4s}
+.lc-pill.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+.lc-wait{background:#ffefa3}.lc-ok{background:#c9f3ec}.lc-done{background:#10232a;color:#fff}.lc-miss{background:#ffd9d9}.lc-cancel{background:rgb(var(--ink)/.12);color:rgb(var(--ink)/.7);text-decoration:line-through}
+.lc-sep{margin:1.2rem 0;border-top:1.5px dashed rgb(var(--ink)/.15)}
+.lc-text{min-height:3em;font-size:.95rem;color:rgb(var(--ink)/.75)}
+.lc-text.in{animation:hin .45s var(--e)}
+/* cierre refinado */
+.cl::before{display:none}
+.cl{background:linear-gradient(135deg,#13b9a8,#0fa595);padding-top:clamp(2.5rem,6vw,4.5rem);padding-bottom:clamp(2.5rem,6vw,4.5rem)}
+.cl-rings{position:absolute;right:-140px;top:50%;width:720px;height:720px;transform:translateY(-50%);fill:none;stroke:rgb(255 255 255/.22);stroke-width:1.5;pointer-events:none}
+.cl-rings circle{transform-origin:300px 300px;animation:rpulse 6s ease-in-out infinite}
+.cl-rings circle:nth-child(2){animation-delay:.6s}.cl-rings circle:nth-child(3){animation-delay:1.2s}
+@keyframes rpulse{50%{transform:scale(1.04);stroke:rgb(255 255 255/.32)}}
+.cl-t{max-width:15ch}
+.cl-t2{display:block;font-weight:300;color:rgb(16 35 42/.75)}
+.cl-side{position:relative;padding-top:3.2rem}
+.cl-bot{position:absolute;z-index:2;right:1.4rem;top:-1.6rem;width:92px;height:110px;overflow:visible}
+.cl-bot.jump{animation:jump .6s ease-out}
+.cl-chat{transform:none;border-radius:24px;box-shadow:0 40px 70px -40px rgb(16 35 42/.7),0 0 0 6px rgb(255 255 255/.25)}
+.cl-chat:hover{transform:none}
+.cl-list li::before{background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b8f82' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E")}
+html[data-theme=dark] .cl{background:linear-gradient(135deg,#0f5f57,#0b4a44)}
+html[data-theme=dark] .cl-t2{color:rgb(234 246 243/.75)}
+html[data-theme=dark] .cl-list li::before{background-color:#eaf6f3}
+@media(max-width:640px){.cl-rings{right:-300px}.cl-bot{width:72px;height:86px;top:-1rem}}
+
+/* ============ Ajustes v10 ============ */
+/* efecto sutil: borde que se ilumina siguiendo el mouse */
+.glow{position:relative}
+.glow::before,.lift.glow::before{content:"";display:block;position:absolute;inset:0;z-index:2;border-radius:inherit;padding:1.5px;background:radial-gradient(200px circle at var(--mx,50%) var(--my,50%),rgb(19 185 168/.85),transparent 70%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .35s;pointer-events:none}
+.glow::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgb(19 185 168/.05),transparent 70%);opacity:0;transition:opacity .35s}
+.glow:hover::before,.glow:hover::after{opacity:1}
+.lift:hover{border-color:rgb(var(--ink)/.1)}
+/* misión y visión */
+.mv2-grid{display:grid;gap:1rem}
+@media(min-width:768px){.mv2-grid{grid-template-columns:1fr 1fr}}
+.mv2,.val2{border-radius:22px;background:rgb(var(--surface));border:1px solid rgb(var(--ink)/.1);transition:opacity .8s var(--e),translate .8s var(--e),transform .35s var(--e),box-shadow .35s}
+.mv2{padding:2rem 2.2rem 2.4rem}
+.mv2:hover,.val2:hover{transform:translateY(-3px);box-shadow:0 18px 34px -26px rgb(16 35 42/.35)}
+.mv2-k{display:inline-flex;align-items:center;gap:.6rem;font-size:.95rem;font-weight:600;color:#0b8f82}
+html[data-theme=dark] .mv2-k{color:#3fd8c6}
+.mv2-k svg{width:26px;height:26px}
+.mv2-p{margin-top:1.1rem;font-size:clamp(1.35rem,2.2vw,1.75rem);line-height:1.25;font-weight:500;letter-spacing:-.02em;max-width:22ch}
+.val2{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.2rem}
+.val2 .val-i{width:42px;height:42px;flex:none}
+.val2:hover .val-i{background:#13b9a8;color:#10232a;transform:rotate(-10deg) scale(1.08)}
+.mv2-grid .rv+.rv{transition-delay:.1s}
+/* cierre: turno */
+.tk-wrap{padding:clamp(2.5rem,6vw,4.5rem) clamp(1.2rem,4vw,3rem);border-radius:32px;background:rgb(var(--mist));position:relative;overflow:hidden}
+.tk-wrap::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgb(19 185 168/.22) 1.2px,transparent 1.2px);background-size:22px 22px;-webkit-mask:radial-gradient(ellipse at center,#000 30%,transparent 75%);mask:radial-gradient(ellipse at center,#000 30%,transparent 75%);pointer-events:none}
+.tk-wrap>*{position:relative}
+.tk-t{text-align:center;font-size:clamp(2.2rem,5vw,3.8rem);line-height:1.04;letter-spacing:-.045em}
+.tk-t span{display:block;font-weight:300}
+.tk{position:relative;display:grid;margin:3rem auto 0;max-width:820px;border-radius:24px;filter:drop-shadow(0 30px 40px rgb(16 35 42/.18));transform:rotate(-1deg);transition:transform .5s var(--e)}
+.tk:hover{transform:rotate(0)}
+@media(min-width:768px){.tk{grid-template-columns:1fr 250px}}
+.tk-main,.tk-stub{background:rgb(var(--surface));padding:1.8rem 2rem}
+.tk-main{position:relative;border-radius:24px 24px 0 0;overflow:hidden}
+.tk-stub{display:flex;flex-direction:column;gap:.6rem;justify-content:center;border-radius:0 0 24px 24px;border-top:2px dashed rgb(var(--ink)/.15);-webkit-mask:radial-gradient(circle 14px at 0 0,#0000 98%,#000) top left/51% 100% no-repeat,radial-gradient(circle 14px at 100% 0,#0000 98%,#000) top right/51% 100% no-repeat}
+@media(min-width:768px){.tk-main{border-radius:24px 0 0 24px}.tk-stub{border-radius:0 24px 24px 0;border-top:0;border-left:2px dashed rgb(var(--ink)/.15);-webkit-mask:radial-gradient(circle 14px at 0 0,#0000 98%,#000) top/100% 51% no-repeat,radial-gradient(circle 14px at 0 100%,#0000 98%,#000) bottom/100% 51% no-repeat}}
+.tk-brand{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.95rem}
+.tk-brand svg{width:34px;height:26px}
+.tk-pill{padding:.35rem .8rem;border-radius:999px;font-size:.8rem;font-weight:600;background:#ffefa3;color:#10232a;transition:background .4s}
+.tk.ok .tk-pill{background:#c9f3ec;animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+.tk-fields{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem 2rem;margin-top:1.8rem}
+@media(min-width:768px){.tk-fields{max-width:380px}}
+@media(max-width:767px){.tk-stamp{bottom:auto;top:4.2rem;right:1rem}}
+.tk-fields dt{font-size:.78rem;color:rgb(var(--ink)/.5)}
+.tk-fields dd{margin-top:.15rem;font-size:clamp(1.15rem,2.2vw,1.45rem);font-weight:600;letter-spacing:-.02em}
+.tk-stamp{position:absolute;right:1.6rem;bottom:1.4rem;padding:.35rem .9rem;border:3px solid #0b8f82;border-radius:10px;color:#0b8f82;font-weight:700;font-size:1.1rem;letter-spacing:.04em;transform:rotate(-12deg) scale(2.4);opacity:0;transition:transform .4s cubic-bezier(.3,1.6,.5,1),opacity .2s}
+.tk.ok .tk-stamp{transform:rotate(-12deg) scale(1);opacity:.85}
+.tk-link{align-self:center;margin-top:.2rem;font-size:.9rem;font-weight:600;color:#0b8f82;text-decoration:underline;text-underline-offset:3px}
+html[data-theme=dark] .tk-link{color:#3fd8c6}
+.tk-code{margin-top:.6rem;align-self:center;width:120px;height:28px;fill:rgb(var(--ink)/.55)}
+@media(max-width:480px){.tk-fields{grid-template-columns:1fr 1fr;gap:1rem}.tk-main,.tk-stub{padding:1.4rem}.tk{transform:none}}
+
+/* ============ Modo oscuro v2: grafito cálido, sin azul neón ============ */
+html[data-theme=dark]{--ink:233 235 228;--surface:35 39 37;--cream:25 28 27;--mist:31 40 37;--deep:16 18 18;--ring:56 62 59}
+html[data-theme=dark] body{background-color:#191c1b}
+html[data-theme=dark] header{background-color:rgb(25 28 27/.85)}
+html[data-theme=dark] .text-teal-deep,html[data-theme=dark] .mv2-k,html[data-theme=dark] .val-i,html[data-theme=dark] .tk-link,html[data-theme=dark] details summary:hover,html[data-theme=dark] .mq-b,html[data-theme=dark] #mq .mq-b{color:#6fd3c5}
+html[data-theme=dark] .val-i{background:#26332f}
+html[data-theme=dark] .b-out,html[data-theme=dark] .bub-out,html[data-theme=dark] .cl-out{background:#2b3f3a;color:#eef2ec}
+html[data-theme=dark] #mq{background:#202523!important;border-color:#2c322f!important;color:#dfe3dc}
+html[data-theme=dark] .ftab[aria-selected=true]{background:#e9ebe4!important;color:#191c1b}
+html[data-theme=dark] .ftab[aria-selected=true] .ft-ic{color:#0b8f82}
+html[data-theme=dark] .ft-bar{background:rgb(0 0 0/.12)}
+html[data-theme=dark] .lg-b{background:#e9ebe4;color:#0b7f74;border-color:#e9ebe4;box-shadow:none}
+html[data-theme=dark] .tk-wrap::before{background-image:radial-gradient(rgb(111 211 197/.14) 1.2px,transparent 1.2px)}
+html[data-theme=dark] .tk{filter:drop-shadow(0 30px 40px rgb(0 0 0/.45))}
+html[data-theme=dark] .tk-stamp{border-color:#6fd3c5;color:#6fd3c5}
+html[data-theme=dark] .lc-done{background:#e9ebe4;color:#191c1b}
+html[data-theme=dark] .glow::before{background:radial-gradient(200px circle at var(--mx,50%) var(--my,50%),rgb(111 211 197/.6),transparent 70%)}
+html[data-theme=dark] .glow::after{background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgb(255 255 255/.03),transparent 70%)}
+html[data-theme=dark] .mv2:hover,html[data-theme=dark] .val2:hover,html[data-theme=dark] .lift:hover{box-shadow:0 18px 34px -24px rgb(0 0 0/.7)}
+html[data-theme=dark] a.btn:not(.btn-white):not(.btn-ink)::before{background:#e9ebe4}
+html[data-theme=dark] a.btn-white::before{background:#13b9a8}
+html[data-theme=dark] .pc-card{box-shadow:inset 0 0 0 1px rgb(255 255 255/.06)}
+html[data-theme=dark] :focus-visible{outline-color:#e9ebe4}
+
+/* ciclo de vida: separador y modo oscuro */
+.lc-or{padding:.5rem 0 .2rem 2.6rem;font-size:.78rem;font-weight:500;color:rgb(var(--ink)/.45)}
+.lc-steps::after{height:var(--fill,0px)}
+html[data-theme=dark] .lc{background:#222624;border-color:rgb(255 255 255/.07)}
+html[data-theme=dark] .lc-stage{background:#181b1a;box-shadow:inset 0 0 0 1px rgb(255 255 255/.05)}
+html[data-theme=dark] .lc-ticket{background:#2c312f;box-shadow:0 0 0 1px rgb(255 255 255/.06),0 24px 40px -24px rgb(0 0 0/.8)}
+html[data-theme=dark] .lc-steps button{color:rgb(233 235 228/.62)}
+html[data-theme=dark] .lc-steps li.on button{color:#f2f3ee}
+html[data-theme=dark] .lc-steps::before{background:rgb(255 255 255/.12)}
+html[data-theme=dark] .lc-dot{background:#222624;border-color:rgb(255 255 255/.3)}
+html[data-theme=dark] .lc-cancel{background:rgb(255 255 255/.12);color:rgb(233 235 228/.8)}
+html[data-theme=dark] .lc-sep{border-color:rgb(255 255 255/.12)}
+
+html[data-theme=dark] .flow .sticker.hot,html[data-theme=dark] .flow .sticker.bg-teal{background:#13b9a8!important;border-color:#13b9a8!important;color:#10232a!important}
+html[data-theme=dark] .flow .arr.hot{color:#6fd3c5}
+html[data-theme=dark] .pc:nth-child(3) .pc-card{--bg:#2f3532}
+html[data-theme=dark] .pc:nth-child(4) .pc-card{--bg:#dfe3dc}
+
+/* ============ v13: íconos y mobile first ============ */
+.ic-tile{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:13px;background:linear-gradient(180deg,rgb(var(--surface)),rgb(var(--mist)));color:#0b8f82;box-shadow:inset 0 0 0 1px rgb(19 185 168/.22),0 4px 10px -6px rgb(16 35 42/.25);transition:background .35s,color .35s,transform .45s cubic-bezier(.3,1.6,.5,1)}
+.ic-tile svg{width:21px;height:21px}
+.mv2-k{gap:.8rem;font-size:1rem;color:rgb(var(--ink))}
+.mv2:hover .ic-tile,.val2:hover .ic-tile{background:#13b9a8;color:#fff;transform:rotate(-6deg)}
+html[data-theme=dark] .mv2-k{color:rgb(var(--ink))}
+html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#2a2f2d,#232826);box-shadow:inset 0 0 0 1px rgb(111 211 197/.22)}
+/* panel embebido sin desbordes */
+#pWin>.grid{grid-template-columns:minmax(0,1fr)}
+@media(min-width:768px){#pWin>.grid{grid-template-columns:200px minmax(0,1fr)}}
+@media(max-width:767px){
+ #fabWrap{display:none!important}
+ main section.py-28,section.py-28{padding-top:4.5rem!important;padding-bottom:4.5rem!important}
+ #inicio{padding-top:2rem;padding-bottom:2.5rem;gap:2.5rem}
+ h2.text-4xl{font-size:2.15rem;line-height:1.08}
+ .mv2{padding:1.5rem}.mv2-p{font-size:1.3rem}
+ .val2{padding:.9rem 1rem}
+ .lc{padding:1.25rem}.lc-stage{min-height:0;padding:1rem}
+ .tk-wrap{border-radius:24px}
+ .tk-t{font-size:2.1rem}
+ .tk-fields dd{font-size:1.05rem}
+ #panel .rv.flex p{font-size:.95rem}
+ a.btn{padding:.8rem 1.3rem}
+ #inicio .flex.flex-wrap.gap-4{gap:.75rem}
+ #inicio .flex.flex-wrap.gap-4 a.btn{flex:1 1 0;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- Mascota reutilizable -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="bot" viewBox="0 0 200 240">
+ <ellipse class="bot-shadow" cx="100" cy="232" rx="46" ry="6" fill="#0f1f26" opacity=".18"/>
+ <g class="bot-body">
+  <!-- piernas -->
+  <path d="M86 196v22M114 196v22" stroke="#0f1f26" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="82" cy="222" rx="13" ry="8" fill="#ffd600" stroke="#0f1f26" stroke-width="5"/>
+  <ellipse cx="118" cy="222" rx="13" ry="8" fill="#ffd600" stroke="#0f1f26" stroke-width="5"/>
+  <!-- brazo izquierdo -->
+  <path d="M68 168q-26 6-34 26" fill="none" stroke="#0f1f26" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="33" cy="196" r="8" fill="#ffd600" stroke="#0f1f26" stroke-width="5"/>
+  <!-- cuerpo -->
+  <rect x="64" y="136" width="72" height="66" rx="24" fill="#13b9a8" stroke="#0f1f26" stroke-width="5"/>
+  <path d="M82 178q18 12 36 0" fill="none" stroke="#0f1f26" stroke-width="4" stroke-linecap="round" opacity=".35"/>
+  <rect x="80" y="156" width="40" height="22" rx="8" fill="#fff" stroke="#0f1f26" stroke-width="4"/>
+  <path d="M88 167l7 7 13-14" fill="none" stroke="#13b9a8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- brazo derecho (saluda) -->
+  <g class="bot-wave">
+   <path d="M132 168q28-2 40-24" fill="none" stroke="#0f1f26" stroke-width="5" stroke-linecap="round"/>
+   <circle cx="173" cy="141" r="9" fill="#ffd600" stroke="#0f1f26" stroke-width="5"/>
+  </g>
+  <!-- antena -->
+  <g class="bot-ant"><path d="M100 46V20" stroke="#0f1f26" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="14" r="9" fill="#ffd600" stroke="#0f1f26" stroke-width="5"/></g>
+  <!-- cabeza -->
+  <path d="M60 128l-4 22 30-20z" fill="#ffd600" stroke="#0f1f26" stroke-width="5" stroke-linejoin="round"/>
+  <rect x="22" y="40" width="156" height="98" rx="28" fill="#ffd600" stroke="#0f1f26" stroke-width="6"/>
+  <path d="M38 58q0-8 8-10" stroke="#fff6b8" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <rect x="42" y="58" width="116" height="62" rx="22" fill="#0f1f26"/>
+  <g class="bot-eyes">
+   <g class="bot-blink"><ellipse cx="78" cy="86" rx="12" ry="14" fill="#13b9a8"/><circle cx="82" cy="80" r="3.5" fill="#fff"/></g>
+   <g class="bot-blink"><ellipse cx="122" cy="86" rx="12" ry="14" fill="#13b9a8"/><circle cx="126" cy="80" r="3.5" fill="#fff"/></g>
+  </g>
+  <path d="M90 105q10 8 20 0" fill="none" stroke="#13b9a8" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="58" cy="104" rx="8" ry="5" fill="#ff9fb2" opacity=".85"/><ellipse cx="142" cy="104" rx="8" ry="5" fill="#ff9fb2" opacity=".85"/>
+ </g>
+</symbol>
+</defs>
+</svg>
+
+<div id="prog" aria-hidden="true"></div>
+<!-- NAV -->
+<header class="sticky top-0 z-40 border-b border-ink/10 bg-cream/85 backdrop-blur-md">
+ <div class="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-5">
+  <a href="#inicio" class="brand flex items-center gap-2" aria-label="MediBot Solutions, ir al inicio">
+   <svg class="hdr-bot h-[50px] w-[56px]" viewBox="0 0 200 150" aria-hidden="true"><use href="#bot"/></svg>
+   <span class="lg" aria-hidden="true"><span class="lg-a">MediBot</span><span class="lg-b">Solutions</span></span>
+  </a>
+  <nav class="hidden items-center text-[15px] font-medium lg:flex" aria-label="Principal">
+   <a class="navlink" href="#producto">Cómo funciona</a>
+   <a class="navlink" href="#panel">Panel</a>
+   <a class="navlink" href="#tecnologia">Tecnología</a>
+   <a class="navlink" href="#planes">Planes</a>
+   <a class="navlink" href="#equipo">Equipo</a>
+   <a class="btn btn-teal !py-2 ml-5" href="https://simuladormedibot.netlify.app/" target="_blank" rel="noopener">Probar demo</a>
+  </nav>
+  <div class="flex items-center gap-2">
+   <button id="themeBtn" class="grid h-10 w-10 place-items-center rounded-full text-ink/70 transition hover:bg-ink/5 hover:text-ink" aria-label="Cambiar tema" title="Cambiar tema">
+    <svg class="i-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg>
+    <svg class="i-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+   </button>
+   <button id="menuBtn" class="rounded-full p-2 lg:hidden" aria-label="Abrir menú" aria-expanded="false">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f1f26" stroke-width="3" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+   </button>
+  </div>
+ </div>
+ <nav id="mobileNav" class="mx-auto hidden max-w-6xl flex-col gap-1 border-t border-ink/10 px-5 py-4 lg:hidden" aria-label="Móvil">
+  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#producto">Cómo funciona</a>
+  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#panel">Panel</a>
+  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#tecnologia">Tecnología</a>
+  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#planes">Planes</a>
+  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#equipo">Equipo</a>
+  <a class="btn btn-teal" href="https://simuladormedibot.netlify.app/" target="_blank" rel="noopener">Probar demo</a>
+ </nav>
+</header>
+
+<main>
+<!-- HERO -->
+<section id="inicio" class="relative mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-12 lg:grid-cols-[1.1fr_1fr] lg:pt-16">
+ <div class="relative">
+  <h1 class="hero-t text-[clamp(2.7rem,5.4vw,4.25rem)] leading-[1.02]"><span class="ht-a">Tu consultorio,</span> <span class="ht-b">mejor <span class="whitespace-nowrap">organizado<span class="ht-dot">.</span></span></span></h1>
+  <p class="mt-6 max-w-md text-[1.15rem] leading-relaxed text-ink/70">MediBot atiende los turnos de tus pacientes por Telegram, las 24 horas, mientras tu equipo se ocupa de las personas.</p>
+  <div class="mt-8 flex flex-wrap gap-4">
+   <a class="btn" href="https://simuladormedibot.netlify.app/#paciente" target="_blank" rel="noopener">Probar el bot</a>
+   <a class="btn btn-white" href="https://simuladormedibot.netlify.app/#panel" target="_blank" rel="noopener">Probar el panel</a>
+  </div>
+  <ul class="checks mt-9 flex flex-col gap-2.5 text-[15px] text-ink/70">
+   <li class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13b9a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Atiende las 24 horas</li>
+   <li class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13b9a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Recordatorios automáticos</li>
+   <li class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13b9a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Solo gestión administrativa</li>
+  </ul>
+ </div>
+
+ <div class="relative mx-auto w-full max-w-lg">
+  <div class="absolute right-0 top-0 -z-10 h-72 w-72 rounded-full bg-teal sm:h-96 sm:w-96"></div>
+  <div class="relative z-0 -mb-24 flex items-end justify-end pr-2 sm:-mb-28 sm:pr-8">
+   <div id="botBubble" class="absolute left-0 top-6 z-10 max-w-[10.5rem] rounded-2xl rounded-br-sm border border-ink/20 bg-surface px-4 py-2 text-sm font-semibold shadow-pop transition-opacity duration-200" aria-live="polite">¡Hola! Soy MediBot.</div>
+   <button id="heroBot" class="bot-float w-56 cursor-pointer sm:w-72" aria-label="Saludar a MediBot"><svg viewBox="0 0 200 240" class="w-full overflow-visible"><use href="#bot"/></svg></button>
+  </div>
+  <div class="sticker relative z-10 w-full overflow-hidden">
+   <div class="flex items-center gap-3 border-b border-ink/10 bg-surface px-4 py-3">
+    <span class="grid h-10 w-10 place-items-center rounded-full bg-teal"><svg class="h-6 w-7" viewBox="0 0 200 150" aria-hidden="true"><use href="#bot"/></svg></span>
+    <div class="leading-tight"><b class="font-semibold">MediBot</b><small class="block text-xs text-ink/55">bot en Telegram</small></div>
+   </div>
+   <div id="chat" class="flex min-h-[290px] flex-col gap-2.5 bg-cream/60 px-4 py-4 text-[14px]" aria-live="polite"></div>
+   <div class="flex items-center justify-between border-t border-ink/10 bg-surface px-4 py-2 text-xs text-ink/60">
+    <span id="chatStatus">Conversación de ejemplo</span>
+    <button id="chatReplay" class="rounded-full px-3 py-1 font-medium text-ink transition hover:bg-ink/5">Repetir</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- CINTA -->
+<div id="mq" class="marquee overflow-hidden border-y border-ink/10 bg-surface/70 py-4 text-[1.05rem] font-medium text-ink/80" role="region" aria-label="Funciones principales de MediBot">
+ <div class="mq-track"><div class="mq-set"><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="17" rx="6" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><rect x="7" y="11" width="18" height="9" rx="4" fill="#0f1f26"/><circle cx="12" cy="15.5" r="2" fill="#13b9a8"/><circle cx="20" cy="15.5" r="2" fill="#13b9a8"/><path d="M9 23l-2 6 7-5M16 7V3" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="mq-lab"><span class="mq-a">Atención 24/7</span><span class="mq-b" aria-hidden="true">no duermo, agendo</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><path d="M7 24c2-2 2-5 2-9a7 7 0 0 1 14 0c0 4 0 7 2 9z" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16" cy="27" r="2.5" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="mq-lab"><span class="mq-a">Recordatorios automáticos</span><span class="mq-b" aria-hidden="true">¡DING! te aviso un día antes</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="22" rx="4" fill="#fff" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M4 12h24V10a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M11 20l4 4 7-8" fill="none" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="mq-lab"><span class="mq-a">Agenda sin superposiciones</span><span class="mq-b" aria-hidden="true">lunes: 0 huecos libres</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><path d="M9 4h14c0 8-7 9-7 12s7 4 7 12H9c0-8 7-9 7-12S9 12 9 4z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="mq-lab"><span class="mq-a">Lista de espera</span><span class="mq-b" aria-hidden="true">se libera y te aviso</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><path d="M16 8c-2-2-9-3-9 4 0 5 2 6 3 10 .6 2.6 1.4 6 3 6s1.4-4 3-4 1.4 4 3 4 2.4-3.4 3-6c1-4 3-5 3-10 0-7-7-6-9-4z" fill="#fff" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="12.5" cy="14" r="1.4" fill="#0f1f26"/><circle cx="19.5" cy="14" r="1.4" fill="#0f1f26"/></svg><span class="mq-lab"><span class="mq-a">Reportes de ausentismo</span><span class="mq-b" aria-hidden="true">404: silla vacía no encontrada</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><path d="M6 6h20a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H15l-6 6v-6H6a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="10" cy="14" r="1.6" fill="#fff"/><circle cx="16" cy="14" r="1.6" fill="#fff"/><circle cx="22" cy="14" r="1.6" fill="#fff"/></svg><span class="mq-lab"><span class="mq-a">Derivación a recepción</span><span class="mq-b" aria-hidden="true">te derivo con una persona</span></span></span></div></div>
+</div>
+
+<!-- CÓMO FUNCIONA -->
+<section id="producto" class="mx-auto max-w-6xl px-5 py-28">
+ <div class="rv max-w-2xl">
+  <h2 class="text-4xl font-bold leading-tight sm:text-6xl">Del primer mensaje al turno confirmado.</h2>
+  <p class="mt-4 text-lg text-ink/70">Una conversación simple para el paciente. Una agenda sin superposiciones para tu equipo.</p>
+ </div>
+ <ol class="steps relative mt-16 grid gap-12 md:grid-cols-3 md:gap-10">
+  <li>
+   <span class="step">1</span>
+   <h3 class="mt-6 text-2xl">El paciente escribe</h3>
+   <p class="mt-2 max-w-xs text-ink/70">Pide, consulta o cancela su turno por Telegram, con sus propias palabras.</p>
+   <p class="mt-5"><span class="bub bub-out">Necesito un turno con el dentista</span></p>
+  </li>
+  <li>
+   <span class="step">2</span>
+   <h3 class="mt-6 text-2xl">El bot organiza</h3>
+   <p class="mt-2 max-w-xs text-ink/70">Ofrece solo horarios libres, registra la reserva y le avisa el día anterior.</p>
+   <p class="mt-5"><span class="bub bub-in">Te espero mañana a las 10:30 con la Dra. Gómez.</span></p>
+  </li>
+  <li>
+   <span class="step">3</span>
+   <h3 class="mt-6 text-2xl">Tu equipo gestiona</h3>
+   <p class="mt-2 max-w-xs text-ink/70">Recepción ve el día, mueve turnos y responde lo que el bot le deriva.</p>
+   <p class="mt-5"><span class="bub bub-in">Tenés 2 conversaciones para responder.</span></p>
+  </li>
+ </ol>
+</section>
+
+<!-- MISIÓN Y VISIÓN -->
+<section id="nosotros" class="mx-auto max-w-6xl px-5 py-28">
+ <div class="rv max-w-2xl"><h2 class="text-4xl font-bold leading-tight sm:text-6xl">Para qué existe MediBot.</h2></div>
+ <div class="mv2-grid mt-12">
+  <article class="mv2 glow rv">
+   <span class="mv2-k"><span class="ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg></span>Misión</span>
+   <p class="mv2-p">Que la recepción dedique su tiempo a los pacientes, no al teléfono.</p>
+  </article>
+  <article class="mv2 glow rv">
+   <span class="mv2-k"><span class="ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z"/></svg></span>Visión</span>
+   <p class="mv2-p">Ser la herramienta de turnos de confianza de los consultorios de Tucumán y la región.</p>
+  </article>
+ </div>
+ <dl class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><div class="val2 glow rv"><span class="val-i ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><span><dt class="font-semibold">Claridad</dt><dd class="text-[14px] text-ink/60">La agenda del día, de un vistazo.</dd></span></div><div class="val2 glow rv"><span class="val-i ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span><span><dt class="font-semibold">Confiabilidad</dt><dd class="text-[14px] text-ink/60">Nunca dos pacientes en el mismo horario.</dd></span></div><div class="val2 glow rv"><span class="val-i ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg></span><span><dt class="font-semibold">Privacidad</dt><dd class="text-[14px] text-ink/60">Sin datos clínicos, según la Ley 25.326.</dd></span></div><div class="val2 glow rv"><span class="val-i ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span><dt class="font-semibold">Cercanía</dt><dd class="text-[14px] text-ink/60">Si hace falta, responde una persona.</dd></span></div></dl>
+</section>
+
+<!-- QUÉ INCLUYE -->
+<section id="funciones" class="border-y border-ink/10 bg-teal-mist py-28">
+ <div class="mx-auto max-w-6xl px-5">
+  <div class="rv max-w-2xl">
+   <h2 class="text-4xl font-bold leading-tight sm:text-6xl">Qué incluye MediBot.</h2>
+   <p class="mt-4 text-lg text-ink/70">Tres módulos que trabajan sobre la misma agenda: el bot, las automatizaciones y el panel de recepción.</p>
+  </div>
+  <div class="mt-10 grid gap-6 lg:grid-cols-[250px_1fr]">
+   <div role="tablist" id="fTabs" class="ftabs auto" aria-label="Módulos"><button role="tab" class="ftab" aria-selected="true"><svg class="ft-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.5-1.8z" fill="currentColor" stroke="none"/></svg><span>Pacientes en Telegram</span><i class="ft-bar" aria-hidden="true"></i></button><button role="tab" class="ftab" aria-selected="false"><svg class="ft-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span>Automati&shy;zaciones</span><i class="ft-bar" aria-hidden="true"></i></button><button role="tab" class="ftab" aria-selected="false"><svg class="ft-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16M13 9h4M13 13h4"/></svg><span>Panel de recepción</span><i class="ft-bar" aria-hidden="true"></i></button></div>
+   <div id="fBody" class="sticker min-h-[290px] p-7" aria-live="polite"></div>
+  </div>
+  <div class="rv lc mt-10">
+   <div>
+    <h3 class="text-2xl">Ciclo de vida de un turno</h3>
+    <p class="mt-1.5 text-ink/65">Así cambia un turno desde que se pide hasta que se cierra.</p>
+    <ol id="life" class="lc-steps mt-6"></ol>
+   </div>
+   <div class="lc-stage">
+    <div class="lc-ticket">
+     <div class="flex items-start justify-between gap-3">
+      <div class="lc-date"><small>Mar</small><b>16:00</b></div>
+      <span id="lcPill" class="lc-pill">Reservado</span>
+     </div>
+     <b class="mt-6 block text-xl">Lucía Paz</b>
+     <span class="text-sm text-ink/60">Odontología con la Dra. Gómez</span>
+     <div class="lc-sep"></div>
+     <p id="lifeText" class="lc-text"></p>
+    </div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- PANEL -->
+<section id="panel" class="mx-auto max-w-6xl px-5 py-28">
+ <div class="rv flex flex-col justify-between gap-6 md:flex-row md:items-end">
+  <h2 class="max-w-xl text-4xl font-bold leading-tight sm:text-6xl">Tu agenda. Tus pacientes. Todo en una pantalla.</h2>
+  <p class="max-w-sm text-ink/70">Datos de ejemplo, pero funciona: abrí un turno, cancelalo y mirá cómo se reasigna solo.</p>
+ </div>
+ <div id="pWin" class="rv sticker relative mt-10 overflow-hidden" style="border-radius:24px">
+  <div id="toast" class="sticker" role="status" aria-live="polite"></div>
+  <div class="flex flex-wrap items-center gap-2 border-b-2 border-ink bg-deep px-4 py-2">
+   <i class="h-3 w-3 rounded-full bg-[#ff6b6b]"></i><i class="h-3 w-3 rounded-full bg-sun"></i><i class="h-3 w-3 rounded-full bg-teal"></i>
+   <span class="ml-3 text-xs text-white/60">Panel de ejemplo con datos ficticios</span>
+   <div class="ml-auto flex items-center gap-2 text-xs text-white/70">
+    <span class="hidden sm:inline">Ver como:</span>
+    <div class="flex rounded-full bg-white/10 p-0.5" role="group" aria-label="Rol del usuario">
+     <button data-act="role" data-v="admin" class="role-btn rounded-full px-3 py-1 font-bold" aria-pressed="true">Administrador</button>
+     <button data-act="role" data-v="recepcion" class="role-btn rounded-full px-3 py-1 font-bold" aria-pressed="false">Recepción</button>
+    </div>
+   </div>
+  </div>
+  <div class="grid min-h-[560px] md:grid-cols-[200px_1fr]">
+   <div class="flex flex-col border-b-2 border-ink bg-teal-mist md:border-b-0 md:border-r-2">
+    <div class="hidden items-center gap-2 px-4 pb-1 pt-4 md:flex"><svg class="h-9 w-8" viewBox="0 0 200 150"><use href="#bot"/></svg><div class="leading-tight"><b class="font-display text-sm">MediBot</b><small id="pClinic" class="block text-[11px] text-ink/60">Consultorios Odontológicos Centro</small></div></div>
+    <div role="tablist" id="pTabs" aria-label="Secciones del panel" class="flex gap-1 overflow-x-auto p-3 md:flex-col"></div>
+    <div class="mt-auto hidden items-center gap-2 border-t border-ink/15 p-3 md:flex"><span id="pAv" class="grid h-8 w-8 place-items-center rounded-full bg-sun text-xs font-bold text-[#0f1f26]">RC</span><div class="leading-tight"><b id="pUser" class="block text-sm">Romina Castro</b><small id="pRole" class="text-[11px] text-ink/60">Administración</small></div></div>
+   </div>
+   <div class="min-w-0 p-5 sm:p-7" id="panelBody"></div>
+  </div>
+ </div>
+ <div class="rv mt-8 flex flex-wrap items-center justify-between gap-4">
+  <span class="font-display text-xl font-bold">¿Querés verlo completo?</span>
+  <a class="btn btn-ink" href="https://simuladormedibot.netlify.app/#panel" target="_blank" rel="noopener">Abrir la demo del panel</a>
+ </div>
+ <div id="pModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true"></div>
+</section>
+
+<!-- TECNOLOGÍA -->
+<section id="tecnologia" class="mx-auto max-w-6xl px-5 py-28">
+ <div class="rv max-w-2xl">
+  <h2 class="text-4xl font-bold leading-tight sm:text-6xl">Cómo está construido.</h2>
+  <p class="mt-4 text-lg text-ink/70">Bot, automatizaciones y panel comparten una única base de datos. Las reglas de reserva viven ahí, así que el bot y la recepción aplican los mismos controles.</p>
+ </div>
+ <div class="rv mt-10 flex flex-wrap items-center gap-2 font-display text-sm font-bold sm:text-base">
+  <span class="sticker px-4 py-2">Paciente</span><span class="text-ink/40">→</span>
+  <span class="sticker px-4 py-2">Telegram</span><span class="text-ink/40">→</span>
+  <span class="sticker px-4 py-2">n8n + IA</span><span class="text-ink/40">→</span>
+  <span class="sticker bg-teal px-4 py-2 !text-[#0f1f26]">PostgreSQL</span><span class="text-ink/40">←</span>
+  <span class="sticker px-4 py-2">API REST</span><span class="text-ink/40">←</span>
+  <span class="sticker px-4 py-2">Panel web</span><span class="text-ink/40">←</span>
+  <span class="sticker px-4 py-2">Recepción</span>
+ </div>
+ <div class="mt-10 grid gap-8 md:grid-cols-2">
+  <div class="rv sticker p-7">
+   <h3 class="text-xl font-bold">Stack</h3>
+   <ul class="mt-4 flex flex-wrap gap-2 text-sm font-semibold">
+    <li class="rounded-full border-2 border-ink px-3 py-1">Telegram Bot API</li><li class="rounded-full border-2 border-ink px-3 py-1">n8n</li><li class="rounded-full border-2 border-ink px-3 py-1">Modelo de lenguaje</li><li class="rounded-full border-2 border-ink px-3 py-1">PostgreSQL 17 · PL/pgSQL</li><li class="rounded-full border-2 border-ink px-3 py-1">Node.js + Express</li><li class="rounded-full border-2 border-ink px-3 py-1">React + Vite + Tailwind</li><li class="rounded-full border-2 border-ink px-3 py-1">Vercel</li>
+   </ul>
+   <p class="mt-5 text-sm text-ink/70">Un índice único en la base impide que dos pacientes tomen el mismo horario, aunque pidan al mismo tiempo.</p>
+  </div>
+  <div class="rv sticker p-7">
+   <h3 class="text-xl font-bold">Objetivos de diseño</h3>
+   <dl class="mt-4 grid grid-cols-2 gap-4">
+    <div><dt class="font-display text-4xl font-bold"><span data-to="24">24</span>/7</dt><dd class="text-sm text-ink/70">atención por Telegram</dd></div>
+    <div><dt class="font-display text-4xl font-bold">&lt; <span data-to="5">5</span> s</dt><dd class="text-sm text-ink/70">respuesta del bot</dd></div>
+    <div><dt class="font-display text-4xl font-bold"><span data-to="100">100</span></dt><dd class="text-sm text-ink/70">conversaciones simultáneas</dd></div>
+    <div><dt class="font-display text-4xl font-bold">−<span data-to="30">30</span> %</dt><dd class="text-sm text-ink/70">ausentismo, meta del primer año</dd></div>
+   </dl>
+  </div>
+ </div>
+</section>
+
+<!-- PLANES -->
+<section id="planes" class="border-y-2 border-ink bg-teal-mist py-28">
+ <div class="mx-auto max-w-6xl px-5">
+  <div class="rv"><h2 class="text-4xl font-bold sm:text-6xl">Elegí cómo empezar.</h2>
+  <p class="mt-3 text-lg">Suscripción mensual sin permanencia. Implementación inicial por única vez.</p></div>
+  <div class="mt-12 grid gap-8 md:grid-cols-2">
+   <article class="rv sticker p-8" style="--r:-0.5deg">
+    <h3 class="text-2xl font-bold">Consultorio Individual</h3><p class="text-ink/70">Para un profesional con su propia agenda.</p>
+    <p class="mt-5 font-display"><span class="text-sm font-bold">USD</span> <b class="text-6xl">49</b><span class="text-ink/60"> / mes</span></p>
+    <p class="text-sm font-semibold text-teal-deep">+ USD 90 de implementación</p>
+    <ul class="my-6 space-y-2 text-sm font-medium">
+     <li>✓ Bot de Telegram con IA</li><li>✓ Agenda para un profesional</li><li>✓ Reservas, confirmaciones y cancelaciones</li><li>✓ Recordatorios y consultas frecuentes</li><li>✓ Derivación a recepción</li></ul>
+    <a class="btn btn-white w-full" href="mailto:medibot.solutions18@gmail.com?subject=Consulta%20por%20Consultorio%20Individual">Consultar este plan</a>
+   </article>
+   <article class="rv sticker relative p-8" style="--r:0.5deg">
+    <span class="absolute -top-3.5 right-6 rounded-full bg-teal px-3 py-1 text-sm font-semibold">El más elegido</span>
+    <h3 class="text-2xl font-bold">Centro Médico</h3><p class="text-ink/70">Para equipos de 2 a 10 profesionales.</p>
+    <p class="mt-5 font-display"><span class="text-sm font-bold">USD</span> <b class="text-6xl">129</b><span class="text-ink/60"> / mes</span></p>
+    <p class="text-sm font-semibold text-teal-deep">+ USD 250 de implementación</p>
+    <ul class="my-6 space-y-2 text-sm font-medium">
+     <li>✓ Todo lo del plan Individual</li><li>✓ Especialidades y agendas múltiples</li><li>✓ Panel administrativo para recepción</li><li>✓ Lista de espera inteligente</li><li>✓ Reportes de ausentismo</li></ul>
+    <a class="btn btn-teal w-full" href="mailto:medibot.solutions18@gmail.com?subject=Consulta%20por%20Centro%20M%C3%A9dico">Consultar este plan</a>
+   </article>
+  </div>
+ </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="mx-auto max-w-3xl px-5 py-28">
+ <h2 class="rv text-4xl font-bold sm:text-5xl">¿Tenés alguna duda?</h2>
+ <div class="mt-8 border-t border-ink/15">
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿La demo reserva un turno real?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">No. El simulador usa datos de prueba para mostrar la experiencia antes de conocer la solución para tu consultorio.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Qué necesita el paciente?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">Una cuenta de Telegram para conversar con el bot y gestionar su turno.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Y si necesita hablar con recepción?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">El bot deriva la consulta, deja de responder en esa conversación y tu equipo contesta desde el panel.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Responde preguntas médicas?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">No. Su función es administrativa; las consultas clínicas son de los profesionales.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Qué pasa con los datos de los pacientes?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">Se usan solo para gestionar turnos, en línea con la Ley 25.326. El bot nunca pide ni guarda datos clínicos, las contraseñas del panel se guardan con hash y todo viaja por HTTPS.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Puedo cambiar un turno desde el bot?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">El paciente cancela el turno y reserva uno nuevo en la misma conversación. La recepción, en cambio, puede mover un turno directamente desde el panel.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Tengo que instalar algo o comprar equipos?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">No. El panel se usa desde el navegador de cualquier computadora y los pacientes escriben desde Telegram, en su celular. Nosotros configuramos el bot con tus profesionales, horarios y obras sociales.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Sirve si tenemos varios profesionales?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">Sí. El plan Centro Médico está pensado para equipos de 2 a 10 profesionales, cada uno con su propia agenda y especialidad, y una sola recepción que lo ve todo.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Qué pasa si quiero darlo de baja?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">La suscripción es mensual y sin permanencia: la das de baja cuando quieras. La implementación se paga una sola vez, al empezar.</p></details>
+ </div>
+</section>
+
+<!-- EQUIPO -->
+<section id="equipo" class="mx-auto max-w-6xl px-5 py-28">
+ <div class="rv max-w-2xl">
+  <h2 class="text-4xl font-bold leading-tight sm:text-6xl">El equipo.</h2>
+ </div>
+ <ul id="teamGrid" class="team mt-12"></ul>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" class="px-5 pb-24">
+ <div class="tk-wrap rv mx-auto max-w-6xl">
+  <h2 class="tk-t">¿Y si el próximo turno <span>lo da MediBot?</span></h2>
+  <p class="mx-auto mt-4 max-w-lg text-center text-lg text-ink/70">Agendá una reunión con nosotros y te mostramos cómo funcionaría en tu consultorio.</p>
+  <div class="tk" id="tk">
+   <div class="tk-main">
+    <div class="flex items-center justify-between gap-3">
+     <span class="tk-brand"><svg viewBox="0 0 200 150" aria-hidden="true"><use href="#bot"/></svg>Turno</span>
+     <span id="tkPill" class="tk-pill">Sin confirmar</span>
+    </div>
+    <dl class="tk-fields">
+     <div><dt>Para</dt><dd>Tu consultorio</dd></div>
+     <div><dt>Atiende</dt><dd>MediBot</dd></div>
+     <div><dt>Horario</dt><dd>Las 24 horas</dd></div>
+     <div><dt>Permanencia</dt><dd>Ninguna</dd></div>
+    </dl>
+    <span id="tkStamp" class="tk-stamp" aria-hidden="true">Confirmado</span>
+   </div>
+   <div class="tk-stub">
+    <a id="tkGo" class="btn w-full" href="mailto:medibot.solutions18@gmail.com?subject=Quiero%20MediBot%20para%20mi%20consultorio">Confirmar turno</a>
+    <a class="btn btn-white w-full" href="https://simuladormedibot.netlify.app/" target="_blank" rel="noopener">Probar la demo</a>
+    <a class="tk-link" href="#planes">Ver planes y precios</a>
+    <svg class="tk-code" viewBox="0 0 120 28" aria-hidden="true"></svg>
+   </div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer class="border-t border-ink/10 px-5 py-10">
+ <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-sm sm:flex-row">
+  <span class="lg" aria-label="MediBot Solutions"><span class="lg-a">MediBot</span><span class="lg-b">Solutions</span></span>
+  <a class="font-medium hover:underline" href="mailto:medibot.solutions18@gmail.com">medibot.solutions18@gmail.com</a>
+  <nav class="flex gap-4 font-semibold" aria-label="Pie"><a class="hover:underline" href="#producto">Cómo funciona</a><a class="hover:underline" href="#planes">Planes</a><a class="hover:underline" href="#faq">Preguntas</a></nav>
+  <span class="text-ink/55">UTN FRT, Administración de Sistemas de Información, 2026</span>
+ </div>
+</footer>
+
+<!-- Mascota flotante -->
+<div id="fabWrap" class="pointer-events-none fixed bottom-4 right-4 z-50 flex translate-y-4 flex-col items-end gap-2 opacity-0 transition duration-300">
+ <div id="fabMsg" class="sticker max-w-[230px] p-3 text-sm font-medium opacity-0 transition-opacity duration-300" role="status"></div>
+ <button id="fab" class="w-20 transition hover:scale-110" aria-label="MediBot"><svg viewBox="0 0 200 240" class="bot-float w-full overflow-visible"><use href="#bot"/></svg></button>
+</div>
+
+<script>
+/* ============================================================
+   EQUIPO · EDITÁ ACÁ LOS DATOS Y LAS FOTOS
+   - foto: ruta de la imagen (ej. 'fotos/carabajal.jpg') o un link https://...
+   - rol: opcional (ej. 'Base de datos'). Si lo dejás vacío no se muestra.
+   - pos: opcional, qué parte de la foto se ve ('center top' sube el encuadre a la cara).
+   Si la foto no se encuentra, se muestran las iniciales.
+   ============================================================ */
+const EQUIPO=[
+ {nombre:'Carabajal, Enrique Agustín',foto:'fotos/carabajal.jpg',rol:'',pos:'center'},
+ {nombre:'Fernández, José Agustín',foto:'fotos/fernandez.jpg',rol:'',pos:'center'},
+ {nombre:'García Matar, Francisco',foto:'fotos/garcia.jpg',rol:'',pos:'center'},
+ {nombre:'Guaitima, Álvaro Mauricio',foto:'fotos/guaitima.jpg',rol:'',pos:'center'},
+ {nombre:'Quintero, Paulina Rocío',foto:'fotos/quintero.jpg',rol:'',pos:'center'}
+];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+/* tema */
+function setTheme(t,save){document.documentElement.dataset.theme=t;document.querySelector('meta[name=theme-color]').content=t==='dark'?'#191c1b':'#13b9a8';$('#themeBtn').setAttribute('aria-label',t==='dark'?'Activar modo claro':'Activar modo oscuro');if(save)try{localStorage.setItem('medibot-tema-v2',t)}catch{}}
+setTheme(document.documentElement.dataset.theme);
+$('#themeBtn').onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark',true);
+
+/* menú móvil */
+$('#menuBtn').onclick=e=>{const m=$('#mobileNav');const o=m.classList.toggle('hidden');m.classList.toggle('flex',!o);e.currentTarget.setAttribute('aria-expanded',!o)};
+$$('#mobileNav a').forEach(a=>a.onclick=()=>{$('#mobileNav').classList.add('hidden');$('#mobileNav').classList.remove('flex')});
+/* revelado al scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+$$('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%3)*90+'ms';io.observe(el)});
+/* chat animado */
+const script=[['p','Hola, quiero un turno para odontología.'],['b','¡Hola! Tengo lugar el martes a las 16:00. ¿Te sirve?'],['p','Sí, perfecto.'],['b','Listo ✓ Tu turno está confirmado. Te aviso el día anterior.']];
+let chatRun=0;
+async function playChat(){
+ const id=++chatRun,box=$('#chat'),st=$('#chatStatus');box.innerHTML='';
+ const wait=ms=>new Promise(r=>setTimeout(r,ms));
+ for(const [who,t] of script){
+  if(id!==chatRun)return;
+  if(who==='b'){st.textContent='MediBot está escribiendo…';const d=document.createElement('div');d.className='msg w-fit rounded-2xl rounded-bl-sm border border-ink/10 bg-surface px-4 py-2.5 dots';d.innerHTML='<i></i><i></i><i></i>';box.append(d);await wait(1100);d.remove()}else{st.textContent='Esperando al paciente…';await wait(900)}
+  if(id!==chatRun)return;
+  const m=document.createElement('div');m.className='msg w-fit max-w-[85%] px-3.5 py-2 '+(who==='p'?'b-out ml-auto rounded-2xl rounded-br-[5px]':'rounded-2xl rounded-bl-[5px] border border-ink/10 bg-surface');m.textContent=t;box.append(m);
+ }
+ st.textContent='✓ Turno confirmado';say('¡Turno confirmado! Te aviso el día anterior.');jump();
+}
+$('#chatReplay').onclick=playChat;
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){playChat();o.disconnect()}}).observe($('#chat'));
+/* ojos que siguen al cursor */
+addEventListener('pointermove',e=>{$$('.bot-eyes').forEach(g=>{const r=g.ownerSVGElement.getBoundingClientRect();const dx=(e.clientX-(r.left+r.width/2))/innerWidth,dy=(e.clientY-(r.top+r.height/2))/innerHeight;g.style.transform=`translate(${Math.max(-1,Math.min(1,dx*3))*5}px,${Math.max(-1,Math.min(1,dy*3))*4}px)`})},{passive:true});
+/* mascota: globo del hero */
+const TIPS=['¡Hola! Soy MediBot.','Atiendo por Telegram las 24 horas.','Te recuerdo el turno un día antes.','No soy doctor, pero te consigo turno.','Si me necesitás, derivo a recepción.'];
+let tip=0;const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function say(t){const b=$('#botBubble');b.style.opacity=0;setTimeout(()=>{b.textContent=t;b.style.opacity=1},200)}
+function jump(){const s=$('#heroBot svg');s.classList.remove('jump');void s.getBoundingClientRect();s.classList.add('jump')}
+$('#heroBot').onclick=()=>{tip=(tip+1)%TIPS.length;say(TIPS[tip]);jump()};
+if(!calm)setInterval(()=>{if(document.hidden)return;tip=(tip+1)%TIPS.length;say(TIPS[tip])},5500);
+/* mascota flotante: comenta cada sección */
+const MSG={producto:'Así de simple es el recorrido.',nosotros:'Para esto existimos.',funciones:'Tres módulos, una sola agenda.',tecnologia:'Un poco de ingeniería, para los curiosos.',panel:'Abrí un turno, cancelalo y mirá la lista de espera.',planes:'Dos planes, sin permanencia.',faq:'¿Dudas? Estas son las más comunes.',equipo:'Ellos me programaron.',contacto:'¿Hablamos? Escribinos.'};
+let fabT;const fm=$('#fabMsg');
+function fabSay(html,ms=4500){clearTimeout(fabT);fm.innerHTML=html;fm.style.opacity=1;fabT=setTimeout(()=>fm.style.opacity=0,ms)}
+new IntersectionObserver(es=>{const w=$('#fabWrap');const on=!es[0].isIntersecting;w.classList.toggle('opacity-0',!on);w.classList.toggle('translate-y-4',!on);w.classList.toggle('pointer-events-none',!on)}).observe($('#inicio'));
+const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&MSG[e.target.id])fabSay(MSG[e.target.id])}),{rootMargin:'-45% 0px -45% 0px'});
+Object.keys(MSG).forEach(k=>{const el=document.getElementById(k);if(el)so.observe(el)});
+$('#fab').onclick=()=>fabSay('¡Hola! ¿Te muestro cómo se pide un turno? <a class="mt-1 block font-bold text-teal-deep underline" href="https://simuladormedibot.netlify.app/#paciente" target="_blank" rel="noopener">Probá la demo</a>',8000);
+/* funciones */
+const F=[['Pacientes en Telegram','Sacar, consultar y cancelar turnos escribiendo con sus palabras.','Solo se ofrecen horarios libres de la agenda real.','Respuestas sobre dirección, horarios y obras sociales aceptadas.','Lista de espera con oferta automática de turnos liberados.','Derivación a una persona cuando la consulta lo requiere.'],
+['Automatizaciones','Recordatorio el día anterior con botones para confirmar o cancelar.','Segundo aviso a las 4 horas si el paciente no respondió.','Cada turno cancelado se ofrece al primer paciente compatible, con vencimiento a las 2 horas.','Validación de obra social y de superposiciones en cada reserva.'],
+['Panel de recepción','Pantalla del día con huecos libres y conversaciones por responder.','Agenda por profesional y gestión de turnos: crear, mover y cancelar.','Fichas de pacientes con historial, ausencias y porcentaje de asistencia.','Profesionales, especialidades y horarios editables.','Reportes de ausentismo y mapa de horarios más pedidos.']];
+const CHK=`<svg class="mt-1 h-5 w-5 flex-none text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>`;
+function showF(i){$('#fBody').innerHTML=`<h3 class="msg text-2xl font-bold">${F[i][0]}</h3><ul class="mt-5 space-y-3">${F[i].slice(1).map((t,k)=>`<li class="msg flex gap-3" style="animation-delay:${k*70}ms">${CHK}<span>${t}</span></li>`).join('')}</ul>`;$$('.ftab').forEach((b,k)=>b.setAttribute('aria-selected',k===i))}
+(()=>{const tabs=$$('.ftab'),box=$('#fTabs');let cur=0,tm=null;
+ const place=()=>{};
+ const go=i=>{cur=i;showF(i);place();if(box.classList.contains('auto')){tabs.forEach(t=>{const bar=t.querySelector('.ft-bar');bar.style.animation='none';void bar.offsetWidth;bar.style.animation=''})}};
+ tabs.forEach((b,i)=>b.onclick=()=>{box.classList.remove('auto');clearInterval(tm);go(i)});
+ addEventListener('resize',place);go(0);
+ if(!matchMedia('(prefers-reduced-motion: reduce)').matches){new IntersectionObserver(es=>{if(es[0].isIntersecting&&box.classList.contains('auto')&&!tm)tm=setInterval(()=>go((cur+1)%tabs.length),6000);else if(!es[0].isIntersecting){clearInterval(tm);tm=null}}).observe(box)}else box.classList.remove('auto');
+})();
+const L=[['Reservado','El paciente o la recepción registran el horario. El sistema valida agenda, obra social y superposiciones.'],['Confirmado','El paciente confirma desde el recordatorio de Telegram.'],['Atendido','La recepción lo marca al terminar la consulta.'],['Ausente','Se registra con “No vino” y alimenta el reporte de ausentismo.'],['Cancelado','El horario se libera y se ofrece a la lista de espera.']];
+let li=0,lt;
+const LC=['wait','ok','done','miss','cancel'];
+function showL(i){li=i;$$('#life li:not(.lc-or)').forEach((c,k)=>{c.classList.toggle('on',k===i);c.classList.toggle('past',i<3?k<i:k<3&&k!==i&&false)});
+ const pl=$('#lcPill');pl.className='lc-pill lc-'+LC[i];pl.textContent=L[i][0];pl.classList.remove('pop');void pl.offsetWidth;pl.classList.add('pop');
+ const t=$('#lifeText');t.classList.remove('in');void t.offsetWidth;t.textContent=L[i][1];t.classList.add('in');
+ const bt=$$('#life button')[i];$('#life').style.setProperty('--fill',Math.max(0,bt.parentNode.offsetTop+bt.offsetHeight/2-18)+'px')}
+$('#life').innerHTML=L.map((s,i)=>`${i===3?'<li class="lc-or">Si no llega a atenderse</li>':''}<li${i>2?' class="alt"':''}><button type="button"><span class="lc-dot"></span>${s[0]}</button></li>`).join('');
+$$('#life button').forEach((c,i)=>c.onclick=()=>{clearInterval(lt);showL(i)});showL(0);
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)lt=setInterval(()=>showL((li+1)%L.length),3200);
+/* cinta */
+(()=>{
+ const mq=$('#mq'),tr=mq.firstElementChild,set=tr.firstElementChild;
+ $$('#mq .mq-item').forEach(it=>it.addEventListener('click',()=>it.classList.toggle('on')));
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches){mq.classList.add('mq-calm');return}
+ const base=set.innerHTML;set.innerHTML=base+base;
+ const copy=set.cloneNode(true);copy.setAttribute('aria-hidden','true');copy.querySelectorAll('[tabindex]').forEach(e=>e.removeAttribute('tabindex'));tr.append(copy);
+ let pos=0,boost=0,dir=1,dirT=1,hov=0,hovT=0,lastY=scrollY,t0=performance.now();
+ mq.onmouseenter=()=>hovT=1;mq.onmouseleave=()=>hovT=0;
+ addEventListener('scroll',()=>{const y=scrollY,d=y-lastY;if(d){dirT=d>0?1:-1;boost=Math.min(1100,boost+Math.abs(d)*3)}lastY=y},{passive:true});
+ (function loop(now){
+  const dt=Math.min(.05,(now-t0)/1000);t0=now;
+  boost*=Math.pow(.05,dt);dir+=(dirT-dir)*Math.min(1,dt*3);hov+=(hovT-hov)*Math.min(1,dt*7);
+  const w=set.offsetWidth||1;
+  pos=((pos+(50+boost)*dir*(1-hov)*dt)%w+w)%w;
+  const sk=Math.max(-9,Math.min(9,-dir*boost/70));
+  tr.style.transform=`translate3d(${-pos}px,0,0) skewX(${sk}deg)`;
+  requestAnimationFrame(loop);
+ })(t0);
+})();
+/* render del equipo */
+const TC=[['#13b9a8','#10232a'],['#ffd600','#10232a'],['#10232a','#ffd600'],['#ffffff','#0b7f74'],['#0b8f82','#ffffff']];
+const INI=m=>{const [ap,no='']=m.nombre.split(',');return [(ap.trim()[0]||'')+(no.trim()[0]||''),no.trim(),ap.trim()]};
+$('#teamGrid').innerHTML=EQUIPO.map((m,i)=>{const [ini,no,ap]=INI(m);const [bg,fg]=TC[i%TC.length];
+ return `<li class="pc rv" style="--bg:${bg};--fg:${fg}"><div class="pc-card"><span class="pc-ini" aria-hidden="true">${ini}</span><img src="${m.foto}" alt="${no} ${ap}" loading="lazy" onload="this.parentNode.classList.add('has')" onerror="this.remove()" style="object-position:${m.pos||'center 25%'}"><div class="pc-cap"><b>${no} ${ap}</b><span>${m.rol||'Ingeniería en Sistemas'}</span></div></div></li>`}).join('');
+$$('#teamGrid .rv').forEach((el,i)=>{el.style.transitionDelay=i*90+'ms';io.observe(el)});
+$$('.pc-card').forEach(c=>{c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*14+'deg');c.style.setProperty('--rx',((e.clientY-r.top)/r.height-.5)*-14+'deg')});c.addEventListener('pointerleave',()=>{c.style.setProperty('--ry','0deg');c.style.setProperty('--rx','0deg')})});
+$$('.mv,.val').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
+/* progreso de lectura y sección activa */
+(()=>{const p=$('#prog');const links=$$('header nav a[href^="#"]');
+ const upd=()=>{const m=document.documentElement.scrollHeight-innerHeight;p.style.transform=`scaleX(${m>0?Math.min(1,scrollY/m):0})`};
+ addEventListener('scroll',upd,{passive:true});upd();
+ const ids=links.map(a=>a.getAttribute('href').slice(1)).filter((v,i,a)=>a.indexOf(v)===i);
+ const so2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-40% 0px -55% 0px'});
+ ids.forEach(i=>{const el=document.getElementById(i);if(el)so2.observe(el)});})();
+/* ============ PANEL DEMO (simulador completo, datos ficticios) ============ */
+const DIAS=['Lun','Mar','Mié','Jue','Vie'],DIASL=['Lunes','Martes','Miércoles','Jueves','Viernes'],HOY=2,NOW='10:45';
+const OSL=['Particular','PAMI','OSDE','IOSEP','Swiss Medical','Galeno'];
+const PROFS=[
+ {id:0,n:'Dra. Ana Rodríguez',esp:'Clínica médica',dur:30,sl:['08:30','09:00','09:30','10:00','10:30','11:00','11:30'],dias:[0,1,2,3,4],c:'#13b9a8'},
+ {id:1,n:'Dra. Carolina Gómez',esp:'Odontología',dur:40,sl:['09:00','09:40','10:20','11:00','11:40'],dias:[0,1,2,3,4],c:'#e0b800'},
+ {id:2,n:'Lic. Laura Pérez',esp:'Psicología',dur:50,sl:['14:00','14:50','15:40','16:30','17:20'],dias:[1,2,3],c:'#6366f1'}];
+const PAC=[
+['Leandro Martínez','37229970','Particular','+54 9 381 705-4057',7,0],['Belén Torres','40118233','PAMI','@belen.torres',5,1],
+['Emiliano López','35902144','Swiss Medical','+54 9 381 455-1290',9,2],['Abril Romero','25371031','OSDE','+54 9 381 470-7328',6,0],
+['Federico Flores','38455012','IOSEP','@fede.flores',4,0],['Daniela Costilla','33270981','Particular','@dani.costilla',3,0],
+['Abril Ramírez','32305777','PAMI','@abril.ramirez',8,1],['Florencia López','41266540','Galeno','@flor.lopez',12,6],
+['Martín Rodríguez','36712098','OSDE','+54 9 381 512-3344',5,0],['Santiago Villalba','39844110','IOSEP','@santi.villalba',6,1],
+['Ignacio Villalba','42011776','Particular','+54 9 381 600-8821',4,0],['Pablo González','30128844','PAMI','@pablo.gonzalez',7,3],
+['Antonella González','44320156','Swiss Medical','@anto.gonzalez',8,3],['Valentina Pérez','43100912','OSDE','@vale.perez',5,3],
+['Diego Martínez','31877650','Particular','+54 9 381 433-9087',3,0],['Pablo Flores','29640318','PAMI','@pablo.flores',6,1],
+['Carla López','45002233','IOSEP','@carla.lopez',2,0],['Sofía Lorenzo','40990871','Galeno','@sofi.lorenzo',4,0],
+['Tomás Benítez','37110265','OSDE','+54 9 381 477-2015',3,0],['Camila Díaz','43588120','PAMI','@cami.diaz',5,1],
+['Nicolás Acosta','34670092','Particular','@nico.acosta',8,2],['Lucía Molina','41999304','Swiss Medical','+54 9 381 588-6602',6,0]
+].map((a,i)=>({id:i,n:a[0],dni:a[1],os:a[2],tel:a[3],tot:a[4],aus:a[5]}));
+const T=[
+[2,'08:30',0,0,'Atendido','Telegram'],[2,'09:00',1,0,'Atendido','Telegram'],[2,'09:30',2,0,'Atendido','Telegram'],[2,'10:30',3,0,'Atendido','Telegram'],[2,'11:00',5,0,'Cancelado','Telegram'],
+[2,'09:40',6,1,'Atendido','Telegram'],[2,'10:20',7,1,'Atendido','Recepción'],[2,'11:00',4,1,'Confirmado','Telegram'],[2,'11:40',8,1,'Reservado','Telegram'],
+[2,'14:00',9,2,'Reservado','Telegram'],[2,'14:50',10,2,'Confirmado','Telegram'],[2,'15:40',11,2,'Reservado','Recepción'],[2,'17:20',12,2,'Reservado','Telegram'],
+[0,'08:30',13,0,'Atendido','Telegram'],[0,'09:40',14,1,'Ausente','Telegram'],[1,'09:00',16,0,'Atendido','Telegram'],[1,'14:00',17,2,'Atendido','Recepción'],[1,'10:20',18,1,'Atendido','Telegram'],
+[3,'09:30',19,0,'Reservado','Telegram'],[3,'11:00',20,1,'Reservado','Telegram'],[3,'15:40',21,2,'Confirmado','Telegram'],[4,'10:00',13,0,'Reservado','Recepción'],[4,'09:00',2,1,'Reservado','Telegram']
+].map((a,i)=>({id:i+1,d:a[0],t:a[1],p:a[2],pr:a[3],e:a[4],o:a[5]}));
+let nextId=200;
+const W=[{p:13,pr:1,since:'ayer'},{p:14,pr:0,since:'hace 15 h'},{p:15,pr:0,since:'hace 5 h'},{p:16,pr:null,esp:'Psicología',since:'hace 2 h'}];
+const CV=[
+ {id:1,p:'Daniela Costilla',min:'hace 26 min',pend:true,m:[['p','Hola, tengo una duda con la cobertura de mi obra social para un tratamiento de conducto.'],['b','Te paso con recepción. Ya pueden ver esta conversación, así que no hace falta repetir nada.'],['p','Dale, gracias. Es IOSEP, quería saber si cubre el 100%.']]},
+ {id:2,p:'Florencia López',min:'hace 1 h',pend:true,m:[['p','Necesito mover mi turno de hoy y no me aparece ningún horario.'],['b','Entiendo. Te derivo con una persona de recepción para que lo resuelva.']]},
+ {id:3,p:'Martín Rodríguez',min:'hace 3 h',pend:false,m:[['p','Hola, quiero un turno con la Dra. Gómez.'],['b','Tengo hoy a las 11:40. ¿Te sirve?'],['p','Sí, perfecto.'],['b','Listo ✓ Tu turno está confirmado. Te aviso el día anterior.']]},
+ {id:4,p:'Valentina Pérez',min:'ayer',pend:false,m:[['p','¿Atienden con OSDE?'],['b','Sí, la Dra. Gómez atiende OSDE y no requiere autorización previa.']]}];
+const CFG={nombre:'Consultorios Odontológicos Centro',tel:'+54 381 400-1234',dir:'General Paz 576, San Miguel de Tucumán',hor:'Lunes a viernes, 8 a 20 h',rec:'24 horas antes',wl:true};
+const EQUIPO_P=[['Romina Castro','recepcion@consultorios.com.ar','Admin'],['Julián Ibarra','julian@consultorios.com.ar','Recepción']];
+const MESES=['Nov','Dic','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct'],AUS12=[26,25,24,22,21,19,18,16,15,13,11,9];
+const AUSP={3:[8,10,9],6:[11,14,12],12:[14,17,15]},TELP={3:81,6:75,12:68},RESP={3:88,6:86,12:82},RECP={3:3,6:5,12:9};
+const HEAT={d:['Lun','Mar','Mié','Jue','Vie'],h:['8','9','10','11','12','16','17'],v:[[3,5,4,2,1,2,3],[2,4,5,3,2,1,4],[4,5,3,2,3,2,2],[1,3,4,4,3,2,3],[2,3,2,1,4,5,2]]};
+const PREV=['Vie 6 nov','Mié 28 oct','Mar 20 oct','Jue 8 oct','Lun 28 sep','Vie 18 sep'];
+const P={tab:'inicio',day:HOY,sub:'turnos',q:'',fp:'',fe:'',pq:'',cid:1,cf:'por',per:6,role:'admin'};
+let M=null,N=null,liveT=null,toastT,liveCount=0;
+const $$$=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ini2=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const byT=(a,b)=>a.d-b.d||a.t.localeCompare(b.t);
+const act=x=>x.e!=='Cancelado';
+const fin=(t,m)=>{const [h,mi]=t.split(':').map(Number),s=h*60+mi+m;return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+const turnoAt=(pr,d,t)=>T.find(x=>x.pr===pr&&x.d===d&&x.t===t&&act(x));
+const isPast=(d,t)=>d<HOY||(d===HOY&&t<NOW);
+const free=(pr,d)=>{const p=PROFS[pr];return p.dias.includes(d)?p.sl.filter(t=>!isPast(d,t)&&!turnoAt(pr,d,t)):[]};
+const compat=(w,pr)=>w.pr===pr||(w.pr==null&&PROFS[pr].esp===w.esp);
+const pctAs=p=>p.tot?Math.round((p.tot-p.aus)/p.tot*100):100;
+const ESTC={Reservado:'chip-wait',Confirmado:'chip-ok',Atendido:'chip-done',Ausente:'chip-pend',Cancelado:'chip-cancel'};
+const chip=e=>`<span class="whitespace-nowrap rounded-full border border-ink/30 px-2.5 py-0.5 text-xs font-bold ${ESTC[e]||''}">${e}</span>`;
+const dot=c=>`<i class="inline-block h-2 w-2 flex-none rounded-full" style="background:${c}"></i>`;
+const av=n=>`<span class="grid h-8 w-8 flex-none place-items-center rounded-full bg-teal-mist text-xs font-bold">${ini2(n)}</span>`;
+const pending=()=>CV.filter(c=>c.pend).length;
+const hdr=(t,s,b)=>`<div class="mb-5 flex flex-wrap items-start justify-between gap-3"><div><h3 class="font-display text-2xl font-bold">${t}</h3><p class="text-sm text-ink/60">${s}</p></div>${b?`<button data-act="newt" class="btn btn-teal !py-2 !text-sm">+ Nuevo turno</button>`:''}</div>`;
+const card='rounded-2xl border border-ink/20 bg-cream p-4';
+const inp='w-full rounded-xl border border-ink/25 bg-surface px-3 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-60';
+const smBtn='rounded-full border border-ink/30 px-3 py-1 text-xs font-bold transition hover:bg-sun hover:text-[#0f1f26]';
+const nuevo=x=>{if(x.nw){x.nw=0;return 'row-in'}return ''};
+
+function toast(t,b){const el=$$$('#toast');el.innerHTML=`<div class="flex items-start gap-3 p-3"><span class="mt-0.5 grid h-8 w-8 flex-none place-items-center rounded-full bg-sun"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0f1f26" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></span><div class="text-sm"><b class="font-display">${t}</b><p class="text-ink/70">${b}</p></div></div>`;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),3800)}
+
+/* ---------- vistas ---------- */
+function vInicio(){
+ const td=T.filter(x=>x.d===HOY&&act(x)).sort(byT),n=e=>td.filter(x=>x.e===e).length;
+ const kp=[[td.length,'turnos hoy',`${td.filter(x=>x.o==='Telegram').length} por Telegram`],[n('Reservado')+n('Confirmado'),'por llegar',`${n('Confirmado')} confirmados`],[n('Atendido'),'atendidos',''],[n('Ausente'),'ausentes','']];
+ const risk=td.filter(x=>x.e==='Reservado'&&x.t>NOW);
+ const gaps=[];PROFS.forEach(p=>free(p.id,HOY).forEach(t=>gaps.push([p,t])));
+ const gh=gaps.length?gaps.map(([p,t])=>{const w=W.find(w=>compat(w,p.id));return `<li class="flex items-center gap-2 py-2 text-sm">${dot(p.c)}<b class="font-mono">${t}</b><span class="min-w-0 flex-1 truncate text-ink/70">${p.n}</span><button data-act="fill" data-v="${p.id}|${HOY}|${t}" class="${smBtn}">${w?'Ofrecer':'Reservar'}</button></li>`}).join(''):'<li class="py-3 text-sm text-ink/60">No quedan huecos libres hoy.</li>';
+ return hdr(`Buenas tardes, ${P.role==='admin'?'Romina':'Julián'}`,'Miércoles · resumen de la jornada',1)+
+ `<div class="grid grid-cols-2 gap-3 sm:grid-cols-4">${kp.map(([v,l,s])=>`<div class="${card}"><b class="font-display text-4xl">${v}</b><small class="block text-sm text-ink/70">${l}</small><small class="block min-h-[1rem] text-xs text-ink/50">${s}</small></div>`).join('')}</div>
+ <div class="mt-5 grid gap-5 lg:grid-cols-[1.35fr_1fr]">
+  <div><div class="mb-2 flex items-center justify-between"><h4 class="font-display text-lg font-bold">Agenda de hoy</h4><button data-act="tab" data-v="agenda" class="text-sm font-bold text-teal-deep underline">Ver agenda</button></div>
+  <ul class="max-h-[360px] divide-y divide-ink/10 overflow-y-auto pr-1">${td.map(x=>`<li><button data-act="open" data-v="${x.id}" class="${nuevo(x)} flex w-full items-center gap-3 rounded-lg py-2.5 text-left transition hover:bg-teal-mist"><b class="w-12 font-mono text-sm">${x.t}</b><span class="min-w-0 flex-1"><b class="block truncate font-display">${esc(PAC[x.p].n)} ${x.o==='Telegram'?'<span title="Reservado por Telegram" class="text-teal-deep"><svg class="inline h-3.5 w-3.5 align-[-2px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.5-1.8z"/></svg></span>':''}</b><small class="flex items-center gap-1.5 text-ink/60">${dot(PROFS[x.pr].c)}${PROFS[x.pr].n}</small></span>${chip(x.e)}</button></li>`).join('')}</ul></div>
+  <div class="space-y-4">
+   <div class="${card}"><div class="flex items-center justify-between"><h4 class="font-display text-lg font-bold">Necesita atención</h4><span class="rounded-full bg-sun px-2 py-0.5 text-xs font-bold text-[#0f1f26]">${pending()+risk.length}</span></div>
+    <ul class="mt-2 space-y-2 text-sm">${CV.filter(c=>c.pend).map(c=>`<li><button data-act="goconv" data-v="${c.id}" class="flex w-full items-start gap-2 rounded-lg p-1.5 text-left hover:bg-teal-mist"><svg class="mt-0.5 h-4 w-4 flex-none text-teal-deep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v7a2.5 2.5 0 01-2.5 2.5H10l-4 4v-4A2 2 0 014 14z"/></svg><span class="min-w-0"><b>${c.p}</b> <span class="text-ink/50">· ${c.min}</span><span class="block truncate text-ink/60">${esc(c.m[c.m.length-1][1])}</span></span></button></li>`).join('')}
+    ${risk.map(x=>`<li><button data-act="open" data-v="${x.id}" class="flex w-full items-start gap-2 rounded-lg p-1.5 text-left hover:bg-teal-mist"><svg class="mt-0.5 h-4 w-4 flex-none text-[#c48a00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>${esc(PAC[x.p].n)}</b><span class="block text-ink/60">Hoy ${x.t} · sin confirmar</span></span></button></li>`).join('')}
+    ${!pending()&&!risk.length?'<li class="text-ink/60">Todo al día ✓</li>':''}</ul></div>
+   <div class="${card}"><h4 class="font-display text-lg font-bold">Huecos libres hoy</h4><ul class="mt-1 divide-y divide-ink/10">${gh}</ul></div>
+  </div></div>`;
+}
+function vAgenda(){
+ const cnt=d=>T.filter(x=>x.d===d&&act(x)).length;
+ const strip=`<div class="mb-4 flex gap-2 overflow-x-auto">${DIAS.map((x,d)=>`<button data-act="day" data-v="${d}" class="${d===P.day?'bg-deep text-white':'bg-surface hover:bg-sun hover:text-[#0f1f26]'} min-w-[84px] rounded-xl border border-ink/25 px-3 py-2 text-left transition"><small class="block text-xs opacity-70">${x}${d===HOY?' · hoy':''}</small><b class="font-display text-lg">${cnt(d)}</b> <small class="opacity-70">turnos</small></button>`).join('')}</div>`;
+ const cols=PROFS.map(p=>{
+  if(!p.dias.includes(P.day))return `<div class="${card}"><b class="font-display">${dot(p.c)} ${p.n}</b><small class="block text-ink/60">${p.esp}</small><p class="mt-4 rounded-xl border border-dashed border-ink/25 p-4 text-center text-sm text-ink/50">No atiende este día</p></div>`;
+  const rows=p.sl.map(t=>{const x=turnoAt(p.id,P.day,t);
+   if(x)return `<button data-act="open" data-v="${x.id}" class="${nuevo(x)} w-full rounded-xl border border-ink/20 bg-surface p-2.5 text-left transition hover:border-teal"><div class="flex items-center justify-between gap-2"><b class="font-mono text-sm">${t}</b>${chip(x.e)}</div><span class="block truncate text-sm font-semibold">${esc(PAC[x.p].n)}</span></button>`;
+   if(isPast(P.day,t))return `<div class="rounded-xl border border-dashed border-ink/15 p-2.5 text-sm text-ink/40"><b class="font-mono">${t}</b> · libre (pasó)</div>`;
+   return `<button data-act="newt" data-v="${p.id}|${P.day}|${t}" class="w-full rounded-xl border border-dashed border-teal bg-teal-mist/60 p-2.5 text-left text-sm font-semibold text-teal-deep transition hover:bg-teal-mist"><b class="font-mono">${t}</b> · Libre · reservar</button>`}).join('');
+  return `<div class="${card}"><b class="font-display">${dot(p.c)} ${p.n}</b><small class="block text-ink/60">${p.esp} · ${p.dur} min · ${T.filter(x=>x.pr===p.id&&x.d===P.day&&act(x)).length} turnos</small><div class="mt-3 space-y-2">${rows}</div></div>`}).join('');
+ return hdr('Agenda',`${DIASL[P.day]}${P.day===HOY?' (hoy)':''} · una columna por profesional`,1)+strip+`<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">${cols}</div>`;
+}
+function turnosRows(){
+ const q=P.q.trim().toLowerCase();
+ const l=T.filter(x=>(!P.fp||String(x.pr)===P.fp)&&(!P.fe||x.e===P.fe)&&(!q||PAC[x.p].n.toLowerCase().includes(q)||PAC[x.p].dni.includes(q))).sort(byT);
+ if(!l.length)return '<p class="rounded-2xl border border-dashed border-ink/25 p-6 text-center text-sm text-ink/60">No hay turnos con esos filtros.</p>';
+ return `<ul class="divide-y divide-ink/10">${l.map(x=>`<li><button data-act="open" data-v="${x.id}" class="${nuevo(x)} grid w-full grid-cols-[auto_1fr_auto] items-center gap-3 rounded-lg px-1 py-2.5 text-left transition hover:bg-teal-mist sm:grid-cols-[110px_1.3fr_1fr_auto_auto]"><span class="text-sm"><b>${DIAS[x.d]}</b> <b class="font-mono">${x.t}</b></span><span class="min-w-0"><b class="block truncate font-display">${esc(PAC[x.p].n)}</b><small class="text-ink/60">${PAC[x.p].os}</small></span><span class="hidden items-center gap-1.5 text-sm text-ink/70 sm:flex">${dot(PROFS[x.pr].c)}${PROFS[x.pr].n}</span><span class="hidden text-xs text-ink/60 sm:block">${x.o==='Telegram'?'<svg class="inline h-3.5 w-3.5 align-[-2px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.5-1.8z"/></svg> Telegram':x.o}</span>${chip(x.e)}</button></li>`).join('')}</ul><p class="mt-3 text-xs text-ink/50">${l.length} turnos</p>`;
+}
+function vTurnos(){
+ const tabs=`<div class="mb-4 flex gap-2"><button data-act="sub" data-v="turnos" class="${P.sub==='turnos'?'bg-deep text-white':'bg-surface'} rounded-full border border-ink/25 px-4 py-1.5 text-sm font-bold">Turnos</button><button data-act="sub" data-v="espera" class="${P.sub==='espera'?'bg-deep text-white':'bg-surface'} rounded-full border border-ink/25 px-4 py-1.5 text-sm font-bold">Lista de espera <span class="ml-1 rounded-full bg-sun px-1.5 text-xs text-[#0f1f26]">${W.length}</span></button></div>`;
+ if(P.sub==='espera'){
+  const rows=W.length?W.map((w,i)=>`<li class="flex flex-wrap items-center gap-3 py-3">${av(PAC[w.p].n)}<span class="min-w-0 flex-1"><b class="block font-display">${esc(PAC[w.p].n)}</b><small class="text-ink/60">${w.pr!=null?PROFS[w.pr].n:'Cualquier profesional de '+w.esp} · espera desde ${w.since}</small></span>${w.of?`<span class="chip-wait rounded-full border border-ink/30 px-2.5 py-0.5 text-xs font-bold">Oferta enviada · vence en 2 h</span>`:''}<button data-act="quitar" data-v="${i}" class="${smBtn}">Quitar</button><button data-act="asig" data-v="${i}" class="btn btn-teal !px-4 !py-1.5 !text-xs">Asignar turno</button></li>`).join(''):'<li class="py-8 text-center text-sm text-ink/60">Nadie en lista de espera.</li>';
+  return hdr('Turnos','Lista de espera: pacientes que esperan un horario libre.',1)+tabs+`<ul class="divide-y divide-ink/10">${rows}</ul>`;
+ }
+ return hdr('Turnos','Buscá, filtrá y gestioná todos los turnos del consultorio.',1)+tabs+
+ `<div class="mb-3 grid gap-2 sm:grid-cols-[1.4fr_1fr_1fr]"><input id="tq" data-q="q" value="${esc(P.q)}" class="${inp}" placeholder="Buscar por paciente o DNI" aria-label="Buscar turnos"><select data-f="fp" class="${inp}" aria-label="Profesional"><option value="">Todos los profesionales</option>${PROFS.map(p=>`<option value="${p.id}" ${P.fp===String(p.id)?'selected':''}>${p.n}</option>`).join('')}</select><select data-f="fe" class="${inp}" aria-label="Estado"><option value="">Todos los estados</option>${Object.keys(ESTC).map(e=>`<option ${P.fe===e?'selected':''}>${e}</option>`).join('')}</select></div><div id="tlist">${turnosRows()}</div>`;
+}
+function pacRows(){
+ const q=P.pq.trim().toLowerCase(),l=PAC.filter(p=>!q||p.n.toLowerCase().includes(q)||p.dni.includes(q)||p.tel.toLowerCase().includes(q));
+ if(!l.length)return '<p class="rounded-2xl border border-dashed border-ink/25 p-6 text-center text-sm text-ink/60">Ningún paciente coincide con la búsqueda.</p>';
+ return `<ul class="divide-y divide-ink/10">${l.map(p=>{const nx=T.filter(x=>x.p===p.id&&act(x)&&!isPast(x.d,x.t)).sort(byT)[0];return `<li><button data-act="pac" data-v="${p.id}" class="grid w-full grid-cols-[auto_1fr_auto] items-center gap-3 rounded-lg px-1 py-2.5 text-left transition hover:bg-teal-mist sm:grid-cols-[auto_1.3fr_1fr_1fr_auto]">${av(p.n)}<span class="min-w-0"><b class="block truncate font-display">${esc(p.n)}</b><small class="text-ink/60">DNI ${p.dni}</small></span><span class="hidden text-sm text-ink/70 sm:block">${esc(p.os)}</span><span class="hidden truncate text-sm text-ink/70 sm:block">${esc(p.tel)}</span><span class="text-right text-xs text-ink/60"><b class="text-sm text-ink">${p.tot}</b> turnos<br>${nx?'Próx. '+DIAS[nx.d]+' '+nx.t:'Sin próximo'}</span></button></li>`}).join('')}</ul><p class="mt-3 text-xs text-ink/50">${l.length} pacientes</p>`;
+}
+function vPacientes(){return `<div class="mb-5 flex flex-wrap items-start justify-between gap-3"><div><h3 class="font-display text-2xl font-bold">Pacientes</h3><p class="text-sm text-ink/60">Fichas, datos de contacto e historial de turnos.</p></div><button data-act="pnew" class="btn btn-white !py-2 !text-sm">+ Nuevo paciente</button></div><input data-q="pq" value="${esc(P.pq)}" class="${inp} mb-3" placeholder="Buscar por nombre, DNI, teléfono o usuario de Telegram" aria-label="Buscar pacientes"><div id="plist">${pacRows()}</div>`}
+function vChats(){
+ const l=CV.filter(c=>P.cf==='por'?c.pend:true);
+ let c=CV.find(x=>x.id===P.cid);if(!c||(P.cf==='por'&&!c.pend))c=l[0]||null;
+ const list=l.length?l.map(x=>`<li><button data-act="conv" data-v="${x.id}" class="${c&&c.id===x.id?'bg-teal-mist':'hover:bg-teal-mist/60'} flex w-full items-start gap-2.5 rounded-xl p-2.5 text-left transition">${av(x.p)}<span class="min-w-0 flex-1"><b class="flex items-center justify-between gap-2 text-sm"><span class="truncate">${x.p}</span><small class="font-normal text-ink/50">${x.min}</small></b><span class="block truncate text-xs text-ink/60">${esc(x.m[x.m.length-1][1])}</span>${x.pend?'<span class="chip-wait mt-1 inline-block rounded-full border border-ink/30 px-2 text-[10px] font-bold">Espera respuesta</span>':''}</span></button></li>`).join(''):'<li class="p-6 text-center text-sm text-ink/60">No hay conversaciones por responder. ✓</li>';
+ const bub=m=>{const [w,t,h]=m;return w==='p'?`<p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm border border-ink/20 bg-surface px-3.5 py-2 text-sm">${esc(t)}</p>`:`<p class="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm border border-ink/20 ${w==='h'?'bg-sun text-[#0f1f26]':'bg-teal-mist'} px-3.5 py-2 text-sm"><small class="block text-[10px] font-bold uppercase tracking-wide opacity-60">${w==='h'?'Recepción · enviado por Telegram ✓':'Bot'}</small>${esc(t)}</p>`};
+ const th=c?`<div class="flex flex-wrap items-center justify-between gap-2 border-b border-ink/15 pb-3"><div><b class="font-display text-lg">${c.p}</b><small class="block text-ink/60">${c.pend?'Derivada a recepción · el bot está en pausa':'Atendida por el bot'}</small></div>${c.pend?`<button data-act="resolve" class="${smBtn}">✓ Marcar resuelta</button>`:''}</div><div id="cthread" class="my-3 flex max-h-[290px] flex-col gap-2.5 overflow-y-auto pr-1">${c.m.map(bub).join('')}</div>${c.pend?`<form data-act="send" class="flex gap-2"><input id="creply" class="${inp}" placeholder="Escribí una respuesta: le llega al paciente por Telegram" aria-label="Respuesta"><button class="btn btn-teal !px-4 !py-2 !text-sm" type="submit">Enviar</button></form>`:'<p class="rounded-xl bg-teal-mist p-3 text-center text-xs text-ink/60">Conversación sin derivar: la responde el bot.</p>'}`:'<p class="p-10 text-center text-sm text-ink/60">Elegí una conversación.</p>';
+ return hdr('Conversaciones','Lo que el bot derivó a recepción y el historial de cada chat de Telegram.')+`<div class="grid gap-4 lg:grid-cols-[280px_1fr]"><div><div class="mb-2 flex gap-2"><button data-act="cf" data-v="por" class="${P.cf==='por'?'bg-deep text-white':'bg-surface'} rounded-full border border-ink/25 px-3 py-1 text-xs font-bold">Por responder</button><button data-act="cf" data-v="todas" class="${P.cf==='todas'?'bg-deep text-white':'bg-surface'} rounded-full border border-ink/25 px-3 py-1 text-xs font-bold">Todas</button></div><ul class="space-y-1">${list}</ul></div><div class="${card}">${th}</div></div>`;
+}
+function vProfs(){
+ const dis=P.role==='admin'?'':'disabled';
+ const cards=PROFS.map(p=>`<div class="${card}"><div class="flex items-start justify-between gap-2"><div><b class="font-display text-lg">${dot(p.c)} ${p.n}</b><small class="block text-ink/60">${p.esp} · turnos de ${p.dur} min</small></div><span class="rounded-full bg-teal-mist px-2.5 py-0.5 text-xs font-bold">${DIAS.reduce((s,_,d)=>s+free(p.id,d).length,0)} libres esta semana</span></div>
+  <p class="mt-3 text-xs font-bold uppercase tracking-wide text-ink/50">Días de atención</p><div class="mt-1.5 flex flex-wrap gap-2">${DIAS.map((d,i)=>`<button ${dis} data-act="pdia" data-v="${p.id}|${i}" aria-pressed="${p.dias.includes(i)}" class="life-chip !px-3 !py-1 text-sm font-bold disabled:cursor-not-allowed disabled:opacity-60">${d}</button>`).join('')}</div>
+  <p class="mt-3 text-xs text-ink/60">Franjas: ${p.sl[0]} a ${fin(p.sl[p.sl.length-1],p.dur)}</p></div>`).join('');
+ return hdr('Profesionales','Quiénes atienden, en qué días y cuánto dura cada turno. El bot ofrece solo estos horarios.')+(P.role==='admin'?'':'<p class="mb-4 rounded-xl border border-ink/20 bg-sun/60 p-3 text-sm font-semibold text-[#0f1f26]">Con rol Recepción esta sección es de consulta. Solo el Administrador edita agendas.</p>')+`<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">${cards}</div><h4 class="mt-6 font-display text-lg font-bold">Especialidades</h4><div class="mt-2 flex flex-wrap gap-2">${PROFS.map(p=>`<span class="rounded-full border border-ink/30 px-3 py-1 text-sm font-semibold">${p.esp}</span>`).join('')}</div>`;
+}
+function vReportes(){
+ const n=P.per,a=AUS12.slice(-n),m=MESES.slice(-n),avg=a.reduce((s,v)=>s+v,0)/n;
+ const W_=560,H_=170,L=34,R=12,Tp=12,B=26,mx=30,X=i=>L+i*(W_-L-R)/(n-1),Y=v=>Tp+(H_-Tp-B)*(1-v/mx);
+ const pts=a.map((v,i)=>[X(i),Y(v)]),path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+ const svg=`<svg viewBox="0 0 ${W_} ${H_}" class="w-full" role="img" aria-label="Ausentismo por mes">${[0,10,20,30].map(g=>`<line x1="${L}" x2="${W_-R}" y1="${Y(g)}" y2="${Y(g)}" stroke="currentColor" opacity=".12"/><text x="${L-6}" y="${Y(g)+3}" text-anchor="end" font-size="10" fill="currentColor" opacity=".55">${g}%</text>`).join('')}<path d="${path} L${X(n-1)} ${Y(0)} L${X(0)} ${Y(0)}Z" fill="#13b9a8" opacity=".12"/><path id="aline" d="${path}" fill="none" stroke="#0b8f82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.2s ease"/>${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#13b9a8" stroke="#0f1f26" stroke-width="1.5"><title>${m[i]}: ${a[i]}%</title></circle>`).join('')}${m.map((x,i)=>n>6&&i%2?'':`<text x="${X(i)}" y="${H_-8}" text-anchor="middle" font-size="10" fill="currentColor" opacity=".6">${x}</text>`).join('')}</svg>`;
+ const kp=[[avg.toFixed(1)+'%','ausentismo',`sobre ${n*232} turnos`],[TELP[n]+'%','turnos por Telegram','sin pasar por recepción'],[RESP[n]+'%','consultas resueltas por el bot','sin derivar'],[RECP[n],'turnos recuperados','desde la lista de espera']];
+ const bars=PROFS.map((p,i)=>`<div class="flex items-center gap-3 text-sm"><span class="w-32 flex-none truncate">${p.n}</span><div class="h-3 flex-1 rounded-full bg-ink/10"><div class="bar2 h-3 rounded-full" data-w="${AUSP[n][i]/25*100}" style="width:0;background:${p.c};transition:width 1s cubic-bezier(.2,.9,.3,1)"></div></div><b class="w-10 text-right font-mono text-xs">${AUSP[n][i]}%</b></div>`).join('');
+ const heat=`<div class="mt-3 grid items-center gap-1.5 text-center text-[11px] font-semibold text-ink/60" style="grid-template-columns:34px repeat(${HEAT.h.length},1fr)"><span></span>${HEAT.h.map(h=>`<span>${h}h</span>`).join('')}${HEAT.d.map((d,r)=>`<span class="text-left">${d}</span>${HEAT.v[r].map(v=>`<span title="${v} de 5" class="h-6 rounded-md" style="background:rgb(19 185 168/${.1+v*.17})"></span>`).join('')}`).join('')}</div>`;
+ return `<div class="mb-5 flex flex-wrap items-start justify-between gap-3"><div><h3 class="font-display text-2xl font-bold">Reportes</h3><p class="text-sm text-ink/60">Cómo evoluciona la asistencia y qué está resolviendo el bot.</p></div><select data-f="per" class="${inp} !w-auto" aria-label="Período"><option value="3" ${n===3?'selected':''}>Últimos 3 meses</option><option value="6" ${n===6?'selected':''}>Últimos 6 meses</option><option value="12" ${n===12?'selected':''}>Últimos 12 meses</option></select></div>
+ <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">${kp.map(([v,l,s])=>`<div class="${card}"><b class="font-display text-3xl">${v}</b><small class="block text-sm text-ink/70">${l}</small><small class="text-xs text-ink/50">${s}</small></div>`).join('')}</div>
+ <div class="mt-4 grid gap-4 lg:grid-cols-2"><div class="${card}"><h4 class="font-display font-bold">Ausentismo por mes</h4>${svg}</div><div class="${card}"><h4 class="mb-3 font-display font-bold">Ausentismo por profesional</h4><div class="space-y-3">${bars}</div></div></div>
+ <div class="${card} mt-4"><h4 class="font-display font-bold">Horarios más pedidos</h4>${heat}</div>`;
+}
+function vConfig(){
+ const dis=P.role==='admin'?'':'disabled';
+ return hdr('Configuración','Datos del consultorio, recordatorios y accesos al panel.')+(P.role==='admin'?'':'<p class="mb-4 rounded-xl border border-ink/20 bg-sun/60 p-3 text-sm font-semibold text-[#0f1f26]">Con rol Recepción los campos están bloqueados. Podés cambiar tu propia contraseña.</p>')+
+ `<div class="grid gap-4 lg:grid-cols-[1.4fr_1fr]"><div class="${card} space-y-3"><h4 class="font-display font-bold">Consultorio</h4>
+ <label class="block text-xs font-bold">Nombre<input ${dis} data-c="nombre" class="${inp} mt-1 font-normal" value="${esc(CFG.nombre)}"></label>
+ <div class="grid gap-3 sm:grid-cols-2"><label class="block text-xs font-bold">Teléfono<input ${dis} data-c="tel" class="${inp} mt-1 font-normal" value="${esc(CFG.tel)}"></label><label class="block text-xs font-bold">Recordatorio por Telegram<select ${dis} data-c="rec" class="${inp} mt-1 font-normal">${['24 horas antes','12 horas antes','48 horas antes'].map(o=>`<option ${CFG.rec===o?'selected':''}>${o}</option>`).join('')}</select></label></div>
+ <label class="block text-xs font-bold">Dirección<input ${dis} data-c="dir" class="${inp} mt-1 font-normal" value="${esc(CFG.dir)}"></label>
+ <label class="block text-xs font-bold">Horario de atención <span class="font-normal text-ink/50">(el bot lo usa para responder)</span><input ${dis} data-c="hor" class="${inp} mt-1 font-normal" value="${esc(CFG.hor)}"></label>
+ <label class="flex items-center gap-2 text-sm font-semibold"><input ${dis} type="checkbox" data-c="wl" ${CFG.wl?'checked':''} class="h-4 w-4 accent-[#13b9a8]"> Ofrecer turnos liberados a la lista de espera</label>
+ <div class="text-right"><button ${dis} data-act="csave" class="btn btn-teal !py-2 !text-sm disabled:opacity-50">Guardar cambios</button></div></div>
+ <div class="space-y-4"><div class="${card}"><div class="flex items-center justify-between"><h4 class="font-display font-bold">Equipo</h4><button ${dis} data-act="addu" class="${smBtn} disabled:opacity-50">+ Agregar</button></div><ul class="mt-2 divide-y divide-ink/10">${EQUIPO_P.map(u=>`<li class="flex items-center gap-2.5 py-2">${av(u[0])}<span class="min-w-0 flex-1"><b class="block truncate text-sm">${u[0]}</b><small class="block truncate text-ink/60">${u[1]}</small></span><span class="rounded-full bg-teal-mist px-2 text-xs font-bold">${u[2]}</span></li>`).join('')}</ul></div>
+ <div class="${card} space-y-2"><h4 class="font-display font-bold">Tu contraseña</h4><input id="pw1" type="password" class="${inp}" placeholder="Contraseña actual" aria-label="Contraseña actual"><input id="pw2" type="password" class="${inp}" placeholder="Nueva contraseña (mín. 8 caracteres)" aria-label="Nueva contraseña"><button data-act="pwd" class="btn btn-white w-full !py-2 !text-sm">Cambiar contraseña</button></div></div></div>`;
+}
+const TABS=[['inicio','Inicio',vInicio],['agenda','Agenda',vAgenda],['turnos','Turnos',vTurnos],['pacientes','Pacientes',vPacientes],['chats','Conversaciones',vChats],['profs','Profesionales',vProfs],['reportes','Reportes',vReportes],['config','Configuración',vConfig]];
+function render(){
+ $$$('#pTabs').innerHTML=TABS.map(([k,l])=>`<button role="tab" data-act="tab" data-v="${k}" aria-selected="${P.tab===k}" class="tab whitespace-nowrap rounded-xl px-3.5 py-2 text-left font-display text-sm font-bold">${l}${k==='chats'&&pending()?` <span class="ml-1 rounded-full bg-sun px-1.5 text-xs text-[#0f1f26]">${pending()}</span>`:''}${k==='turnos'&&W.length?` <span class="ml-1 rounded-full bg-ink/15 px-1.5 text-xs">${W.length}</span>`:''}</button>`).join('');
+ $$$('#panelBody').innerHTML=TABS.find(t=>t[0]===P.tab)[2]();
+ document.querySelectorAll('.role-btn').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===P.role));
+ const ad=P.role==='admin';$$$('#pUser').textContent=ad?'Romina Castro':'Julián Ibarra';$$$('#pRole').textContent=ad?'Administración':'Recepción';$$$('#pAv').textContent=ad?'RC':'JI';$$$('#pClinic').textContent=CFG.nombre;
+ if(P.tab==='reportes')requestAnimationFrame(()=>requestAnimationFrame(()=>{const l=$$$('#aline');if(l)l.style.strokeDashoffset=0;document.querySelectorAll('.bar2').forEach((x,i)=>{x.style.transitionDelay=i*90+'ms';x.style.width=x.dataset.w+'%'})}));
+ const cv=$$$('#cthread');if(cv)cv.scrollTop=cv.scrollHeight;
+}
+/* ---------- modales ---------- */
+function openM(h){const m=$$$('#pModal');m.innerHTML=`<div class="max-h-full w-full max-w-md overflow-y-auto rounded-2xl border border-ink/20 bg-surface p-6 shadow-pop">${h}</div>`;m.classList.remove('hidden');m.classList.add('flex')}
+function closeM(){const m=$$$('#pModal');m.classList.add('hidden');m.classList.remove('flex');m.innerHTML='';M=null;N=null}
+const mHead=(t)=>`<div class="mb-4 flex items-center justify-between"><h3 class="font-display text-xl font-bold">${t}</h3><button data-act="close" class="grid h-8 w-8 place-items-center rounded-full border border-ink/25 text-lg leading-none hover:bg-sun hover:text-[#0f1f26]" aria-label="Cerrar">×</button></div>`;
+function mTurno(){
+ const x=T.find(t=>t.id===M.id),p=PAC[x.p],pr=PROFS[x.pr];
+ const row=(a,b)=>`<div class="flex justify-between gap-4 py-1.5 text-sm"><span class="text-ink/60">${a}</span><b class="text-right">${b}</b></div>`;
+ let acts='';
+ if(M.mv){const opts=DIAS.map((_,d)=>({d,l:free(x.pr,d)})).filter(o=>o.l.length);
+  acts=`<p class="mb-2 text-sm font-bold">Elegí el nuevo horario con ${pr.n}:</p>${opts.length?opts.map(o=>`<div class="mb-2"><small class="font-bold text-ink/60">${DIASL[o.d]}${o.d===HOY?' (hoy)':''}</small><div class="mt-1 flex flex-wrap gap-2">${o.l.map(t=>`<button data-act="domove" data-v="${x.id}|${o.d}|${t}" class="${smBtn}">${t}</button>`).join('')}</div></div>`).join(''):'<p class="text-sm text-ink/60">No hay horarios libres.</p>'}<button data-act="open" data-v="${x.id}" class="mt-2 text-sm font-bold underline">← Volver</button>`;
+ }else if(x.e==='Reservado'||x.e==='Confirmado'){
+  acts=`<div class="grid grid-cols-2 gap-2">${x.e==='Reservado'?`<button data-act="mark" data-v="${x.id}|Confirmado" class="btn btn-white !py-2 !text-sm">Confirmar</button>`:''}<button data-act="mark" data-v="${x.id}|Atendido" class="btn btn-teal !py-2 !text-sm">Atendido</button><button data-act="mark" data-v="${x.id}|Ausente" class="btn btn-white !py-2 !text-sm">No vino</button><button data-act="move" class="btn btn-white !py-2 !text-sm">Mover</button><button data-act="cancel" data-v="${x.id}" class="btn btn-white col-span-2 !py-2 !text-sm !text-[#c0392b]">Cancelar turno</button></div>`;
+ }else if(x.e==='Ausente'){acts=`<button data-act="mark" data-v="${x.id}|Atendido" class="btn btn-white w-full !py-2 !text-sm">Llegó tarde: registrar como atendido</button>`}
+ else acts=`<p class="rounded-xl bg-teal-mist p-3 text-center text-sm text-ink/70">Este turno ya está ${x.e.toLowerCase()}.</p>`;
+ openM(mHead('Turno')+`<div class="mb-3 flex items-center gap-3">${av(p.n)}<div class="min-w-0 flex-1"><b class="block font-display text-lg">${esc(p.n)}</b><small class="text-ink/60">DNI ${p.dni} · ${esc(p.os)}</small></div>${chip(x.e)}</div><div class="mb-4 divide-y divide-ink/10 border-y border-ink/10">${row('Día',DIASL[x.d]+(x.d===HOY?' (hoy)':''))}${row('Horario',x.t+' – '+fin(x.t,pr.dur))}${row('Profesional',pr.n)}${row('Reservado por',x.o==='Telegram'?'<svg class="inline h-3.5 w-3.5 align-[-2px]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.5-1.8z"/></svg> Telegram':x.o)}${row('Contacto',esc(p.tel))}${row('Código','MB-'+(410000+x.id*37))}</div>`+acts);
+}
+function mNew(){
+ const s=N,pr=s.pr!==''?+s.pr:null,sl=pr!==null?free(pr,+s.d):[];
+ const ok=pr!==null&&s.t&&s.pac!=='';
+ openM(mHead('Nuevo turno')+`<div class="space-y-3"><div class="grid grid-cols-2 gap-3"><label class="text-xs font-bold">Profesional<select data-f="n_pr" class="${inp} mt-1 font-normal"><option value="">Elegir…</option>${PROFS.map(p=>`<option value="${p.id}" ${s.pr===String(p.id)?'selected':''}>${p.n}</option>`).join('')}</select></label><label class="text-xs font-bold">Día<select data-f="n_d" class="${inp} mt-1 font-normal">${DIASL.map((d,i)=>i<HOY?'':`<option value="${i}" ${+s.d===i?'selected':''}>${d}${i===HOY?' (hoy)':''}</option>`).join('')}</select></label></div>
+ <div><p class="text-xs font-bold">Horario</p>${pr===null?'<p class="mt-1 text-sm text-ink/60">Elegí profesional y día para ver los horarios libres.</p>':sl.length?`<div class="mt-1 flex flex-wrap gap-2">${sl.map(t=>`<button data-act="npick" data-v="${t}" aria-pressed="${s.t===t}" class="life-chip !px-3 !py-1 text-sm font-bold">${t}</button>`).join('')}</div>`:'<p class="mt-1 text-sm text-ink/60">Sin horarios libres ese día. Probá con otro día.</p>'}</div>
+ <label class="block text-xs font-bold">Paciente<select data-f="n_pac" class="${inp} mt-1 font-normal"><option value="">Elegir…</option>${PAC.map(p=>`<option value="${p.id}" ${s.pac===String(p.id)?'selected':''}>${esc(p.n)} · ${p.dni}</option>`).join('')}<option value="new" ${s.pac==='new'?'selected':''}>+ Paciente nuevo</option></select></label>
+ ${s.pac==='new'?`<div class="grid gap-3 sm:grid-cols-2"><input data-i="nn" value="${esc(s.nn)}" class="${inp}" placeholder="Nombre y apellido" aria-label="Nombre y apellido"><input data-i="dni" value="${esc(s.dni)}" inputmode="numeric" maxlength="8" class="${inp}" placeholder="DNI sin puntos" aria-label="DNI"><select data-i="os" class="${inp} sm:col-span-2" aria-label="Obra social">${OSL.map(o=>`<option ${s.os===o?'selected':''}>${o}</option>`).join('')}</select></div>`:''}
+ <input data-i="nota" value="${esc(s.nota)}" class="${inp}" placeholder="Nota (opcional): primera consulta, trae estudios" aria-label="Nota">
+ <p class="min-h-[1.25rem] text-sm font-bold text-[#c0392b]" role="alert">${s.err}</p>
+ <div class="flex justify-end gap-2"><button data-act="close" class="btn btn-white !py-2 !text-sm">Cancelar</button><button data-act="savenew" ${ok?'':'disabled'} class="btn btn-teal !py-2 !text-sm disabled:cursor-not-allowed disabled:opacity-40">Reservar turno</button></div></div>`);
+}
+function mPac(edit){
+ const p=PAC[M.id],hs=T.filter(x=>x.p===p.id&&act(x)).sort(byT).map(x=>[DIAS[x.d]+' · '+x.t,PROFS[x.pr].n,x.e]).concat(Array.from({length:Math.max(0,Math.min(p.tot-T.filter(x=>x.p===p.id&&act(x)).length,5))},(_,i)=>[PREV[i],PROFS[(p.id+i)%3].n,i<p.aus?'Ausente':'Atendido']));
+ const body=edit?`<div class="space-y-3"><input id="pe_n" value="${esc(p.n)}" class="${inp}" aria-label="Nombre"><input id="pe_t" value="${esc(p.tel)}" class="${inp}" aria-label="Teléfono o usuario"><select id="pe_o" class="${inp}" aria-label="Obra social">${OSL.map(o=>`<option ${p.os===o?'selected':''}>${o}</option>`).join('')}</select><div class="flex justify-end gap-2"><button data-act="pac" data-v="${p.id}" class="btn btn-white !py-2 !text-sm">Cancelar</button><button data-act="psave" class="btn btn-teal !py-2 !text-sm">Guardar</button></div></div>`:
+ `<div class="grid grid-cols-3 gap-2 text-center">${[[p.tot,'turnos'],[p.aus,'ausencias'],[pctAs(p)+'%','asistencia']].map(([v,l])=>`<div class="${card} !p-3"><b class="font-display text-2xl">${v}</b><small class="block text-xs text-ink/60">${l}</small></div>`).join('')}</div><div class="mt-3 divide-y divide-ink/10 border-y border-ink/10 text-sm"><div class="flex justify-between py-1.5"><span class="text-ink/60">Contacto</span><b>${esc(p.tel)}</b></div><div class="flex justify-between py-1.5"><span class="text-ink/60">Obra social</span><b>${esc(p.os)}</b></div></div><h4 class="mb-1 mt-4 font-display font-bold">Historial</h4><ul class="max-h-44 divide-y divide-ink/10 overflow-y-auto">${hs.length?hs.map(h=>`<li class="flex items-center justify-between gap-2 py-2 text-sm"><span><b>${h[0]}</b><small class="block text-ink/60">${h[1]}</small></span>${chip(h[2])}</li>`).join(''):'<li class="py-3 text-sm text-ink/60">Sin turnos registrados.</li>'}</ul>`;
+ openM(mHead('Ficha del paciente')+`<div class="mb-3 flex items-center gap-3">${av(p.n)}<div class="min-w-0 flex-1"><b class="block font-display text-lg">${esc(p.n)}</b><small class="text-ink/60">DNI ${p.dni}</small></div>${edit?'':`<button data-act="pedit" class="${smBtn}">Editar</button>`}</div>`+body);
+}
+function mNewPac(err){
+ openM(mHead('Nuevo paciente')+`<div class="space-y-3"><input id="np_n" class="${inp}" placeholder="Nombre y apellido" aria-label="Nombre y apellido"><input id="np_d" class="${inp}" inputmode="numeric" maxlength="8" placeholder="DNI sin puntos" aria-label="DNI"><select id="np_o" class="${inp}" aria-label="Obra social">${OSL.map(o=>`<option>${o}</option>`).join('')}</select><p class="min-h-[1.25rem] text-sm font-bold text-[#c0392b]" role="alert">${err||''}</p><div class="flex justify-end gap-2"><button data-act="close" class="btn btn-white !py-2 !text-sm">Cancelar</button><button data-act="npsave" class="btn btn-teal !py-2 !text-sm">Guardar paciente</button></div></div>`);
+}
+/* ---------- acciones ---------- */
+function book(pac,pr,d,t,o){const x={id:nextId++,d,t,p:pac,pr,e:'Reservado',o,nw:1};T.push(x);return x}
+function offerFreed(x){if(!CFG.wl)return null;const w=W.find(w=>!w.of&&compat(w,x.pr));if(w)w.of={pr:x.pr,d:x.d,t:x.t};return w||null}
+function assign(i){
+ const w=W[i];let slot=w.of&&!turnoAt(w.of.pr,w.of.d,w.of.t)&&!isPast(w.of.d,w.of.t)?w.of:null;
+ if(!slot)for(let d=HOY;d<5&&!slot;d++)PROFS.forEach(p=>{if(!slot&&compat(w,p.id)){const f=free(p.id,d);if(f.length)slot={pr:p.id,d,t:f[0]}}});
+ if(!slot){toast('Sin horarios libres','No hay horarios compatibles para '+PAC[w.p].n+' esta semana.');return}
+ book(w.p,slot.pr,slot.d,slot.t,'Lista de espera');W.splice(i,1);
+ toast('Turno asignado',`${PAC[w.p].n} · ${DIAS[slot.d]} ${slot.t} · ${PROFS[slot.pr].n}. Se avisó por Telegram.`);render();
+}
+function addLive(){
+ if(!liveT)return;if(liveCount>=4){stopLive();return}
+ const gaps=[];PROFS.forEach(p=>free(p.id,HOY).forEach(t=>gaps.push([p.id,t])));if(!gaps.length)return;
+ const g=gaps[Math.floor(Math.random()*gaps.length)],used=T.filter(x=>x.d===HOY&&act(x)).map(x=>x.p),pool=PAC.filter(p=>!used.includes(p.id));if(!pool.length)return;
+ const pc=pool[Math.floor(Math.random()*pool.length)];liveCount++;
+ const x=book(pc.id,g[0],HOY,g[1],'Telegram');toast('Nuevo turno por Telegram',`${pc.n} · ${x.t} · ${PROFS[x.pr].n}`);
+ if(!M&&['inicio','agenda','turnos'].includes(P.tab)&&!(document.activeElement&&document.activeElement.matches('#tq,[data-q]')))render();
+}
+function startLive(){if(liveT||calm)return;liveT=setInterval(addLive,5600);setTimeout(addLive,2200)}
+function stopLive(){clearInterval(liveT);liveT=null}
+function openNew(v){const [pr='',d=HOY,t='']=(v||'').split('|');N={pr:String(pr),d:+d,t,pac:'',nn:'',dni:'',os:'Particular',nota:'',err:''};mNew()}
+const ACTS={
+ tab:v=>{P.tab=v;render()},day:v=>{P.day=+v;render()},sub:v=>{P.sub=v;render()},cf:v=>{P.cf=v;render()},conv:v=>{P.cid=+v;render()},
+ goconv:v=>{P.tab='chats';P.cf='por';P.cid=+v;render()},role:v=>{P.role=v;render()},per:v=>{P.per=+v;render()},
+ open:v=>{M={id:+v};mTurno()},close:()=>closeM(),newt:v=>openNew(v),pac:v=>{M={id:+v};mPac()},pedit:()=>mPac(1),pnew:()=>mNewPac(),
+ npick:v=>{N.t=N.t===v?'':v;mNew()},move:()=>{M.mv=1;mTurno()},
+ mark:v=>{const [id,e]=v.split('|'),x=T.find(t=>t.id===+id);if(e==='Ausente'&&x.e!=='Ausente')PAC[x.p].aus++;if(x.e==='Ausente'&&e==='Atendido')PAC[x.p].aus=Math.max(0,PAC[x.p].aus-1);x.e=e;closeM();toast('Turno actualizado',`${PAC[x.p].n} · ${e}. Los indicadores del día se actualizaron.`);render()},
+ cancel:v=>{const x=T.find(t=>t.id===+v);x.e='Cancelado';closeM();const w=offerFreed(x);toast('Turno cancelado',w?`El horario se ofreció por Telegram a ${PAC[w.p].n} (lista de espera, vence en 2 h).`:'El horario quedó libre.');render()},
+ domove:v=>{const [id,d,t]=v.split('|'),x=T.find(q=>q.id===+id);x.d=+d;x.t=t;x.e='Reservado';x.nw=1;closeM();toast('Turno movido',`${PAC[x.p].n} → ${DIAS[x.d]} ${t}. Se reinició el control de recordatorios.`);render()},
+ fill:v=>{const [pr,d,t]=v.split('|').map((q,i)=>i===1?+q:q),w=W.findIndex(w=>compat(w,+pr));if(w>=0){W[w].of={pr:+pr,d,t};assign(w)}else openNew(v)},
+ asig:v=>assign(+v),quitar:v=>{const w=W.splice(+v,1)[0];toast('Quitado de la lista',PAC[w.p].n+' ya no espera un horario.');render()},
+ savenew:()=>{
+  const s=N,pr=+s.pr,d=+s.d;let pid=s.pac;
+  if(turnoAt(pr,d,s.t)){s.err='Ese horario ya está ocupado';mNew();return}
+  if(pid==='new'){
+   if(s.nn.trim().split(/\s+/).length<2){s.err='Ingresá nombre y apellido.';mNew();return}
+   if(!/^\d{7,8}$/.test(s.dni)){s.err='El DNI debe tener 7 u 8 dígitos, sin puntos.';mNew();return}
+   if(PAC.some(p=>p.dni===s.dni)){s.err='Ya existe un paciente con ese DNI.';mNew();return}
+   pid=PAC.length;PAC.push({id:pid,n:s.nn.trim(),dni:s.dni,os:s.os,tel:'Sin Telegram',tot:1,aus:0});
+  }else pid=+pid;
+  const x=book(pid,pr,d,s.t,'Recepción');closeM();toast('Turno reservado',`${PAC[pid].n} · ${DIAS[x.d]} ${x.t} · ${PROFS[pr].n}`);render()},
+ psave:()=>{const p=PAC[M.id],n=$$$('#pe_n').value.trim();if(n)p.n=n;p.tel=$$$('#pe_t').value.trim()||p.tel;p.os=$$$('#pe_o').value;toast('Paciente actualizado',p.n+' · datos guardados.');mPac();render()},
+ npsave:()=>{const n=$$$('#np_n').value.trim(),d=$$$('#np_d').value.trim();
+  if(n.split(/\s+/).length<2)return mNewPac('Ingresá nombre y apellido.');if(!/^\d{7,8}$/.test(d))return mNewPac('El DNI debe tener 7 u 8 dígitos, sin puntos.');if(PAC.some(p=>p.dni===d))return mNewPac('Ya existe un paciente con ese DNI.');
+  PAC.push({id:PAC.length,n,dni:d,os:$$$('#np_o').value,tel:'Sin Telegram',tot:0,aus:0});closeM();toast('Paciente creado',n+' ya figura en el listado.');render()},
+ resolve:()=>{const c=CV.find(x=>x.id===P.cid);if(!c)return;c.pend=false;c.m.push(['b','Resuelto ✓ Si necesitás algo más, escribime acá.']);toast('Conversación resuelta','El bot vuelve a atender a '+c.p+'.');render()},
+ pdia:v=>{if(P.role!=='admin')return;const [id,d]=v.split('|').map(Number),p=PROFS[id],i=p.dias.indexOf(d);if(i>=0){if(p.dias.length===1){toast('Agenda','Cada profesional necesita al menos un día de atención.');return}p.dias.splice(i,1)}else p.dias.push(d);
+  toast('Agenda actualizada',`${p.n} ${i>=0?'ya no atiende':'ahora atiende'} el ${DIASL[d].toLowerCase()}. Los turnos ya reservados no se tocan.`);render()},
+ csave:()=>{toast('Configuración guardada','El bot ya usa los nuevos datos para responder.');render()},
+ addu:()=>{toast('Usuario nuevo','En el panel real se carga nombre, email, contraseña inicial y rol.')},
+ pwd:()=>{const a=$$$('#pw1').value,b=$$$('#pw2').value;if(!a||b.length<8){toast('Contraseña','Completá la actual y una nueva de al menos 8 caracteres.');return}$$$('#pw1').value='';$$$('#pw2').value='';toast('Contraseña actualizada','Se guardó con hash bcrypt.')}
+};
+const pSec=$$$('#panel');
+pSec.addEventListener('click',e=>{
+ if(e.target.id==='pModal'){closeM();return}
+ const b=e.target.closest('[data-act]');if(!b||b.tagName==='FORM'||b.disabled)return;
+ const f=ACTS[b.dataset.act];if(f)f(b.dataset.v);
+});
+pSec.addEventListener('submit',e=>{
+ const f=e.target.closest('form[data-act="send"]');if(!f)return;e.preventDefault();
+ const i=$$$('#creply'),t=i.value.trim();if(!t)return;const c=CV.find(x=>x.id===P.cid);c.m.push(['h',t]);c.min='ahora';render();
+});
+pSec.addEventListener('change',e=>{
+ const f=e.target.dataset.f;if(!f)return;const v=e.target.value;
+ if(f==='fp'){P.fp=v;render()}else if(f==='fe'){P.fe=v;render()}else if(f==='per'){P.per=+v;render()}
+ else if(f==='n_pr'){N.pr=v;N.t='';N.err='';mNew()}else if(f==='n_d'){N.d=+v;N.t='';N.err='';mNew()}else if(f==='n_pac'){N.pac=v;N.err='';mNew()}
+ const c=e.target.dataset.c;if(c)CFG[c]=e.target.type==='checkbox'?e.target.checked:e.target.value;
+});
+pSec.addEventListener('input',e=>{
+ const q=e.target.dataset.q;
+ if(q==='q'){P.q=e.target.value;$$$('#tlist').innerHTML=turnosRows()}
+ else if(q==='pq'){P.pq=e.target.value;$$$('#plist').innerHTML=pacRows()}
+ const i=e.target.dataset.i;if(i&&N){N[i]=e.target.value;N.err=''}
+ const c=e.target.dataset.c;if(c&&e.target.type!=='checkbox')CFG[c]=e.target.value;
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&M!==null||e.key==='Escape'&&N!==null)closeM()});
+render();
+new IntersectionObserver(es=>es[0].isIntersecting?startLive():stopLive(),{threshold:.3}).observe($$$('#pWin'));
+/* números que cuentan */
+$$('#tecnologia dl').forEach(dl=>{const nums=[...dl.querySelectorAll('[data-to]')];if(calm)return;nums.forEach(n=>n.textContent='0');
+ new IntersectionObserver((es,o)=>{if(!es[0].isIntersecting)return;o.disconnect();const t0=performance.now();(function f(now){const k=Math.min(1,(now-t0)/1500),e=1-Math.pow(1-k,3);nums.forEach(n=>n.textContent=Math.round(+n.dataset.to*e));if(k<1)requestAnimationFrame(f)})(t0)},{threshold:.5}).observe(dl)});
+/* tarjetas que se inclinan */
+if(false){
+ $$('#producto li,#nosotros article,#nosotros .rv.rounded-2xl,#planes article,#tecnologia .rv.sticker,#teamGrid figure').forEach(el=>{el.classList.add('tilt');
+  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;el.style.transitionDelay='0ms';el.classList.add('tilting');el.style.setProperty('--ry',(x*9)+'deg');el.style.setProperty('--rx',(-y*9)+'deg')});
+  el.addEventListener('pointerleave',()=>{el.classList.remove('tilting');el.style.setProperty('--rx','0deg');el.style.setProperty('--ry','0deg')});
+ });
+}
+</script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const calm=matchMedia('(prefers-reduced-motion: reduce)').matches,fine=matchMedia('(pointer:fine)').matches;
+const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+/* botones con texto que rueda, flecha y relleno desde el mouse */
+$$('a.btn').forEach(b=>{
+ const t=b.textContent.trim();
+ b.innerHTML=`<span class="bt-t"><span>${t}</span><span aria-hidden="true">${t}</span></span>`;
+ b.addEventListener('pointerenter',e=>{const r=b.getBoundingClientRect();b.style.setProperty('--bx',(e.clientX-r.left)/r.width*100+'%');b.style.setProperty('--by',(e.clientY-r.top)/r.height*100+'%')});
+ b.addEventListener('pointerleave',e=>{const r=b.getBoundingClientRect();b.style.setProperty('--bx',(e.clientX-r.left)/r.width*100+'%');b.style.setProperty('--by',(e.clientY-r.top)/r.height*100+'%');b.style.setProperty('--tx','0px');b.style.setProperty('--ty','0px')});
+ if(fine&&!calm&&!b.classList.contains('w-full'))b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();b.style.setProperty('--tx',(e.clientX-r.left-r.width/2)*.18+'px');b.style.setProperty('--ty',(e.clientY-r.top-r.height/2)*.3+'px')});
+});
+/* tarjetas con luz */
+$$('article.sticker,.rv.sticker.p-7').forEach(c=>{c.classList.add('lift');c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')})});
+/* entrada del hero: palabras que suben */
+const h1=$('#inicio h1');
+if(h1&&!calm){let k=0;const tn=[];const walk=el=>[...el.childNodes].forEach(n=>n.nodeType===3?tn.push(n):walk(n));walk(h1);tn.forEach(n=>{if(n.parentNode.classList.contains('ht-dot'))return;const f=document.createDocumentFragment();n.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w)){f.append(w);return}const o=document.createElement('span');o.className='hw';const i=document.createElement('span');i.textContent=w;i.style.setProperty('--d',(.08+k++*.09)+'s');o.append(i);f.append(o)});n.replaceWith(f)});
+ const hero=$('#inicio>div');[...hero.children].slice(1).forEach((el,i)=>{el.classList.add('hin');el.style.setProperty('--d',(.45+i*.12)+'s')});
+ const art=$('#inicio>div+div');const circ=art.firstElementChild;circ.classList.add('hpop','par');circ.style.setProperty('--d','.2s');
+ art.querySelector('.sticker').classList.add('hin');art.querySelector('.sticker').style.setProperty('--d','.55s');
+ const bot=$('#heroBot');bot.classList.add('par');
+ if(fine){const sec=$('#inicio');sec.addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;circ.style.setProperty('--px',x*-26+'px');circ.style.setProperty('--py',y*-20+'px');bot.style.setProperty('--px',x*18+'px');bot.style.setProperty('--py',y*12+'px')});sec.addEventListener('pointerleave',()=>[circ,bot].forEach(el=>{el.style.setProperty('--px','0px');el.style.setProperty('--py','0px')}))}
+}
+/* línea de tiempo */
+const st=$('.steps');if(st){[...st.children].forEach((li,i)=>li.style.setProperty('--i',i));new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){st.classList.add('in');o.disconnect()}},{threshold:.3}).observe(st)}
+/* flujo de datos en Tecnología */
+const chip=$('#tecnologia .sticker.px-4');
+if(chip){const flow=chip.parentElement;flow.classList.add('flow');const items=[...flow.children];items.forEach(el=>{if(!el.classList.contains('sticker'))el.classList.add('arr')});
+ let i=-1,run=null;const step=()=>{items.forEach(el=>el.classList.remove('hot'));i=(i+1)%(items.length+3);if(i<items.length)items[i].classList.add('hot')};
+ if(!calm)new IntersectionObserver(es=>{if(es[0].isIntersecting){if(!run)run=setInterval(step,420)}else{clearInterval(run);run=null}}).observe(flow);}
+})();
+</script>
+<script>
+(()=>{const $=s=>document.querySelector(s);const r=$('#ctaN');if(!r)return;
+ const calm=matchMedia('(prefers-reduced-motion: reduce)').matches;const cur={ctaH:35,ctaR:40,ctaC:704};
+ const tween=(id,to)=>{const el=$('#'+id),from=cur[id];cur[id]=to;if(calm){el.textContent=to;return}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/450),e=1-Math.pow(1-k,3);el.textContent=Math.round(from+(to-from)*e).toLocaleString('es-AR');if(k<1)requestAnimationFrame(f)})(t0)};
+ const say=['Mové la barra y mirá.','Eso ya es medio día de teléfono.','Tu recepción lo va a notar.','Esto es un centro con todo.'];
+ const upd=()=>{const n=+r.value;$('#ctaNv').textContent=n;r.style.setProperty('--p',((n-10)/110*100)+'%');
+  tween('ctaH',Math.round(n*22*.8*3/60));tween('ctaR',Math.round(n*22*.15*.3));tween('ctaC',n*22*.8|0);
+  $('#ctaSay').textContent=say[n<25?0:n<55?1:n<90?2:3];
+  $('#ctaMail').href='mailto:medibot.solutions18@gmail.com?subject='+encodeURIComponent('Quiero MediBot para mi consultorio')+'&body='+encodeURIComponent(`Hola, somos un consultorio con unos ${n} turnos por día y nos interesa MediBot.`)};
+ r.addEventListener('input',upd);r.style.setProperty('--p',((+r.value-10)/110*100)+'%');
+})();
+</script>
+<script>
+(()=>{const $=s=>document.querySelector(s);const log=$('#clLog'),chips=$('#clChips'),st=$('#clState');if(!log)return;
+ const MAIL='mailto:medibot.solutions18@gmail.com?subject='+encodeURIComponent('Quiero MediBot para mi consultorio');
+ const DEMO='https://simuladormedibot.netlify.app/';
+ const wait=ms=>new Promise(r=>setTimeout(r,ms));
+ const add=(who,html)=>{const m=document.createElement('div');m.className='cl-m '+(who==='b'?'cl-in':'cl-out');m.innerHTML=html;log.append(m);log.scrollTop=log.scrollHeight;return m};
+ const bot=async(html,ms=900)=>{st.textContent='escribiendo…';const cb=document.getElementById('clBot');if(cb){cb.classList.remove('jump');void cb.getBoundingClientRect();cb.classList.add('jump')}const d=add('b','<span class="dots"><i></i><i></i><i></i></span>');await wait(ms);d.innerHTML=html;st.textContent='en línea';log.scrollTop=log.scrollHeight};
+ const OPTS=[
+  ['Quiero MediBot',async()=>{await bot('¡Buenísimo! Escribinos y coordinamos una reunión para conocer tu consultorio.');await bot(`<a class="cl-act" href="${MAIL}">Escribir a MediBot Solutions</a>`,500)}],
+  ['¿Cuánto cuesta?',async()=>{await bot('Desde USD 49 por mes para un consultorio individual, sin permanencia. Para centros con varios profesionales, USD 129.');await bot('<a class="cl-act" href="#planes">Ver los planes</a>',500)}],
+  ['Quiero probarlo primero',async()=>{await bot('Dale. La demo tiene el bot y el panel de recepción con datos de ejemplo.');await bot(`<a class="cl-act" href="${DEMO}" target="_blank" rel="noopener">Abrir la demo</a>`,500)}]];
+ let busy=false;
+ const showChips=()=>{chips.innerHTML='';OPTS.forEach(([t,fn],i)=>{const b=document.createElement('button');b.className='cl-chip';b.textContent=t;b.style.animationDelay=i*70+'ms';b.onclick=async()=>{if(busy)return;busy=true;chips.innerHTML='';add('u',t);await wait(250);await fn();busy=false;showChips()};chips.append(b)})};
+ let started=false;
+ const start=async()=>{if(started)return;started=true;await bot('¡Hola! Soy MediBot.',700);await bot('¿Querés que tu consultorio dé turnos solo, las 24 horas?',1000);showChips()};
+ new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){start();o.disconnect()}},{threshold:.35}).observe(log);
+})();
+</script>
+<script>
+(()=>{const $=s=>document.querySelector(s);const tk=$('#tk');if(!tk)return;
+ const code=$('.tk-code');let x=0,h='';while(x<118){const w=[1,1,2,3][Math.random()*4|0];h+=`<rect x="${x}" y="0" width="${w}" height="28"/>`;x+=w+([1,2,2,3][Math.random()*4|0])}code.innerHTML=h;
+ $('#tkGo').addEventListener('click',()=>{tk.classList.add('ok');$('#tkPill').textContent='Confirmado'});
+ document.querySelectorAll('.glow').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
+ document.querySelectorAll('.lift').forEach(c=>c.classList.add('glow'));
+})();
+</script>
+</body>
+</html>
