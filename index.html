@@ -642,6 +642,34 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
 #fab{touch-action:none;cursor:grab}
 #fabWrap.dragging{transition:none!important}#fabWrap.dragging #fab{cursor:grabbing;transform:scale(1.08)}
 @media(max-width:767px){#fab{width:3.6rem}#fabX{bottom:46px;opacity:1}#fabMsg{max-width:200px;font-size:.8rem;padding:.6rem .75rem}}
+
+#fabX{width:17px;height:17px;right:auto;left:-4px;bottom:52px;background:rgb(var(--ink)/.55);color:rgb(var(--cream));box-shadow:none;opacity:.0}
+#fabX svg{width:8px;height:8px;stroke-width:3.5}
+#fabX::after{content:"";position:absolute;inset:-10px}
+#fabWrap:hover #fabX,#fabWrap.touch #fabX{opacity:.75}
+@media(max-width:767px){#fabX{bottom:40px;left:-2px}}
+
+.fab-holder{position:relative;display:block}
+#fabX,#fabX:hover{position:absolute;left:auto;right:2px;top:14%;bottom:auto;width:18px;height:18px;border-radius:50%;background:rgb(var(--surface));color:rgb(var(--ink)/.65);box-shadow:0 0 0 1px rgb(var(--ink)/.14),0 3px 8px -3px rgb(0 0 0/.35)}
+#fabX svg{width:8px;height:8px}
+@media(max-width:767px){#fabX{top:12%;right:-2px;bottom:auto;left:auto}}
+#fabX,#fabX:hover{top:2%;right:-8px}
+@media(max-width:767px){#fabX{top:0;right:-8px}}
+#fabWrap:hover #fabX,#fabWrap.touch #fabX{opacity:1}
+
+#fabX,#fabX:hover{top:auto;right:100%;left:auto;bottom:4px;margin-right:2px;width:14px;height:14px;background:transparent;box-shadow:none;color:rgb(var(--ink)/.38);transition:color .2s,opacity .25s}
+#fabX:hover{color:rgb(var(--ink)/.75)}
+#fabX svg{width:8px;height:8px;stroke-width:2.6}
+@media(max-width:767px){#fabX,#fabX:hover{top:auto;right:100%;bottom:2px}}
+
+#fabWrap{gap:1.5rem!important}
+#fabX,#fabX:hover{top:-20px;bottom:auto;left:50%;right:auto;margin:0 0 0 -8px;width:16px;height:16px;border-radius:50%;background:rgb(var(--surface)/.9);color:rgb(var(--ink)/.55);box-shadow:0 0 0 1px rgb(var(--ink)/.12)}
+#fabX:hover{color:rgb(var(--ink)/.85)}
+#fabX svg{width:7px;height:7px;stroke-width:3}
+@media(max-width:767px){#fabX,#fabX:hover{top:-20px;bottom:auto;left:50%;right:auto}}
+#fabWrap{gap:2rem!important}
+#fabX,#fabX:hover{top:-30px}
+@media(max-width:767px){#fabX,#fabX:hover{top:-30px}}
 </style>
 </head>
 <body>
@@ -1005,8 +1033,8 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
 <!-- Mascota flotante -->
 <div id="fabWrap" class="pointer-events-none fixed bottom-4 right-4 z-50 flex translate-y-4 flex-col items-end gap-2 opacity-0 transition duration-300">
  <div id="fabMsg" class="sticker max-w-[230px] p-3 text-sm font-medium opacity-0 transition-opacity duration-300" role="status"></div>
- <button id="fabX" type="button" aria-label="Ocultar a MediBot"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
- <button id="fab" class="w-20 transition hover:scale-110" aria-label="MediBot"><svg viewBox="0 0 200 240" class="bot-float w-full overflow-visible"><use href="#bot"/></svg></button>
+
+ <span class="fab-holder"><button id="fabX" type="button" aria-label="Ocultar a MediBot"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button><button id="fab" class="w-20 transition hover:scale-110" aria-label="MediBot"><svg viewBox="0 0 200 240" class="bot-float w-full overflow-visible"><use href="#bot"/></svg></button></span>
 </div>
 
 <script>
