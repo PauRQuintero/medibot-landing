@@ -676,6 +676,112 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
  .tk-main{transition:padding .35s var(--e)}
  .tk.ok .tk-main{padding-bottom:4.2rem}
 }
+
+/* Antes / Con MediBot */
+.ab{background:#10232a;color:#fff;position:relative;overflow:hidden}
+.ab::before{content:"";position:absolute;right:-120px;top:-120px;width:420px;height:420px;border-radius:50%;background:#13b9a8;opacity:.18}
+.ab-y{color:#ffd600;font-weight:400}
+.ab-card{position:relative;border-radius:26px;padding:2rem;border:3px solid #10232a}
+.ab-no{background:#1b343d;color:rgb(255 255 255/.82);border-color:rgb(255 255 255/.12)}
+.ab-si{background:#ffd600;color:#10232a;box-shadow:10px 10px 0 #13b9a8}
+.ab-tag{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.95rem;padding:.35rem .9rem;border-radius:999px;background:rgb(255 255 255/.1)}
+.ab-tag-si{background:#10232a;color:#fff}.ab-tag-si svg{width:26px;height:20px}
+.ab-n{font-family:Geologica,sans-serif;font-weight:700;font-size:clamp(2.3rem,7vw,4.2rem);letter-spacing:-.04em;line-height:1;color:#ffd600}
+.ab-d{margin-top:.4rem;font-size:.95rem;color:rgb(255 255 255/.7)}
+
+/* ===== rediseño: historia de un día ===== */
+.x-hero{position:relative;max-width:72rem;margin:0 auto;padding:3.5rem 1.25rem 5rem;display:grid;gap:3rem;align-items:center}
+@media(min-width:1024px){.x-hero{grid-template-columns:1.15fr .85fr;padding-top:4.5rem}}
+.x-h1{font-family:Geologica,sans-serif;letter-spacing:-.045em;line-height:1}
+.x-time{display:block;font-weight:800;font-size:clamp(6rem,17vw,12.5rem);line-height:.82;color:#10232a;-webkit-text-stroke:0;text-shadow:7px 7px 0 #ffd600}
+html[data-theme=dark] .x-time{color:#eef5f3;text-shadow:7px 7px 0 #0b7f74}
+.x-colon{animation:xblink 1.2s steps(1) infinite}
+@keyframes xblink{50%{opacity:.15}}
+.x-l1{display:block;font-weight:300;font-size:clamp(2.6rem,5.6vw,4.6rem);color:rgb(var(--ink)/.72)}
+.x-l2{display:block;font-weight:700;font-size:clamp(2.6rem,5.6vw,4.6rem);max-width:12ch}
+.x-ph-status{display:flex;align-items:center;gap:.4rem;background:#fff;color:#10232a;padding:.55rem 1.2rem 0;font-size:.85rem}
+.x-lead{margin-top:1.4rem;max-width:34rem;font-size:1.12rem;line-height:1.6;color:rgb(var(--ink)/.72)}
+.x-ctas{margin-top:2rem;display:flex;flex-wrap:wrap;gap:1rem}
+.x-phone-wrap{position:relative;margin:0 auto;width:100%;max-width:23rem;padding-top:7rem}
+.x-peek{position:absolute;top:0;right:1.5rem;width:9.5rem;z-index:0;cursor:pointer;background:none;border:0}
+.x-bub-bot{position:absolute;top:1.2rem;left:0;z-index:3;max-width:10rem;background:rgb(var(--surface));border:2px solid #10232a;border-radius:16px 16px 4px 16px;padding:.5rem .8rem;font-size:.85rem;font-weight:600;box-shadow:4px 4px 0 #10232a;transition:opacity .2s}
+.x-note{position:absolute;left:-7rem;bottom:3rem;z-index:3;font-family:Caveat,cursive;font-size:1.7rem;color:#0b7f74;transform:rotate(-8deg)}
+@media(max-width:1100px){.x-note{left:auto;right:-.5rem;bottom:-2.3rem}}
+.x-phone{position:relative;z-index:1;border:10px solid #10232a;border-radius:38px;background:#e7f1ec;overflow:hidden;box-shadow:12px 12px 0 #13b9a8;transform:rotate(2deg)}
+.x-ph-top{display:flex;align-items:center;gap:.7rem;background:#fff;color:#10232a;padding:.8rem 1rem;border-bottom:1px solid #dfe6e3}
+.x-ph-top b{display:block;font-size:.95rem}.x-ph-top small{font-size:.75rem;color:#0b7f74}
+.x-ph-av{display:grid;place-items:center;width:2.4rem;height:2.4rem;flex:none;border-radius:50%;background:#ffd600;border:2px solid #10232a}.x-ph-av svg{width:1.7rem;height:1.3rem}
+.x-ph-chat{min-height:300px;display:flex;flex-direction:column;gap:.6rem;padding:1rem;font-size:.9rem;color:#10232a}
+.x-ph-foot{display:flex;justify-content:space-between;align-items:center;background:#fff;color:#5b6b6f;font-size:.75rem;padding:.5rem 1rem}
+.x-ph-foot button{font-weight:600;color:#10232a;border-radius:999px;padding:.2rem .7rem}
+/* historia */
+.x-story{background:#10232a;color:#fff}
+.x-story-in{max-width:72rem;margin:0 auto;padding:0 1.25rem;display:grid}
+@media(min-width:900px){.x-story-in{grid-template-columns:.9fr 1.1fr;gap:4rem}}
+.x-clock-col{position:sticky;top:68px;z-index:2;background:#10232a;padding:1rem 0}
+@media(min-width:900px){.x-clock-col{height:calc(100vh - 68px);display:flex;align-items:center;padding:0}}
+.x-clock{font-family:Geologica,sans-serif;font-weight:800;letter-spacing:-.05em;line-height:.85;color:#ffd600;font-size:clamp(3.4rem,13vw,10rem);font-variant-numeric:tabular-nums}
+.x-clock small{display:block;margin-top:.6rem;font-family:Caveat,cursive;font-weight:700;letter-spacing:0;font-size:clamp(1.4rem,3vw,2.2rem);color:#13b9a8}
+@media(max-width:899px){.x-clock{display:flex;align-items:baseline;gap:1rem}.x-clock small{margin:0}}
+.x-clock.tick span{animation:xtick .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes xtick{from{transform:translateY(-.25em);opacity:.2}to{transform:none;opacity:1}}
+.x-clock span{display:inline-block}
+.x-moments{list-style:none;margin:0;padding:3rem 0 6rem}
+@media(min-width:900px){.x-moments{padding:22vh 0 30vh}}
+.mo{min-height:62vh;display:flex;flex-direction:column;justify-content:center;opacity:.28;transition:opacity .5s}
+.mo.on{opacity:1}
+@media(prefers-reduced-motion:reduce){.mo{opacity:1}.x-colon{animation:none}}
+.x-mh{font-family:Geologica,sans-serif;font-weight:700;letter-spacing:-.035em;line-height:1.05;font-size:clamp(2rem,4vw,3.2rem);max-width:30rem}
+.x-mp{margin-top:.9rem;max-width:28rem;font-size:1.08rem;line-height:1.55;color:rgb(255 255 255/.7)}
+.x-vis{margin-top:1.8rem;display:flex;flex-direction:column;gap:.6rem;max-width:26rem}
+.x-b{max-width:85%;padding:.7rem 1rem;border-radius:18px;font-size:.98rem;line-height:1.4}
+.x-out{align-self:flex-end;background:#13b9a8;color:#10232a;border-bottom-right-radius:5px}
+.x-in{align-self:flex-start;background:#fff;color:#10232a;border-bottom-left-radius:5px}
+.x-ticket{position:relative;display:flex;flex-direction:column;gap:.15rem;width:max-content;max-width:100%;background:#ffd600;color:#10232a;border-radius:16px;padding:1.2rem 3.2rem 1.2rem 1.4rem;transform:rotate(-2deg);box-shadow:8px 8px 0 #13b9a8}
+.x-ticket b{font-size:2rem;letter-spacing:-.03em;line-height:1.1}
+.x-ticket span{font-size:.95rem}
+.x-stamp{position:absolute;right:-1rem;top:-1rem;transform:rotate(12deg);border:3px solid #0b7f74;color:#0b7f74!important;background:#fff;border-radius:10px;padding:.15rem .6rem;font-weight:800;font-size:.85rem!important}
+.x-notif{display:flex;gap:.8rem;background:#fff;color:#10232a;border-radius:20px;padding:1rem 1.1rem;box-shadow:8px 8px 0 #ffd600}
+.x-notif p{margin-top:.2rem;font-size:.95rem;line-height:1.4}
+.x-opts{display:flex;gap:.5rem;margin-top:.8rem}.x-opts span{flex:1;text-align:center;border:2px solid #c9d3d0;border-radius:12px;padding:.35rem;font-weight:600;font-size:.88rem;color:#5b6b6f}
+.x-opts span.on{border-color:#10232a;background:#13b9a8;color:#10232a}
+.x-swap{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem}
+.x-chip{border-radius:999px;padding:.6rem 1.1rem;font-weight:600}
+.x-chip-off{border:2px dashed rgb(255 255 255/.4);color:rgb(255 255 255/.6);text-decoration:line-through}
+.x-chip-on{background:#ffd600;color:#10232a;box-shadow:5px 5px 0 #13b9a8}
+.mo .btn{margin-top:1.8rem;align-self:flex-start}
+a.btn.btn-sun{background:#ffd600;color:#10232a}
+@media(max-width:899px){.mo{min-height:52vh}.x-moments{padding-top:1rem}}
+@media(max-width:640px){.x-note{right:.5rem;bottom:-2.4rem;font-size:1.4rem}.x-phone-wrap{margin-bottom:2rem}}
+
+/* funciones */
+.ft{background:#e6f3ed;color:#10232a;border-top:2px solid #10232a;border-bottom:2px solid #10232a}
+html[data-theme=dark] .ft{background:#113238;color:#e6f3ed}
+.ft-grid{list-style:none;margin:2.5rem 0 0;padding:0;display:grid;gap:1rem}
+@media(min-width:640px){.ft-grid{grid-template-columns:1fr 1fr;gap:1.25rem}}
+@media(min-width:1024px){.ft-grid{grid-template-columns:repeat(3,1fr);gap:1.5rem}}
+.ft-card{display:flex;gap:1rem;align-items:flex-start;background:rgb(var(--surface));color:rgb(var(--ink));border:2px solid #10232a;border-radius:20px;padding:1.2rem 1.25rem;box-shadow:5px 5px 0 #10232a}
+.ft-card:nth-child(3n+2){box-shadow:5px 5px 0 #13b9a8}.ft-card:nth-child(3n){box-shadow:5px 5px 0 #ffd600}
+.ft-ic{flex:none;display:grid;place-items:center;width:3.2rem;height:3.2rem;border-radius:14px;background:#fff7c2;border:2px solid #10232a}
+.ft-ic svg{width:2rem;height:2rem}
+.ft-card h3{font-weight:700;font-size:1.15rem;letter-spacing:-.02em}
+.ft-card p{margin-top:.3rem;font-size:.95rem;line-height:1.5;color:rgb(var(--ink)/.7)}
+.ft-for{margin-top:2.5rem}
+.ft-for p{font-weight:600}
+.ft-for ul{list-style:none;padding:0;margin:.8rem 0 0;display:flex;flex-wrap:wrap;gap:.5rem}
+.ft-for li{border:2px solid #10232a;border-radius:999px;padding:.35rem .9rem;font-size:.92rem;font-weight:600;background:#fff;color:#10232a}
+/* historia más compacta */
+.mo{min-height:auto!important;padding:3rem 0}
+@media(min-width:900px){.mo{min-height:55vh!important;padding:0}.x-moments{padding:14vh 0 12vh!important}}
+@media(max-width:899px){.x-moments{padding:.5rem 0 3rem!important}.x-clock-col{border-bottom:1px solid rgb(255 255 255/.1)}}
+/* FAQ como chat */
+.x-faq details{margin-bottom:1rem}
+.x-faq summary{list-style:none;cursor:pointer;margin-left:auto;width:fit-content;max-width:88%;background:#13b9a8;color:#10232a;border-radius:20px 20px 5px 20px;padding:.75rem 1.1rem!important;font-size:1.05rem!important;gap:.8rem!important}
+.x-faq summary::-webkit-details-marker{display:none}
+.x-faq summary .plus{color:#10232a!important;transition:transform .25s}
+.x-faq details[open] summary .plus{transform:rotate(45deg)}
+.x-faq details p{width:fit-content;max-width:88%;margin-top:.6rem!important;background:rgb(var(--surface));color:rgb(var(--ink)/.85)!important;border:1px solid rgb(var(--ink)/.12);border-radius:20px 20px 20px 5px;padding:.8rem 1.1rem}
+.x-faq details{border:0!important;padding:0!important}
 </style>
 </head>
 <body>
@@ -730,11 +836,10 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
    <span class="lg" aria-hidden="true"><span class="lg-a">MediBot</span><span class="lg-b">Solutions</span></span>
   </a>
   <nav class="hidden items-center text-[15px] font-medium lg:flex" aria-label="Principal">
-   <a class="navlink" href="#producto">Cómo funciona</a>
+   <a class="navlink" href="#historia">Cómo funciona</a>
    <a class="navlink" href="#panel">Panel</a>
-   <a class="navlink" href="#tecnologia">Tecnología</a>
-   <a class="navlink" href="#planes">Planes</a>
-   <a class="navlink" href="#equipo">Equipo</a>
+   <a class="navlink" href="https://www.instagram.com/medibot_solutions/" target="_blank" rel="noopener">Instagram</a>
+   <a class="navlink" href="#faq">Preguntas</a>
    <a class="btn btn-teal !py-2 ml-5" href="https://simuladormedibot.netlify.app/" target="_blank" rel="noopener">Probar demo</a>
   </nav>
   <div class="flex items-center gap-2">
@@ -748,130 +853,79 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
   </div>
  </div>
  <nav id="mobileNav" class="mx-auto hidden max-w-6xl flex-col gap-1 border-t border-ink/10 px-5 py-4 lg:hidden" aria-label="Móvil">
-  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#producto">Cómo funciona</a>
+  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#historia">Cómo funciona</a>
   <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#panel">Panel</a>
-  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#tecnologia">Tecnología</a>
-  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#planes">Planes</a>
-  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#equipo">Equipo</a>
+  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="https://www.instagram.com/medibot_solutions/" target="_blank" rel="noopener">Instagram</a>
+  <a class="rounded-xl p-3 font-medium hover:bg-ink/5" href="#faq">Preguntas</a>
   <a class="btn btn-teal" href="https://simuladormedibot.netlify.app/" target="_blank" rel="noopener">Probar demo</a>
  </nav>
 </header>
 
 <main>
 <!-- HERO -->
-<section id="inicio" class="relative mx-auto grid max-w-6xl items-center gap-10 px-5 pb-16 pt-12 lg:grid-cols-[1.1fr_1fr] lg:pt-16">
- <div class="relative">
-  <h1 class="hero-t text-[clamp(2.7rem,5.4vw,4.25rem)] leading-[1.02]"><span class="ht-a">Tu consultorio,</span> <span class="ht-b">mejor <span class="whitespace-nowrap">organizado<span class="ht-dot">.</span></span></span></h1>
-  <p class="mt-6 max-w-md text-[1.15rem] leading-relaxed text-ink/70">MediBot atiende los turnos de tus pacientes por Telegram, las 24 horas, mientras tu equipo se ocupa de las personas.</p>
-  <div class="mt-8 flex flex-wrap gap-4">
-   <a class="btn" href="https://simuladormedibot.netlify.app/#paciente" target="_blank" rel="noopener">Probar el bot</a>
-   <a class="btn btn-white" href="https://simuladormedibot.netlify.app/#panel" target="_blank" rel="noopener">Probar el panel</a>
+<section id="inicio" class="x-hero">
+ <div class="x-hero-txt">
+  <h1 class="x-h1"><span class="x-l1">Tus pacientes escriben.</span><span class="x-l2">MediBot da el turno.</span></h1>
+  <p class="x-lead">Tus pacientes escriben por Telegram cuando pueden. MediBot les ofrece los horarios libres, confirma el turno y les avisa el día anterior. A la mañana, la agenda ya está armada.</p>
+  <div class="x-ctas">
+   <a class="btn" href="https://simuladormedibot.netlify.app/" target="_blank" rel="noopener">Probar la demo</a>
+   <a class="btn btn-white" href="#contacto">Quiero MediBot</a>
   </div>
-  <ul class="checks mt-9 flex flex-col gap-2.5 text-[15px] text-ink/70">
-   <li class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13b9a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Atiende las 24 horas</li>
-   <li class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13b9a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Recordatorios automáticos</li>
-   <li class="flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13b9a8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Solo gestión administrativa</li>
-  </ul>
  </div>
-
- <div class="relative mx-auto w-full max-w-lg">
-  <div class="absolute right-0 top-0 -z-10 h-72 w-72 rounded-full bg-teal sm:h-96 sm:w-96"></div>
-  <div class="relative z-0 -mb-24 flex items-end justify-end pr-2 sm:-mb-28 sm:pr-8">
-   <div id="botBubble" class="absolute left-0 top-6 z-10 max-w-[10.5rem] rounded-2xl rounded-br-sm border border-ink/20 bg-surface px-4 py-2 text-sm font-semibold shadow-pop transition-opacity duration-200" aria-live="polite">¡Hola! Soy MediBot.</div>
-   <button id="heroBot" class="bot-float w-56 cursor-pointer sm:w-72" aria-label="Saludar a MediBot"><svg viewBox="0 0 200 240" class="w-full overflow-visible"><use href="#bot"/></svg></button>
-  </div>
-  <div class="sticker relative z-10 w-full overflow-hidden">
-   <div class="flex items-center gap-3 border-b border-ink/10 bg-surface px-4 py-3">
-    <span class="grid h-10 w-10 place-items-center rounded-full bg-teal"><svg class="h-6 w-7" viewBox="0 0 200 150" aria-hidden="true"><use href="#bot"/></svg></span>
-    <div class="leading-tight"><b class="font-semibold">MediBot</b><small class="block text-xs text-ink/55">bot en Telegram</small></div>
-   </div>
-   <div id="chat" class="flex min-h-[290px] flex-col gap-2.5 bg-cream/60 px-4 py-4 text-[14px]" aria-live="polite"></div>
-   <div class="flex items-center justify-between border-t border-ink/10 bg-surface px-4 py-2 text-xs text-ink/60">
-    <span id="chatStatus">Conversación de ejemplo</span>
-    <button id="chatReplay" class="rounded-full px-3 py-1 font-medium text-ink transition hover:bg-ink/5">Repetir</button>
-   </div>
+ <div class="x-phone-wrap">
+  <div id="botBubble" class="x-bub-bot" aria-live="polite">¡Hola! Soy MediBot.</div>
+  <button id="heroBot" class="bot-float x-peek" aria-label="Saludar a MediBot"><svg viewBox="0 0 200 240" class="w-full overflow-visible"><use href="#bot"/></svg></button>
+  <div class="x-phone">
+   <div class="x-ph-status"><b>23:04</b><svg width="14" height="14" viewBox="0 0 24 24" fill="#10232a" aria-hidden="true"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg></div>
+   <div class="x-ph-top"><span class="x-ph-av"><svg viewBox="0 0 200 150" aria-hidden="true"><use href="#bot"/></svg></span><div><b>MediBot</b><small>bot en Telegram</small></div></div>
+   <div id="chat" class="x-ph-chat" aria-live="polite"></div>
+   <div class="x-ph-foot"><span id="chatStatus">Conversación de ejemplo</span><button id="chatReplay">Repetir</button></div>
   </div>
  </div>
 </section>
 
-<!-- CINTA -->
-<div id="mq" class="marquee overflow-hidden border-y border-ink/10 bg-surface/70 py-4 text-[1.05rem] font-medium text-ink/80" role="region" aria-label="Funciones principales de MediBot">
- <div class="mq-track"><div class="mq-set"><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="17" rx="6" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><rect x="7" y="11" width="18" height="9" rx="4" fill="#0f1f26"/><circle cx="12" cy="15.5" r="2" fill="#13b9a8"/><circle cx="20" cy="15.5" r="2" fill="#13b9a8"/><path d="M9 23l-2 6 7-5M16 7V3" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="mq-lab"><span class="mq-a">Atención 24/7</span><span class="mq-b" aria-hidden="true">no duermo, agendo</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><path d="M7 24c2-2 2-5 2-9a7 7 0 0 1 14 0c0 4 0 7 2 9z" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16" cy="27" r="2.5" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="mq-lab"><span class="mq-a">Recordatorios automáticos</span><span class="mq-b" aria-hidden="true">¡DING! te aviso un día antes</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="22" rx="4" fill="#fff" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M4 12h24V10a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M11 20l4 4 7-8" fill="none" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="mq-lab"><span class="mq-a">Agenda sin superposiciones</span><span class="mq-b" aria-hidden="true">lunes: 0 huecos libres</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><path d="M9 4h14c0 8-7 9-7 12s7 4 7 12H9c0-8 7-9 7-12S9 12 9 4z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><span class="mq-lab"><span class="mq-a">Lista de espera</span><span class="mq-b" aria-hidden="true">se libera y te aviso</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><path d="M16 8c-2-2-9-3-9 4 0 5 2 6 3 10 .6 2.6 1.4 6 3 6s1.4-4 3-4 1.4 4 3 4 2.4-3.4 3-6c1-4 3-5 3-10 0-7-7-6-9-4z" fill="#fff" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="12.5" cy="14" r="1.4" fill="#0f1f26"/><circle cx="19.5" cy="14" r="1.4" fill="#0f1f26"/></svg><span class="mq-lab"><span class="mq-a">Reportes de ausentismo</span><span class="mq-b" aria-hidden="true">404: silla vacía no encontrada</span></span></span><span class="mq-item inline-flex items-center gap-3 px-8" tabindex="0"><svg class="mini h-8 w-8" viewBox="0 0 32 32"><path d="M6 6h20a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H15l-6 6v-6H6a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="10" cy="14" r="1.6" fill="#fff"/><circle cx="16" cy="14" r="1.6" fill="#fff"/><circle cx="22" cy="14" r="1.6" fill="#fff"/></svg><span class="mq-lab"><span class="mq-a">Derivación a recepción</span><span class="mq-b" aria-hidden="true">te derivo con una persona</span></span></span></div></div>
-</div>
-
-<!-- CÓMO FUNCIONA -->
-<section id="producto" class="mx-auto max-w-6xl px-5 py-28">
- <div class="rv max-w-2xl">
-  <h2 class="text-4xl font-bold leading-tight sm:text-6xl">Del primer mensaje al turno confirmado.</h2>
-  <p class="mt-4 text-lg text-ink/70">Una conversación simple para el paciente. Una agenda sin superposiciones para tu equipo.</p>
+<!-- HISTORIA -->
+<section id="historia" class="x-story">
+ <div class="x-story-in">
+  <div class="x-clock-col" aria-hidden="true"><div class="x-clock"><span id="clk">23:04</span><small id="clkLab">noche</small></div></div>
+  <ol class="x-moments">
+   <li class="mo" data-t="23:04" data-l="noche">
+    <h2 class="x-mh">Sofía escribe cuando puede.</h2>
+    <p class="x-mp">No tiene que llamar ni esperar a que abran. Pide el turno con sus palabras.</p>
+    <div class="x-vis"><p class="x-b x-out">Hola, ¿tienen turno con odontología esta semana?</p><p class="x-b x-in">¡Sí! Tengo el jueves a las 10:30 o a las 16:00.</p><p class="x-b x-out">16:00 porfa</p></div>
+   </li>
+   <li class="mo" data-t="23:05" data-l="noche">
+    <h2 class="x-mh">Un minuto después, tiene su turno.</h2>
+    <p class="x-mp">MediBot solo ofrece horarios libres de verdad, así que nunca se pisan dos pacientes.</p>
+    <div class="x-vis"><div class="x-ticket"><span class="x-stamp">Confirmado</span><b>Jueves 16:00</b><span>Sofía Acosta</span><span>Odontología con la Dra. Gómez</span></div></div>
+   </li>
+   <li class="mo" data-t="07:30" data-l="mañana">
+    <h2 class="x-mh">El día anterior, un aviso.</h2>
+    <p class="x-mp">Los pacientes confirman con un toque. Los olvidos bajan solos.</p>
+    <div class="x-vis"><div class="x-notif"><span class="x-ph-av"><svg viewBox="0 0 200 150" aria-hidden="true"><use href="#bot"/></svg></span><div><b>MediBot</b><p>Sofía, mañana te esperamos a las 16:00 con la Dra. Gómez. ¿Venís?</p><div class="x-opts"><span class="on">Confirmo</span><span>No puedo ir</span></div></div></div></div>
+   </li>
+   <li class="mo" data-t="08:40" data-l="mañana">
+    <h2 class="x-mh">Si alguien cancela, el hueco no queda vacío.</h2>
+    <p class="x-mp">MediBot le ofrece ese horario a quien estaba en lista de espera.</p>
+    <div class="x-vis"><div class="x-swap"><span class="x-chip x-chip-off">Martín canceló 09:15</span><span class="x-chip x-chip-on">Lucía lo tomó</span></div></div>
+   </li>
+   <li class="mo" data-t="09:00" data-l="abre el consultorio">
+    <h2 class="x-mh">Recepción llega y la agenda ya está armada.</h2>
+    <p class="x-mp">Tu equipo deja el teléfono y se dedica a las personas.</p>
+    <a class="btn btn-sun" href="#panel">Ver el panel</a>
+   </li>
+  </ol>
  </div>
- <ol class="steps relative mt-16 grid gap-12 md:grid-cols-3 md:gap-10">
-  <li>
-   <span class="step">1</span>
-   <h3 class="mt-6 text-2xl">El paciente escribe</h3>
-   <p class="mt-2 max-w-xs text-ink/70">Pide, consulta o cancela su turno por Telegram, con sus propias palabras.</p>
-   <p class="mt-5"><span class="bub bub-out">Necesito un turno con el dentista</span></p>
-  </li>
-  <li>
-   <span class="step">2</span>
-   <h3 class="mt-6 text-2xl">El bot organiza</h3>
-   <p class="mt-2 max-w-xs text-ink/70">Ofrece solo horarios libres, registra la reserva y le avisa el día anterior.</p>
-   <p class="mt-5"><span class="bub bub-in">Te espero mañana a las 10:30 con la Dra. Gómez.</span></p>
-  </li>
-  <li>
-   <span class="step">3</span>
-   <h3 class="mt-6 text-2xl">Tu equipo gestiona</h3>
-   <p class="mt-2 max-w-xs text-ink/70">Recepción ve el día, mueve turnos y responde lo que el bot le deriva.</p>
-   <p class="mt-5"><span class="bub bub-in">Tenés 2 conversaciones para responder.</span></p>
-  </li>
- </ol>
 </section>
 
-<!-- MISIÓN Y VISIÓN -->
-<section id="nosotros" class="mx-auto max-w-6xl px-5 py-28">
- <div class="rv max-w-2xl"><h2 class="text-4xl font-bold leading-tight sm:text-6xl">Para qué existe MediBot.</h2></div>
- <div class="mv2-grid mt-12">
-  <article class="mv2 glow rv">
-   <span class="mv2-k"><span class="ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg></span>Misión</span>
-   <p class="mv2-p">Que la recepción dedique su tiempo a los pacientes, no al teléfono.</p>
-  </article>
-  <article class="mv2 glow rv">
-   <span class="mv2-k"><span class="ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z"/></svg></span>Visión</span>
-   <p class="mv2-p">Ser la herramienta de turnos de confianza de los consultorios de Tucumán y la región.</p>
-  </article>
- </div>
- <dl class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"><div class="val2 glow rv"><span class="val-i ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><span><dt class="font-semibold">Claridad</dt><dd class="text-[14px] text-ink/60">La agenda del día, de un vistazo.</dd></span></div><div class="val2 glow rv"><span class="val-i ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></span><span><dt class="font-semibold">Confiabilidad</dt><dd class="text-[14px] text-ink/60">Nunca dos pacientes en el mismo horario.</dd></span></div><div class="val2 glow rv"><span class="val-i ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg></span><span><dt class="font-semibold">Privacidad</dt><dd class="text-[14px] text-ink/60">Sin datos clínicos, según la Ley 25.326.</dd></span></div><div class="val2 glow rv"><span class="val-i ic-tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span><dt class="font-semibold">Cercanía</dt><dd class="text-[14px] text-ink/60">Si hace falta, responde una persona.</dd></span></div></dl>
-</section>
-
-<!-- QUÉ INCLUYE -->
-<section id="funciones" class="border-y border-ink/10 bg-teal-mist py-28">
- <div class="mx-auto max-w-6xl px-5">
-  <div class="rv max-w-2xl">
-   <h2 class="text-4xl font-bold leading-tight sm:text-6xl">Qué incluye MediBot.</h2>
-   <p class="mt-4 text-lg text-ink/70">Tres módulos que trabajan sobre la misma agenda: el bot, las automatizaciones y el panel de recepción.</p>
-  </div>
-  <div class="mt-10 grid gap-6 lg:grid-cols-[250px_1fr]">
-   <div role="tablist" id="fTabs" class="ftabs auto" aria-label="Módulos"><button role="tab" class="ftab" aria-selected="true"><svg class="ft-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.4 4.2 2.9 11.3c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.5-1.8z" fill="currentColor" stroke="none"/></svg><span>Pacientes en Telegram</span><i class="ft-bar" aria-hidden="true"></i></button><button role="tab" class="ftab" aria-selected="false"><svg class="ft-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span>Automati&shy;zaciones</span><i class="ft-bar" aria-hidden="true"></i></button><button role="tab" class="ftab" aria-selected="false"><svg class="ft-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16M13 9h4M13 13h4"/></svg><span>Panel de recepción</span><i class="ft-bar" aria-hidden="true"></i></button></div>
-   <div id="fBody" class="sticker min-h-[290px] p-7" aria-live="polite"></div>
-  </div>
-  <div class="rv lc mt-10">
-   <div>
-    <h3 class="text-2xl">Ciclo de vida de un turno</h3>
-    <p class="mt-1.5 text-ink/65">Así cambia un turno desde que se pide hasta que se cierra.</p>
-    <ol id="life" class="lc-steps mt-6"></ol>
-   </div>
-   <div class="lc-stage">
-    <div class="lc-ticket">
-     <div class="flex items-start justify-between gap-3">
-      <div class="lc-date"><small>Mar</small><b>16:00</b></div>
-      <span id="lcPill" class="lc-pill">Reservado</span>
-     </div>
-     <b class="mt-6 block text-xl">Lucía Paz</b>
-     <span class="text-sm text-ink/60">Odontología con la Dra. Gómez</span>
-     <div class="lc-sep"></div>
-     <p id="lifeText" class="lc-text"></p>
-    </div>
-   </div>
+<!-- TODO LO QUE HACE -->
+<section id="funciones" class="ft">
+ <div class="mx-auto max-w-6xl px-5 py-20 sm:py-28">
+  <h2 class="text-4xl font-bold leading-tight sm:text-6xl">Todo lo que hace por tu consultorio.</h2>
+  <ul class="ft-grid"><li class="ft-card"><span class="ft-ic"><svg class="" viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="17" rx="6" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><rect x="7" y="11" width="18" height="9" rx="4" fill="#0f1f26"/><circle cx="12" cy="15.5" r="2" fill="#13b9a8"/><circle cx="20" cy="15.5" r="2" fill="#13b9a8"/><path d="M9 23l-2 6 7-5M16 7V3" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg></span><div><h3>Atiende las 24 horas</h3><p>Tus pacientes sacan, consultan y cancelan turnos por Telegram, también de noche y los fines de semana.</p></div></li><li class="ft-card"><span class="ft-ic"><svg class="" viewBox="0 0 32 32"><rect x="4" y="6" width="24" height="22" rx="4" fill="#fff" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M4 12h24V10a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M11 20l4 4 7-8" fill="none" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg></span><div><h3>Agenda sin superposiciones</h3><p>Solo ofrece horarios libres de verdad. Nunca hay dos pacientes en el mismo turno.</p></div></li><li class="ft-card"><span class="ft-ic"><svg class="" viewBox="0 0 32 32"><path d="M7 24c2-2 2-5 2-9a7 7 0 0 1 14 0c0 4 0 7 2 9z" fill="#ffd600" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16" cy="27" r="2.5" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg></span><div><h3>Recordatorios automáticos</h3><p>Avisa el día anterior y el paciente confirma o cancela con un toque.</p></div></li><li class="ft-card"><span class="ft-ic"><svg class="" viewBox="0 0 32 32"><path d="M9 4h14c0 8-7 9-7 12s7 4 7 12H9c0-8 7-9 7-12S9 12 9 4z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg></span><div><h3>Lista de espera</h3><p>Si alguien cancela, le ofrece el horario al siguiente paciente que estaba esperando.</p></div></li><li class="ft-card"><span class="ft-ic"><svg class="" viewBox="0 0 32 32"><path d="M6 6h20a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H15l-6 6v-6H6a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3z" fill="#13b9a8" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="10" cy="14" r="1.6" fill="#fff"/><circle cx="16" cy="14" r="1.6" fill="#fff"/><circle cx="22" cy="14" r="1.6" fill="#fff"/></svg></span><div><h3>Derivación a recepción</h3><p>Cuando la consulta lo necesita, le pasa la conversación a una persona de tu equipo.</p></div></li><li class="ft-card"><span class="ft-ic"><svg class="" viewBox="0 0 32 32"><path d="M16 8c-2-2-9-3-9 4 0 5 2 6 3 10 .6 2.6 1.4 6 3 6s1.4-4 3-4 1.4 4 3 4 2.4-3.4 3-6c1-4 3-5 3-10 0-7-7-6-9-4z" fill="#fff" stroke="#0f1f26" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><circle cx="12.5" cy="14" r="1.4" fill="#0f1f26"/><circle cx="19.5" cy="14" r="1.4" fill="#0f1f26"/></svg></span><div><h3>Reportes de ausentismo</h3><p>Ves quién falta, cuántos turnos se recuperaron y cómo viene cada profesional.</p></div></li></ul>
+  <div class="ft-for">
+   <p>Sirve para consultorios de</p>
+   <ul><li>Odontología</li><li>Kinesiología</li><li>Psicología</li><li>Pediatría</li><li>Nutrición</li><li>Dermatología</li><li>Oftalmología</li><li>Centros médicos</li></ul>
   </div>
  </div>
 </section>
@@ -879,8 +933,8 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
 <!-- PANEL -->
 <section id="panel" class="mx-auto max-w-6xl px-5 py-28">
  <div class="rv flex flex-col justify-between gap-6 md:flex-row md:items-end">
-  <h2 class="max-w-xl text-4xl font-bold leading-tight sm:text-6xl">Tu agenda. Tus pacientes. Todo en una pantalla.</h2>
-  <p class="max-w-sm text-ink/70">Datos de ejemplo, pero funciona: abrí un turno, cancelalo y mirá cómo se reasigna solo.</p>
+  <h2 class="max-w-xl text-4xl font-bold leading-tight sm:text-6xl">Así lo ve tu recepción.</h2>
+  <p class="max-w-sm text-ink/70">Tocalo, es de verdad: abrí un turno, cancelalo y mirá cómo se reasigna solo. Los datos son de ejemplo.</p>
  </div>
  <div id="pWin" class="rv sticker relative mt-10 overflow-hidden" style="border-radius:24px">
   <div id="toast" class="sticker" role="status" aria-live="polite"></div>
@@ -911,72 +965,10 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
  <div id="pModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true"></div>
 </section>
 
-<!-- TECNOLOGÍA -->
-<section id="tecnologia" class="mx-auto max-w-6xl px-5 py-28">
- <div class="rv max-w-2xl">
-  <h2 class="text-4xl font-bold leading-tight sm:text-6xl">Cómo está construido.</h2>
-  <p class="mt-4 text-lg text-ink/70">Bot, automatizaciones y panel comparten una única base de datos. Las reglas de reserva viven ahí, así que el bot y la recepción aplican los mismos controles.</p>
- </div>
- <div class="rv mt-10 flex flex-wrap items-center gap-2 font-display text-sm font-bold sm:text-base">
-  <span class="sticker px-4 py-2">Paciente</span><span class="text-ink/40">→</span>
-  <span class="sticker px-4 py-2">Telegram</span><span class="text-ink/40">→</span>
-  <span class="sticker px-4 py-2">n8n + IA</span><span class="text-ink/40">→</span>
-  <span class="sticker bg-teal px-4 py-2 !text-[#0f1f26]">PostgreSQL</span><span class="text-ink/40">←</span>
-  <span class="sticker px-4 py-2">API REST</span><span class="text-ink/40">←</span>
-  <span class="sticker px-4 py-2">Panel web</span><span class="text-ink/40">←</span>
-  <span class="sticker px-4 py-2">Recepción</span>
- </div>
- <div class="mt-10 grid gap-8 md:grid-cols-2">
-  <div class="rv sticker p-7">
-   <h3 class="text-xl font-bold">Stack</h3>
-   <ul class="mt-4 flex flex-wrap gap-2 text-sm font-semibold">
-    <li class="rounded-full border-2 border-ink px-3 py-1">Telegram Bot API</li><li class="rounded-full border-2 border-ink px-3 py-1">n8n</li><li class="rounded-full border-2 border-ink px-3 py-1">Modelo de lenguaje</li><li class="rounded-full border-2 border-ink px-3 py-1">PostgreSQL 17 · PL/pgSQL</li><li class="rounded-full border-2 border-ink px-3 py-1">Node.js + Express</li><li class="rounded-full border-2 border-ink px-3 py-1">React + Vite + Tailwind</li><li class="rounded-full border-2 border-ink px-3 py-1">Vercel</li>
-   </ul>
-   <p class="mt-5 text-sm text-ink/70">Un índice único en la base impide que dos pacientes tomen el mismo horario, aunque pidan al mismo tiempo.</p>
-  </div>
-  <div class="rv sticker p-7">
-   <h3 class="text-xl font-bold">Objetivos de diseño</h3>
-   <dl class="mt-4 grid grid-cols-2 gap-4">
-    <div><dt class="font-display text-4xl font-bold"><span data-to="24">24</span>/7</dt><dd class="text-sm text-ink/70">atención por Telegram</dd></div>
-    <div><dt class="font-display text-4xl font-bold">&lt; <span data-to="5">5</span> s</dt><dd class="text-sm text-ink/70">respuesta del bot</dd></div>
-    <div><dt class="font-display text-4xl font-bold"><span data-to="100">100</span></dt><dd class="text-sm text-ink/70">conversaciones simultáneas</dd></div>
-    <div><dt class="font-display text-4xl font-bold">−<span data-to="30">30</span> %</dt><dd class="text-sm text-ink/70">ausentismo, meta del primer año</dd></div>
-   </dl>
-  </div>
- </div>
-</section>
-
-<!-- PLANES -->
-<section id="planes" class="border-y-2 border-ink bg-teal-mist py-28">
- <div class="mx-auto max-w-6xl px-5">
-  <div class="rv"><h2 class="text-4xl font-bold sm:text-6xl">Elegí cómo empezar.</h2>
-  <p class="mt-3 text-lg">Suscripción mensual sin permanencia. Implementación inicial por única vez.</p></div>
-  <div class="mt-12 grid gap-8 md:grid-cols-2">
-   <article class="rv sticker p-8" style="--r:-0.5deg">
-    <h3 class="text-2xl font-bold">Consultorio Individual</h3><p class="text-ink/70">Para un profesional con su propia agenda.</p>
-    <p class="mt-5 font-display"><span class="text-sm font-bold">USD</span> <b class="text-6xl">49</b><span class="text-ink/60"> / mes</span></p>
-    <p class="text-sm font-semibold text-teal-deep">+ USD 90 de implementación</p>
-    <ul class="my-6 space-y-2 text-sm font-medium">
-     <li>✓ Bot de Telegram con IA</li><li>✓ Agenda para un profesional</li><li>✓ Reservas, confirmaciones y cancelaciones</li><li>✓ Recordatorios y consultas frecuentes</li><li>✓ Derivación a recepción</li></ul>
-    <a class="btn btn-white w-full" href="mailto:medibot.solutions18@gmail.com?subject=Consulta%20por%20Consultorio%20Individual">Consultar este plan</a>
-   </article>
-   <article class="rv sticker relative p-8" style="--r:0.5deg">
-    <span class="absolute -top-3.5 right-6 rounded-full bg-teal px-3 py-1 text-sm font-semibold">El más elegido</span>
-    <h3 class="text-2xl font-bold">Centro Médico</h3><p class="text-ink/70">Para equipos de 2 a 10 profesionales.</p>
-    <p class="mt-5 font-display"><span class="text-sm font-bold">USD</span> <b class="text-6xl">129</b><span class="text-ink/60"> / mes</span></p>
-    <p class="text-sm font-semibold text-teal-deep">+ USD 250 de implementación</p>
-    <ul class="my-6 space-y-2 text-sm font-medium">
-     <li>✓ Todo lo del plan Individual</li><li>✓ Especialidades y agendas múltiples</li><li>✓ Panel administrativo para recepción</li><li>✓ Lista de espera inteligente</li><li>✓ Reportes de ausentismo</li></ul>
-    <a class="btn btn-teal w-full" href="mailto:medibot.solutions18@gmail.com?subject=Consulta%20por%20Centro%20M%C3%A9dico">Consultar este plan</a>
-   </article>
-  </div>
- </div>
-</section>
-
 <!-- FAQ -->
-<section id="faq" class="mx-auto max-w-3xl px-5 py-28">
- <h2 class="rv text-4xl font-bold sm:text-5xl">¿Tenés alguna duda?</h2>
- <div class="mt-8 border-t border-ink/15">
+<section id="faq" class="x-faq mx-auto max-w-3xl px-5 py-28">
+ <h2 class="rv text-4xl font-bold sm:text-5xl">¿Dudas? Preguntale a MediBot.</h2>
+ <div class="mt-10">
   <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿La demo reserva un turno real?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">No. El simulador usa datos de prueba para mostrar la experiencia antes de conocer la solución para tu consultorio.</p></details>
   <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Qué necesita el paciente?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">Una cuenta de Telegram para conversar con el bot y gestionar su turno.</p></details>
   <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Y si necesita hablar con recepción?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">El bot deriva la consulta, deja de responder en esa conversación y tu equipo contesta desde el panel.</p></details>
@@ -984,15 +976,16 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
   <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Qué pasa con los datos de los pacientes?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">Se usan solo para gestionar turnos, en línea con la Ley 25.326. El bot nunca pide ni guarda datos clínicos, las contraseñas del panel se guardan con hash y todo viaja por HTTPS.</p></details>
   <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Puedo cambiar un turno desde el bot?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">El paciente cancela el turno y reserva uno nuevo en la misma conversación. La recepción, en cambio, puede mover un turno directamente desde el panel.</p></details>
   <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Tengo que instalar algo o comprar equipos?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">No. El panel se usa desde el navegador de cualquier computadora y los pacientes escriben desde Telegram, en su celular. Nosotros configuramos el bot con tus profesionales, horarios y obras sociales.</p></details>
-  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Sirve si tenemos varios profesionales?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">Sí. El plan Centro Médico está pensado para equipos de 2 a 10 profesionales, cada uno con su propia agenda y especialidad, y una sola recepción que lo ve todo.</p></details>
-  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Qué pasa si quiero darlo de baja?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">La suscripción es mensual y sin permanencia: la das de baja cuando quieras. La implementación se paga una sola vez, al empezar.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Sirve si tenemos varios profesionales?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">Sí. Funciona para equipos de varios profesionales, cada uno con su propia agenda y especialidad, y una sola recepción que lo ve todo.</p></details>
+  <details class="border-b border-ink/15 py-5"><summary class="flex items-center justify-between gap-4 text-lg font-semibold">¿Qué pasa si quiero darlo de baja?<span class="plus text-2xl font-light leading-none text-ink/50">+</span></summary><p class="mt-3 text-ink/70">No hay permanencia: lo das de baja cuando quieras.</p></details>
  </div>
 </section>
 
 <!-- EQUIPO -->
 <section id="equipo" class="mx-auto max-w-6xl px-5 py-28">
  <div class="rv max-w-2xl">
-  <h2 class="text-4xl font-bold leading-tight sm:text-6xl">El equipo.</h2>
+  <h2 class="text-4xl font-bold leading-tight sm:text-6xl">Somos cinco y lo hicimos en Tucumán.</h2>
+  <p class="mt-4 text-lg text-ink/70">Queremos que la recepción deje el teléfono y vuelva a atender personas.</p>
  </div>
  <ul id="teamGrid" class="team mt-12"></ul>
 </section>
@@ -1019,7 +1012,7 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
    <div class="tk-stub">
     <a id="tkGo" class="btn w-full" href="mailto:medibot.solutions18@gmail.com?subject=Quiero%20MediBot%20para%20mi%20consultorio">Confirmar turno</a>
     <a class="btn btn-white w-full" href="https://simuladormedibot.netlify.app/" target="_blank" rel="noopener">Probar la demo</a>
-    <a class="tk-link" href="#planes">Ver planes y precios</a>
+    <a class="tk-link" href="https://www.instagram.com/medibot_solutions/" target="_blank" rel="noopener">Seguinos en Instagram</a>
     <svg class="tk-code" viewBox="0 0 120 28" aria-hidden="true"></svg>
    </div>
   </div>
@@ -1031,8 +1024,7 @@ html[data-theme=dark] .ic-tile{color:#6fd3c5;background:linear-gradient(180deg,#
  <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 text-sm sm:flex-row">
   <span class="lg" aria-label="MediBot Solutions"><span class="lg-a">MediBot</span><span class="lg-b">Solutions</span></span>
   <a class="font-medium hover:underline" href="mailto:medibot.solutions18@gmail.com">medibot.solutions18@gmail.com</a>
-  <nav class="flex gap-4 font-semibold" aria-label="Pie"><a class="hover:underline" href="#producto">Cómo funciona</a><a class="hover:underline" href="#planes">Planes</a><a class="hover:underline" href="#faq">Preguntas</a></nav>
-  <span class="text-ink/55">UTN FRT, Administración de Sistemas de Información, 2026</span>
+  <nav class="flex gap-4 font-semibold" aria-label="Pie"><a class="hover:underline" href="#historia">Cómo funciona</a><a class="hover:underline" href="https://www.instagram.com/medibot_solutions/" target="_blank" rel="noopener">Instagram</a><a class="hover:underline" href="#faq">Preguntas</a></nav>
  </div>
 </footer>
 
@@ -1096,7 +1088,7 @@ function jump(){const s=$('#heroBot svg');s.classList.remove('jump');void s.getB
 $('#heroBot').onclick=()=>{tip=(tip+1)%TIPS.length;say(TIPS[tip]);jump()};
 if(!calm)setInterval(()=>{if(document.hidden)return;tip=(tip+1)%TIPS.length;say(TIPS[tip])},5500);
 /* mascota flotante: comenta cada sección */
-const MSG={producto:'Así de simple es el recorrido.',nosotros:'Para esto existimos.',funciones:'Tres módulos, una sola agenda.',tecnologia:'Un poco de ingeniería, para los curiosos.',panel:'Abrí un turno, cancelalo y mirá la lista de espera.',planes:'Dos planes, sin permanencia.',faq:'¿Dudas? Estas son las más comunes.',equipo:'Ellos me programaron.',contacto:'¿Hablamos? Escribinos.'};
+const MSG={funciones:'Esto hago por tu consultorio.',historia:'Así es un día con MediBot.',faq:'Preguntame lo que quieras.',producto:'Así de simple es el recorrido.',nosotros:'Para esto existimos.',tecnologia:'Un poco de ingeniería, para los curiosos.',panel:'Abrí un turno, cancelalo y mirá la lista de espera.',planes:'Dos planes, sin permanencia.',faq:'¿Dudas? Estas son las más comunes.',equipo:'Ellos me programaron.',contacto:'¿Hablamos? Escribinos.'};
 let fabT;const fm=$('#fabMsg');
 function fabSay(html,ms=4500){clearTimeout(fabT);fm.innerHTML=html;fm.style.opacity=1;fabT=setTimeout(()=>fm.style.opacity=0,ms)}
 new IntersectionObserver(es=>{const w=$('#fabWrap');const on=!es[0].isIntersecting;w.classList.toggle('opacity-0',!on);w.classList.toggle('translate-y-4',!on);w.classList.toggle('pointer-events-none',!on)}).observe($('#inicio'));
@@ -1109,7 +1101,7 @@ const F=[['Pacientes en Telegram','Sacar, consultar y cancelar turnos escribiend
 ['Panel de recepción','Pantalla del día con huecos libres y conversaciones por responder.','Agenda por profesional y gestión de turnos: crear, mover y cancelar.','Fichas de pacientes con historial, ausencias y porcentaje de asistencia.','Profesionales, especialidades y horarios editables.','Reportes de ausentismo y mapa de horarios más pedidos.']];
 const CHK=`<svg class="mt-1 h-5 w-5 flex-none text-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>`;
 function showF(i){$('#fBody').innerHTML=`<h3 class="msg text-2xl font-bold">${F[i][0]}</h3><ul class="mt-5 space-y-3">${F[i].slice(1).map((t,k)=>`<li class="msg flex gap-3" style="animation-delay:${k*70}ms">${CHK}<span>${t}</span></li>`).join('')}</ul>`;$$('.ftab').forEach((b,k)=>b.setAttribute('aria-selected',k===i))}
-(()=>{const tabs=$$('.ftab'),box=$('#fTabs');let cur=0,tm=null;
+(()=>{const tabs=$$('.ftab'),box=$('#fTabs');if(!box)return;let cur=0,tm=null;
  const place=()=>{};
  const go=i=>{cur=i;showF(i);place();if(box.classList.contains('auto')){tabs.forEach(t=>{const bar=t.querySelector('.ft-bar');bar.style.animation='none';void bar.offsetWidth;bar.style.animation=''})}};
  tabs.forEach((b,i)=>b.onclick=()=>{box.classList.remove('auto');clearInterval(tm);go(i)});
@@ -1123,12 +1115,12 @@ function showL(i){li=i;$$('#life li:not(.lc-or)').forEach((c,k)=>{c.classList.to
  const pl=$('#lcPill');pl.className='lc-pill lc-'+LC[i];pl.textContent=L[i][0];pl.classList.remove('pop');void pl.offsetWidth;pl.classList.add('pop');
  const t=$('#lifeText');t.classList.remove('in');void t.offsetWidth;t.textContent=L[i][1];t.classList.add('in');
  const bt=$$('#life button')[i];$('#life').style.setProperty('--fill',Math.max(0,bt.parentNode.offsetTop+bt.offsetHeight/2-18)+'px')}
-$('#life').innerHTML=L.map((s,i)=>`${i===3?'<li class="lc-or">Si no llega a atenderse</li>':''}<li${i>2?' class="alt"':''}><button type="button"><span class="lc-dot"></span>${s[0]}</button></li>`).join('');
+if($('#life')){$('#life').innerHTML=L.map((s,i)=>`${i===3?'<li class="lc-or">Si no llega a atenderse</li>':''}<li${i>2?' class="alt"':''}><button type="button"><span class="lc-dot"></span>${s[0]}</button></li>`).join('');
 $$('#life button').forEach((c,i)=>c.onclick=()=>{clearInterval(lt);showL(i)});showL(0);
-if(!matchMedia('(prefers-reduced-motion: reduce)').matches)lt=setInterval(()=>showL((li+1)%L.length),3200);
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)lt=setInterval(()=>showL((li+1)%L.length),3200);}
 /* cinta */
 (()=>{
- const mq=$('#mq'),tr=mq.firstElementChild,set=tr.firstElementChild;
+ const mq=$('#mq');if(!mq)return;const tr=mq.firstElementChild,set=tr.firstElementChild;
  $$('#mq .mq-item').forEach(it=>it.addEventListener('click',()=>it.classList.toggle('on')));
  if(matchMedia('(prefers-reduced-motion: reduce)').matches){mq.classList.add('mq-calm');return}
  const base=set.innerHTML;set.innerHTML=base+base;
@@ -1445,7 +1437,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&M!==null||e.key==='
 render();
 new IntersectionObserver(es=>es[0].isIntersecting?startLive():stopLive(),{threshold:.3}).observe($$$('#pWin'));
 /* números que cuentan */
-$$('#tecnologia dl').forEach(dl=>{const nums=[...dl.querySelectorAll('[data-to]')];if(calm)return;nums.forEach(n=>n.textContent='0');
+$$('#resultados dl').forEach(dl=>{const nums=[...dl.querySelectorAll('[data-to]')];if(calm)return;nums.forEach(n=>n.textContent='0');
  new IntersectionObserver((es,o)=>{if(!es[0].isIntersecting)return;o.disconnect();const t0=performance.now();(function f(now){const k=Math.min(1,(now-t0)/1500),e=1-Math.pow(1-k,3);nums.forEach(n=>n.textContent=Math.round(+n.dataset.to*e));if(k<1)requestAnimationFrame(f)})(t0)},{threshold:.5}).observe(dl)});
 /* tarjetas que se inclinan */
 if(false){
@@ -1472,7 +1464,7 @@ $$('a.btn').forEach(b=>{
 $$('article.sticker,.rv.sticker.p-7').forEach(c=>{c.classList.add('lift');c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')})});
 /* entrada del hero: palabras que suben */
 const h1=$('#inicio h1');
-if(h1&&!calm){let k=0;const tn=[];const walk=el=>[...el.childNodes].forEach(n=>n.nodeType===3?tn.push(n):walk(n));walk(h1);tn.forEach(n=>{if(n.parentNode.classList.contains('ht-dot'))return;const f=document.createDocumentFragment();n.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w)){f.append(w);return}const o=document.createElement('span');o.className='hw';const i=document.createElement('span');i.textContent=w;i.style.setProperty('--d',(.08+k++*.09)+'s');o.append(i);f.append(o)});n.replaceWith(f)});
+if(h1&&!calm&&!h1.classList.contains('x-h1')){let k=0;const tn=[];const walk=el=>[...el.childNodes].forEach(n=>n.nodeType===3?tn.push(n):walk(n));walk(h1);tn.forEach(n=>{if(n.parentNode.classList.contains('ht-dot'))return;const f=document.createDocumentFragment();n.textContent.split(/(\s+)/).forEach(w=>{if(!w)return;if(/^\s+$/.test(w)){f.append(w);return}const o=document.createElement('span');o.className='hw';const i=document.createElement('span');i.textContent=w;i.style.setProperty('--d',(.08+k++*.09)+'s');o.append(i);f.append(o)});n.replaceWith(f)});
  const hero=$('#inicio>div');[...hero.children].slice(1).forEach((el,i)=>{el.classList.add('hin');el.style.setProperty('--d',(.45+i*.12)+'s')});
  const art=$('#inicio>div+div');const circ=art.firstElementChild;circ.classList.add('hpop','par');circ.style.setProperty('--d','.2s');
  art.querySelector('.sticker').classList.add('hin');art.querySelector('.sticker').style.setProperty('--d','.55s');
@@ -1509,7 +1501,7 @@ if(chip){const flow=chip.parentElement;flow.classList.add('flow');const items=[.
  const bot=async(html,ms=900)=>{st.textContent='escribiendo…';const cb=document.getElementById('clBot');if(cb){cb.classList.remove('jump');void cb.getBoundingClientRect();cb.classList.add('jump')}const d=add('b','<span class="dots"><i></i><i></i><i></i></span>');await wait(ms);d.innerHTML=html;st.textContent='en línea';log.scrollTop=log.scrollHeight};
  const OPTS=[
   ['Quiero MediBot',async()=>{await bot('¡Buenísimo! Escribinos y coordinamos una reunión para conocer tu consultorio.');await bot(`<a class="cl-act" href="${MAIL}">Escribir a MediBot Solutions</a>`,500)}],
-  ['¿Cuánto cuesta?',async()=>{await bot('Desde USD 49 por mes para un consultorio individual, sin permanencia. Para centros con varios profesionales, USD 129.');await bot('<a class="cl-act" href="#planes">Ver los planes</a>',500)}],
+  ['¿Cuánto cuesta?',async()=>{await bot('Depende del tamaño de tu consultorio. Escribinos y te armamos una propuesta, sin permanencia.');await bot(`<a class="cl-act" href="${MAIL}">Pedir una propuesta</a>`,500)}],
   ['Quiero probarlo primero',async()=>{await bot('Dale. La demo tiene el bot y el panel de recepción con datos de ejemplo.');await bot(`<a class="cl-act" href="${DEMO}" target="_blank" rel="noopener">Abrir la demo</a>`,500)}]];
  let busy=false;
  const showChips=()=>{chips.innerHTML='';OPTS.forEach(([t,fn],i)=>{const b=document.createElement('button');b.className='cl-chip';b.textContent=t;b.style.animationDelay=i*70+'ms';b.onclick=async()=>{if(busy)return;busy=true;chips.innerHTML='';add('u',t);await wait(250);await fn();busy=false;showChips()};chips.append(b)})};
@@ -1539,6 +1531,12 @@ if(chip){const flow=chip.parentElement;flow.classList.add('flow');const items=[.
   Object.assign(w.style,{left:L+'px',top:T+'px',right:'auto',bottom:'auto'})});
  f.addEventListener('pointerup',()=>{down=false;if(drag){w.classList.remove('dragging');setTimeout(()=>drag=false,0)}});
  f.addEventListener('click',e=>{if(drag){e.stopImmediatePropagation();e.preventDefault()}},true);
+})();
+</script>
+<script>
+(()=>{const c=document.getElementById('clk'),lb=document.getElementById('clkLab');if(!c)return;const ms=[...document.querySelectorAll('.mo')];
+ const set=m=>{ms.forEach(x=>x.classList.toggle('on',x===m));if(c.textContent===m.dataset.t)return;c.textContent=m.dataset.t;lb.textContent=m.dataset.l;c.parentNode.classList.remove('tick');void c.offsetWidth;c.parentNode.classList.add('tick')};
+ const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)set(e.target)})},{rootMargin:'-45% 0px -45% 0px'});ms.forEach(m=>io.observe(m));set(ms[0]);
 })();
 </script>
 </body>
